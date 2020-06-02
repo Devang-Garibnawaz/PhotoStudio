@@ -128,12 +128,17 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SystemUsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\EncryptionDecryption.cs" />
+    <Compile Include="Models\Enum.cs" />
+    <Compile Include="Models\ImageProcessing.cs" />
     <Compile Include="Models\ManishPhotoStudioDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -149,13 +154,380 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ManishPhotoStudioDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblCategory.cs">
+      <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCustomer.cs">
+      <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblGallery.cs">
+      <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPhotographer.cs">
+      <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPhotographerType.cs">
+      <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPortfolio.cs">
+      <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPortfolioGallery.cs">
+      <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPortfolioGalleryCategory.cs">
+      <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblQuotation.cs">
+      <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblSystemUser.cs">
       <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ajaxScripts\ajaxJson.js" />
+    <Content Include="adminassets\dist\css\pages\bootstrap-switch.css" />
+    <Content Include="adminassets\dist\css\pages\breadcrumb-page.css" />
+    <Content Include="adminassets\dist\css\pages\chat-app-page.css" />
+    <Content Include="adminassets\dist\css\pages\contact-app-page.css" />
+    <Content Include="adminassets\dist\css\pages\dashboard1.css" />
+    <Content Include="adminassets\dist\css\pages\dashboard2.css" />
+    <Content Include="adminassets\dist\css\pages\dashboard3.css" />
+    <Content Include="adminassets\dist\css\pages\dashboard4.css" />
+    <Content Include="adminassets\dist\css\pages\easy-pie-chart.css" />
+    <Content Include="adminassets\dist\css\pages\error-pages.css" />
+    <Content Include="adminassets\dist\css\pages\file-upload.css" />
+    <Content Include="adminassets\dist\css\pages\float-chart.css" />
+    <Content Include="adminassets\dist\css\pages\floating-label.css" />
+    <Content Include="adminassets\dist\css\pages\footable-page.css" />
+    <Content Include="adminassets\dist\css\pages\form-icheck.css" />
+    <Content Include="adminassets\dist\css\pages\google-vector-map.css" />
+    <Content Include="adminassets\dist\css\pages\icon-page.css" />
+    <Content Include="adminassets\dist\css\pages\inbox.css" />
+    <Content Include="adminassets\dist\css\pages\login-register-lock.css" />
+    <Content Include="adminassets\dist\css\pages\other-pages.css" />
+    <Content Include="adminassets\dist\css\pages\pricing-page.css" />
+    <Content Include="adminassets\dist\css\pages\progressbar-page.css" />
+    <Content Include="adminassets\dist\css\pages\register3.css" />
+    <Content Include="adminassets\dist\css\pages\ribbon-page.css" />
+    <Content Include="adminassets\dist\css\pages\stylish-tooltip.css" />
+    <Content Include="adminassets\dist\css\pages\tab-page.css" />
+    <Content Include="adminassets\dist\css\pages\timeline-vertical-horizontal.css" />
+    <Content Include="adminassets\dist\css\pages\ui-bootstrap-page.css" />
+    <Content Include="adminassets\dist\css\pages\user-card.css" />
+    <Content Include="adminassets\dist\css\pages\widget-page.css" />
+    <Content Include="adminassets\dist\css\style.min.css" />
+    <Content Include="adminassets\dist\js\custom.js" />
+    <Content Include="adminassets\dist\js\custom.min.js" />
+    <Content Include="adminassets\dist\js\dashboard1.js" />
+    <Content Include="adminassets\dist\js\dashboard2.js" />
+    <Content Include="adminassets\dist\js\dashboard3.js" />
+    <Content Include="adminassets\dist\js\dashboard4.js" />
+    <Content Include="adminassets\dist\js\pages\chat.js" />
+    <Content Include="adminassets\dist\js\pages\flot-data.js" />
+    <Content Include="adminassets\dist\js\pages\footable-init.js" />
+    <Content Include="adminassets\dist\js\pages\jasny-bootstrap.js" />
+    <Content Include="adminassets\dist\js\pages\jquery.PrintArea.js" />
+    <Content Include="adminassets\dist\js\pages\jsgrid-init.js" />
+    <Content Include="adminassets\dist\js\pages\mask.init.js" />
+    <Content Include="adminassets\dist\js\pages\morris-data.js" />
+    <Content Include="adminassets\dist\js\pages\toastr.js" />
+    <Content Include="adminassets\dist\js\pages\validation.js" />
+    <Content Include="adminassets\dist\js\pages\widget-charts.js" />
+    <Content Include="adminassets\dist\js\pages\widget-data.js" />
+    <Content Include="adminassets\dist\js\perfect-scrollbar.jquery.min.js" />
+    <Content Include="adminassets\dist\js\sidebarmenu.js" />
+    <Content Include="adminassets\dist\js\waves.js" />
+    <Content Include="adminassets\icons\flag-icon-css\flag-icon.min.css" />
+    <Content Include="adminassets\icons\font-awesome\css\fontawesome-all.css" />
+    <Content Include="adminassets\icons\material-design-iconic-font\css\materialdesignicons.min.css" />
+    <Content Include="adminassets\icons\simple-line-icons\css\simple-line-icons.css" />
+    <Content Include="adminassets\icons\themify-icons\themify-icons.css" />
+    <Content Include="adminassets\icons\weather-icons\css\weather-icons.min.css" />
+    <Content Include="adminassets\images\alert\alert.png" />
+    <Content Include="adminassets\images\alert\alert2.png" />
+    <Content Include="adminassets\images\alert\alert3.png" />
+    <Content Include="adminassets\images\alert\alert4.png" />
+    <Content Include="adminassets\images\alert\alert5.png" />
+    <Content Include="adminassets\images\alert\alert6.png" />
+    <Content Include="adminassets\images\alert\alert7.png" />
+    <Content Include="adminassets\images\alert\model.png" />
+    <Content Include="adminassets\images\alert\model2.png" />
+    <Content Include="adminassets\images\alert\model3.png" />
+    <Content Include="adminassets\images\background\error-bg.jpg" />
+    <Content Include="adminassets\images\background\login-register.jpg" />
+    <Content Include="adminassets\images\background\socialbg.jpg" />
+    <Content Include="adminassets\images\big\img1.jpg" />
+    <Content Include="adminassets\images\big\img2.jpg" />
+    <Content Include="adminassets\images\big\img3.jpg" />
+    <Content Include="adminassets\images\big\img4.jpg" />
+    <Content Include="adminassets\images\big\img5.jpg" />
+    <Content Include="adminassets\images\big\img6.jpg" />
+    <Content Include="adminassets\images\browser\chrome-logo.png" />
+    <Content Include="adminassets\images\browser\firefox-logo.png" />
+    <Content Include="adminassets\images\browser\internet-logo.png" />
+    <Content Include="adminassets\images\browser\opera-logo.png" />
+    <Content Include="adminassets\images\browser\photoshop.jpg" />
+    <Content Include="adminassets\images\browser\safari-logo.png" />
+    <Content Include="adminassets\images\browser\sketch.jpg" />
+    <Content Include="adminassets\images\custom-select.png" />
+    <Content Include="adminassets\images\favicon.png" />
+    <Content Include="adminassets\images\logo-icon.png" />
+    <Content Include="adminassets\images\logo-light-icon.png" />
+    <Content Include="adminassets\images\logo-light-text.png" />
+    <Content Include="adminassets\images\logo-text.png" />
+    <Content Include="adminassets\images\news\slide1.jpg" />
+    <Content Include="adminassets\images\tooltip\Euclid.png" />
+    <Content Include="adminassets\images\users\1.jpg" />
+    <Content Include="adminassets\images\users\2.jpg" />
+    <Content Include="adminassets\images\users\3.jpg" />
+    <Content Include="adminassets\images\users\4.jpg" />
+    <Content Include="adminassets\images\users\5.jpg" />
+    <Content Include="adminassets\images\users\6.jpg" />
+    <Content Include="adminassets\images\users\7.jpg" />
+    <Content Include="adminassets\images\users\8.jpg" />
+    <Content Include="adminassets\node_modules\bootstrap-datepicker\bootstrap-datepicker.min.css" />
+    <Content Include="adminassets\node_modules\bootstrap-datepicker\bootstrap-datepicker.min.js" />
+    <Content Include="adminassets\node_modules\bootstrap-daterangepicker\daterangepicker.css" />
+    <Content Include="adminassets\node_modules\bootstrap-daterangepicker\daterangepicker.js" />
+    <Content Include="adminassets\node_modules\bootstrap-material-datetimepicker\css\bootstrap-material-datetimepicker.css" />
+    <Content Include="adminassets\node_modules\bootstrap-material-datetimepicker\js\bootstrap-material-datetimepicker.js" />
+    <Content Include="adminassets\node_modules\bootstrap-select\bootstrap-select.min.css" />
+    <Content Include="adminassets\node_modules\bootstrap-select\bootstrap-select.min.js" />
+    <Content Include="adminassets\node_modules\bootstrap-switch\bootstrap-switch.min.css" />
+    <Content Include="adminassets\node_modules\bootstrap-switch\bootstrap-switch.min.js" />
+    <Content Include="adminassets\node_modules\bootstrap-table\dist\bootstrap-table.ints.js" />
+    <Content Include="adminassets\node_modules\bootstrap-table\dist\bootstrap-table.min.css" />
+    <Content Include="adminassets\node_modules\bootstrap-table\dist\bootstrap-table.min.js" />
+    <Content Include="adminassets\node_modules\bootstrap-tagsinput\dist\bootstrap-tagsinput.css" />
+    <Content Include="adminassets\node_modules\bootstrap-tagsinput\dist\bootstrap-tagsinput.min.js" />
+    <Content Include="adminassets\node_modules\bootstrap-touchspin\dist\jquery.bootstrap-touchspin.js" />
+    <Content Include="adminassets\node_modules\bootstrap-touchspin\dist\jquery.bootstrap-touchspin.min.css" />
+    <Content Include="adminassets\node_modules\bootstrap-treeview-master\dist\bootstrap-treeview-init.js" />
+    <Content Include="adminassets\node_modules\bootstrap-treeview-master\dist\bootstrap-treeview.min.js" />
+    <Content Include="adminassets\node_modules\bootstrap\dist\js\bootstrap.min.js" />
+    <Content Include="adminassets\node_modules\calendar\dist\cal-init.js" />
+    <Content Include="adminassets\node_modules\calendar\dist\fullcalendar.css" />
+    <Content Include="adminassets\node_modules\calendar\dist\fullcalendar.min.js" />
+    <Content Include="adminassets\node_modules\calendar\jquery-ui.min.js" />
+    <Content Include="adminassets\node_modules\Chart.js\Chart.min.js" />
+    <Content Include="adminassets\node_modules\Chart.js\chartjs.init.js" />
+    <Content Include="adminassets\node_modules\chartist-js\dist\chartist-init.css" />
+    <Content Include="adminassets\node_modules\chartist-js\dist\chartist-init.js" />
+    <Content Include="adminassets\node_modules\chartist-js\dist\chartist.min.css" />
+    <Content Include="adminassets\node_modules\chartist-js\dist\chartist.min.js" />
+    <Content Include="adminassets\node_modules\chartist-plugin-tooltip-master\dist\chartist-plugin-tooltip.css" />
+    <Content Include="adminassets\node_modules\chartist-plugin-tooltip-master\dist\chartist-plugin-tooltip.min.js" />
+    <Content Include="adminassets\node_modules\clockpicker\dist\jquery-clockpicker.min.css" />
+    <Content Include="adminassets\node_modules\clockpicker\dist\jquery-clockpicker.min.js" />
+    <Content Include="adminassets\node_modules\cropper\cropper-init.html" />
+    <Content Include="adminassets\node_modules\cropper\cropper.min.css" />
+    <Content Include="adminassets\node_modules\cropper\cropper.min.js" />
+    <Content Include="adminassets\node_modules\css-chart\css-chart.css" />
+    <Content Include="adminassets\node_modules\datatables\datatables.min.js" />
+    <Content Include="adminassets\node_modules\datatables\media\css\dataTables.bootstrap4.css" />
+    <Content Include="adminassets\node_modules\datatables\media\js\dataTables.bootstrap.js" />
+    <Content Include="adminassets\node_modules\date-paginator\bootstrap-datepaginator.min.js" />
+    <Content Include="adminassets\node_modules\date-paginator\moment.min.js" />
+    <Content Include="adminassets\node_modules\dff\dff.js" />
+    <Content Include="adminassets\node_modules\dropify\dist\css\dropify.min.css" />
+    <Content Include="adminassets\node_modules\dropify\dist\js\dropify.min.js" />
+    <Content Include="adminassets\node_modules\dropify\src\images\test-image-1.jpg" />
+    <Content Include="adminassets\node_modules\dropify\src\images\test-image-2.jpg" />
+    <Content Include="adminassets\node_modules\dropzone-master\dist\dropzone.css" />
+    <Content Include="adminassets\node_modules\dropzone-master\dist\dropzone.js" />
+    <Content Include="adminassets\node_modules\echarts\echarts-all.js" />
+    <Content Include="adminassets\node_modules\echarts\echarts-init.js" />
+    <Content Include="adminassets\node_modules\flot.tooltip\js\jquery.flot.tooltip.min.js" />
+    <Content Include="adminassets\node_modules\flot\excanvas.js" />
+    <Content Include="adminassets\node_modules\flot\jquery.flot.crosshair.js" />
+    <Content Include="adminassets\node_modules\flot\jquery.flot.js" />
+    <Content Include="adminassets\node_modules\flot\jquery.flot.pie.js" />
+    <Content Include="adminassets\node_modules\flot\jquery.flot.stack.js" />
+    <Content Include="adminassets\node_modules\flot\jquery.flot.time.js" />
+    <Content Include="adminassets\node_modules\footable\css\footable.bootstrap.min.css" />
+    <Content Include="adminassets\node_modules\footable\js\footable.min.js" />
+    <Content Include="adminassets\node_modules\gauge\gauge.min.js" />
+    <Content Include="adminassets\node_modules\gmaps\gmaps.min.js" />
+    <Content Include="adminassets\node_modules\gmaps\jquery.gmaps.js" />
+    <Content Include="adminassets\node_modules\gridstack\gridstack.css" />
+    <Content Include="adminassets\node_modules\gridstack\gridstack.jQueryUI.js" />
+    <Content Include="adminassets\node_modules\gridstack\gridstack.js" />
+    <Content Include="adminassets\node_modules\gridstack\lodash.js" />
+    <Content Include="adminassets\node_modules\horizontal-timeline\css\horizontal-timeline.css" />
+    <Content Include="adminassets\node_modules\horizontal-timeline\js\horizontal-timeline.js" />
+    <Content Include="adminassets\node_modules\html5-editor\bootstrap-wysihtml5.css" />
+    <Content Include="adminassets\node_modules\html5-editor\bootstrap-wysihtml5.js" />
+    <Content Include="adminassets\node_modules\html5-editor\wysihtml5-0.3.0.js" />
+    <Content Include="adminassets\node_modules\icheck\icheck.init.js" />
+    <Content Include="adminassets\node_modules\icheck\icheck.min.js" />
+    <Content Include="adminassets\node_modules\icheck\skins\all.css" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\aero%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\aero.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\blue%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\blue.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\flat%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\flat.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\green%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\green.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\grey%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\grey.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\orange%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\orange.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\pink%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\pink.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\purple%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\purple.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\red%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\red.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\yellow%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\yellow.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\flat\_all.css" />
+    <Content Include="adminassets\node_modules\icheck\skins\futurico\futurico%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\futurico\futurico.css" />
+    <Content Include="adminassets\node_modules\icheck\skins\futurico\futurico.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\line\line%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\line\line.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\line\_all.css" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\aero%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\aero.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\blue%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\blue.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\green%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\green.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\grey%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\grey.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\minimal%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\minimal.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\orange%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\orange.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\pink%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\pink.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\purple%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\purple.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\red%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\red.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\yellow%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\yellow.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\minimal\_all.css" />
+    <Content Include="adminassets\node_modules\icheck\skins\polaris\polaris%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\polaris\polaris.css" />
+    <Content Include="adminassets\node_modules\icheck\skins\polaris\polaris.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\aero%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\aero.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\blue%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\blue.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\green%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\green.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\grey%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\grey.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\orange%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\orange.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\pink%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\pink.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\purple%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\purple.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\red%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\red.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\square%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\square.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\yellow%402x.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\yellow.png" />
+    <Content Include="adminassets\node_modules\icheck\skins\square\_all.css" />
+    <Content Include="adminassets\node_modules\inputmask\dist\min\jquery.inputmask.bundle.min.js" />
+    <Content Include="adminassets\node_modules\ion-rangeslider\css\ion.rangeSlider.css" />
+    <Content Include="adminassets\node_modules\ion-rangeslider\css\ion.rangeSlider.skinModern.css" />
+    <Content Include="adminassets\node_modules\ion-rangeslider\img\sprite-skin-modern.png" />
+    <Content Include="adminassets\node_modules\ion-rangeslider\js\ion-rangeSlider\ion.rangeSlider-init.js" />
+    <Content Include="adminassets\node_modules\ion-rangeslider\js\ion-rangeSlider\ion.rangeSlider.min.js" />
+    <Content Include="adminassets\node_modules\jquery-asColorPicker-master\dist\css\asColorPicker.css" />
+    <Content Include="adminassets\node_modules\jquery-asColorPicker-master\dist\images\alpha.png" />
+    <Content Include="adminassets\node_modules\jquery-asColorPicker-master\dist\images\hue.png" />
+    <Content Include="adminassets\node_modules\jquery-asColorPicker-master\dist\images\saturation.png" />
+    <Content Include="adminassets\node_modules\jquery-asColorPicker-master\dist\images\transparent.png" />
+    <Content Include="adminassets\node_modules\jquery-asColorPicker-master\dist\jquery-asColorPicker.min.js" />
+    <Content Include="adminassets\node_modules\jquery-asColor\dist\jquery-asColor.js" />
+    <Content Include="adminassets\node_modules\jquery-asGradient\dist\jquery-asGradient.js" />
+    <Content Include="adminassets\node_modules\jquery-datatables-editable\jquery.dataTables.js" />
+    <Content Include="adminassets\node_modules\jquery-sparkline\jquery.sparkline.min.js" />
+    <Content Include="adminassets\node_modules\jquery.easy-pie-chart\dist\jquery.easypiechart.min.js" />
+    <Content Include="adminassets\node_modules\jquery.easy-pie-chart\easy-pie-chart.init.js" />
+    <Content Include="adminassets\node_modules\jqueryui\jquery-ui.min.js" />
+    <Content Include="adminassets\node_modules\jquery\jquery-3.2.1.min.js" />
+    <Content Include="adminassets\node_modules\jsgrid\db.js" />
+    <Content Include="adminassets\node_modules\jsgrid\jsgrid-theme.min.css" />
+    <Content Include="adminassets\node_modules\jsgrid\jsgrid.min.css" />
+    <Content Include="adminassets\node_modules\jsgrid\jsgrid.min.js" />
+    <Content Include="adminassets\node_modules\knob\jquery.knob.js" />
+    <Content Include="adminassets\node_modules\Magnific-Popup-master\dist\jquery.magnific-popup-init.js" />
+    <Content Include="adminassets\node_modules\Magnific-Popup-master\dist\jquery.magnific-popup.min.js" />
+    <Content Include="adminassets\node_modules\Magnific-Popup-master\dist\magnific-popup.css" />
+    <Content Include="adminassets\node_modules\moment\moment.js" />
+    <Content Include="adminassets\node_modules\morrisjs\morris.css" />
+    <Content Include="adminassets\node_modules\morrisjs\morris.js" />
+    <Content Include="adminassets\node_modules\morrisjs\morris.min.js" />
+    <Content Include="adminassets\node_modules\multiselect\css\multi-select.css" />
+    <Content Include="adminassets\node_modules\multiselect\img\switch.png" />
+    <Content Include="adminassets\node_modules\multiselect\js\jquery.multi-select.js" />
+    <Content Include="adminassets\node_modules\nestable\jquery.nestable.js" />
+    <Content Include="adminassets\node_modules\nestable\nestable.css" />
+    <Content Include="adminassets\node_modules\peity\jquery.peity.init.js" />
+    <Content Include="adminassets\node_modules\peity\jquery.peity.min.js" />
+    <Content Include="adminassets\node_modules\popper\popper.min.js" />
+    <Content Include="adminassets\node_modules\prism\prism.css" />
+    <Content Include="adminassets\node_modules\prism\prism.js" />
+    <Content Include="adminassets\node_modules\raphael\raphael-min.js" />
+    <Content Include="adminassets\node_modules\register-steps\jquery.easing.min.js" />
+    <Content Include="adminassets\node_modules\register-steps\register-init.js" />
+    <Content Include="adminassets\node_modules\register-steps\steps.css" />
+    <Content Include="adminassets\node_modules\select2\dist\css\select2.min.css" />
+    <Content Include="adminassets\node_modules\select2\dist\js\select2.full.min.js" />
+    <Content Include="adminassets\node_modules\session-timeout\idle\jquery.idletimeout.js" />
+    <Content Include="adminassets\node_modules\session-timeout\idle\jquery.idletimer.js" />
+    <Content Include="adminassets\node_modules\session-timeout\idle\session-timeout-idle-init.js" />
+    <Content Include="adminassets\node_modules\session-timeout\jquery.sessionTimeout.min.js" />
+    <Content Include="adminassets\node_modules\session-timeout\session-timeout-init.js" />
+    <Content Include="adminassets\node_modules\skycons\skycons.js" />
+    <Content Include="adminassets\node_modules\sparkline\jquery.charts-sparkline.js" />
+    <Content Include="adminassets\node_modules\sparkline\jquery.sparkline.min.js" />
+    <Content Include="adminassets\node_modules\sticky-kit-master\dist\sticky-kit.min.js" />
+    <Content Include="adminassets\node_modules\summernote\dist\summernote-bs4.css" />
+    <Content Include="adminassets\node_modules\summernote\dist\summernote-bs4.min.js" />
+    <Content Include="adminassets\node_modules\sweetalert\jquery.sweet-alert.custom.js" />
+    <Content Include="adminassets\node_modules\sweetalert\sweetalert.css" />
+    <Content Include="adminassets\node_modules\sweetalert\sweetalert.min.js" />
+    <Content Include="adminassets\node_modules\switchery\dist\switchery.min.css" />
+    <Content Include="adminassets\node_modules\switchery\dist\switchery.min.js" />
+    <Content Include="adminassets\node_modules\tablesaw-master\dist\tablesaw-init.js" />
+    <Content Include="adminassets\node_modules\tablesaw-master\dist\tablesaw.css" />
+    <Content Include="adminassets\node_modules\tablesaw-master\dist\tablesaw.jquery.js" />
+    <Content Include="adminassets\node_modules\timepicker\bootstrap-timepicker.min.css" />
+    <Content Include="adminassets\node_modules\timepicker\bootstrap-timepicker.min.js" />
+    <Content Include="adminassets\node_modules\tiny-editable\mindmup-editabletable.js" />
+    <Content Include="adminassets\node_modules\tiny-editable\numeric-input-example.js" />
+    <Content Include="adminassets\node_modules\tinymce\tinymce.min.js" />
+    <Content Include="adminassets\node_modules\toast-master\css\jquery.toast.css" />
+    <Content Include="adminassets\node_modules\toast-master\js\jquery.toast.js" />
+    <Content Include="adminassets\node_modules\typeahead.js-master\dist\typeahead.bundle.min.js" />
+    <Content Include="adminassets\node_modules\typeahead.js-master\dist\typehead-min.css" />
+    <Content Include="adminassets\node_modules\typeahead.js-master\typeahead.init.js" />
+    <Content Include="adminassets\node_modules\vectormap\jquery-jvectormap-2.0.2.css" />
+    <Content Include="adminassets\node_modules\vectormap\jquery-jvectormap-2.0.2.min.js" />
+    <Content Include="adminassets\node_modules\vectormap\jquery-jvectormap-au-mill.js" />
+    <Content Include="adminassets\node_modules\vectormap\jquery-jvectormap-in-mill.js" />
+    <Content Include="adminassets\node_modules\vectormap\jquery-jvectormap-uk-mill-en.js" />
+    <Content Include="adminassets\node_modules\vectormap\jquery-jvectormap-us-aea-en.js" />
+    <Content Include="adminassets\node_modules\vectormap\jquery-jvectormap-world-mill-en.js" />
+    <Content Include="adminassets\node_modules\vectormap\jvectormap.custom.js" />
+    <Content Include="adminassets\node_modules\wizard\jquery.steps.min.js" />
+    <Content Include="adminassets\node_modules\wizard\jquery.validate.min.js" />
+    <Content Include="adminassets\node_modules\wizard\steps.css" />
+    <Content Include="adminassets\node_modules\x-editable\dist\bootstrap3-editable\css\bootstrap-editable.css" />
+    <Content Include="adminassets\node_modules\x-editable\dist\bootstrap3-editable\img\clear.png" />
+    <Content Include="adminassets\node_modules\x-editable\dist\bootstrap3-editable\img\loading.gif" />
+    <Content Include="adminassets\node_modules\x-editable\dist\bootstrap3-editable\js\bootstrap-editable.js" />
+    <Content Include="adminassets\www.youtube.com\watch7d1c.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -164,10 +536,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="JavascriptFunctions\Operational.js" />
     <Content Include="Models\ManishPhotoStudioDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ManishPhotoStudioDB.Context.cs</LastGenOutput>
       <DependentUpon>ManishPhotoStudioDB.edmx</DependentUpon>
+      <LastGenOutput>ManishPhotoStudioDB.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\ManishPhotoStudioDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -183,6 +556,22 @@
     <Content Include="Models\ManishPhotoStudioDB.edmx.diagram">
       <DependentUpon>ManishPhotoStudioDB.edmx</DependentUpon>
     </Content>
+    <Content Include="adminassets\dist\css\fonts\fontawesome-webfont3e6e.ttf" />
+    <Content Include="adminassets\dist\css\fonts\icomoonca27.ttf" />
+    <Content Include="adminassets\dist\css\fonts\materialdesignicons-webfont.ttf" />
+    <Content Include="adminassets\dist\css\fonts\Simple-Line-Icons4c82.ttf" />
+    <Content Include="adminassets\dist\css\fonts\themify.ttf" />
+    <Content Include="adminassets\icons\font-awesome\webfonts\fa-solid-900.woff2" />
+    <Content Include="adminassets\icons\font-awesome\webfonts\fontawesome-webfont.woff2" />
+    <Content Include="adminassets\icons\font-awesome\webfonts\icomoon.ttf" />
+    <Content Include="adminassets\icons\font-awesome\webfonts\icomoon.woff" />
+    <Content Include="adminassets\icons\weather-icons\fonts\weathericons-regular-webfont.woff" />
+    <Content Include="adminassets\icons\weather-icons\fonts\weathericons-regular-webfont.woff2" />
+    <Content Include="adminassets\node_modules\dropify\dist\fonts\dropify.woff" />
+    <Content Include="adminassets\node_modules\summernote\dist\font\summernote9d3d.eot" />
+    <Content Include="adminassets\node_modules\summernote\dist\font\summernote9d3d.ttf" />
+    <Content Include="adminassets\node_modules\summernote\dist\font\summernote9d3d.woff" />
+    <Content Include="adminassets\node_modules\summernote\dist\font\summernoted41d.eot" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -211,9 +600,20 @@
     <Content Include="Views\SystemUsers\Edit.cshtml" />
     <Content Include="Views\SystemUsers\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Delete.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Gallery\GalleryList.cshtml" />
+    <Content Include="Views\Gallery\GalleryCustomerList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="CategoryImages\" />
+    <Folder Include="CustomerProfile\" />
+    <Folder Include="GalleryImages\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

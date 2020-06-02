@@ -25,6 +25,15 @@ namespace PhotoStudio.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<tblCategory> tblCategories { get; set; }
+        public virtual DbSet<tblCustomer> tblCustomers { get; set; }
+        public virtual DbSet<tblGallery> tblGalleries { get; set; }
+        public virtual DbSet<tblPhotographer> tblPhotographers { get; set; }
+        public virtual DbSet<tblPhotographerType> tblPhotographerTypes { get; set; }
+        public virtual DbSet<tblPortfolio> tblPortfolios { get; set; }
+        public virtual DbSet<tblPortfolioGallery> tblPortfolioGalleries { get; set; }
+        public virtual DbSet<tblPortfolioGalleryCategory> tblPortfolioGalleryCategories { get; set; }
+        public virtual DbSet<tblQuotation> tblQuotations { get; set; }
         public virtual DbSet<tblSystemUser> tblSystemUsers { get; set; }
     }
 }

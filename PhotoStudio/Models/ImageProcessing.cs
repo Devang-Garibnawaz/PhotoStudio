@@ -8,26 +8,46 @@ using System.Linq;
 using System.Net;
 using System.Web;
 
-namespace InstaAlbum.Models
+namespace PhotoStudio.Models
 {
     public class ImageProcessing
     {
-        
-        public static bool  InsertImages(string path)
+        public static bool InsertImages(string path)
         {
             try
             {
                 WebClient wc = new WebClient();
                 byte[] bytes = wc.DownloadData(path);
-
                 Image img = Image.FromStream(new MemoryStream(bytes));
                 img = FixedSize(img, 630, 420);
                 img.Save(path);
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
+            }
+        }
+
+        public static bool InsertImages(string path, bool ApplyWatermark)
+        {
+            bool result = false;
+            try
+            {
+                WebClient wc = new WebClient();
+                byte[] bytes = wc.DownloadData(path);
+                Image img = Image.FromStream(new MemoryStream(bytes));
+                img = FixedSize(img, 630, 420);
+                img.Save(path);
+                if (ApplyWatermark)
+                {
+                    result = AddWatermarkToImage(img, path);
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return result;
             }
         }
         public static Image FixedSize(Image imgPhoto, int Width, int Height)
@@ -80,5 +100,30 @@ namespace InstaAlbum.Models
             return bmPhoto;
         }
 
+        public static bool AddWatermarkToImage(Image ImagePhoto, string path)
+        {
+            try
+            {
+                using (Graphics g = Graphics.FromImage(ImagePhoto))
+                {
+
+                    // For Transparent Watermark Text 
+                    int opacity = 128; // range from 0 to 255
+
+                    //SolidBrush brush = new SolidBrush(Color.Red);
+                    SolidBrush brush = new SolidBrush(Color.FromArgb(opacity, Color.White));
+                    Font font = new Font("Arial", 18);
+                    g.DrawString("InstaAlbum", font, brush, new PointF(0, 0));
+                    ImagePhoto.Save(path);
+                    return true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
     }
 }

@@ -1,6 +1,125 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ManishPhotoStudioModelStoreContainer" CdmEntityContainer="ManishPhotoStudioEntities">
+    <EntitySetMapping Name="tblCategories">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblCategory">
+        <MappingFragment StoreEntitySet="tblCategory">
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="CategoryImage" ColumnName="CategoryImage" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCustomers">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblCustomer">
+        <MappingFragment StoreEntitySet="tblCustomer">
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="ProfilePic" ColumnName="ProfilePic" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblGalleries">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblGallery">
+        <MappingFragment StoreEntitySet="tblGallery">
+          <ScalarProperty Name="GalleryID" ColumnName="GalleryID" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblPhotographers">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPhotographer">
+        <MappingFragment StoreEntitySet="tblPhotographer">
+          <ScalarProperty Name="PhotographerID" ColumnName="PhotographerID" />
+          <ScalarProperty Name="PhotographerTypeInternalCodeBWs" ColumnName="PhotographerTypeInternalCodeBWs" />
+          <ScalarProperty Name="PhotographerName" ColumnName="PhotographerName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="ProfilePic" ColumnName="ProfilePic" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsFreeLancer" ColumnName="IsFreeLancer" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblPhotographerTypes">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPhotographerType">
+        <MappingFragment StoreEntitySet="tblPhotographerType">
+          <ScalarProperty Name="PhotographerTypeInternalCodeBW" ColumnName="PhotographerTypeInternalCodeBW" />
+          <ScalarProperty Name="PhotographerTypeName" ColumnName="PhotographerTypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblPortfolios">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPortfolio">
+        <MappingFragment StoreEntitySet="tblPortfolio">
+          <ScalarProperty Name="PortfolioID" ColumnName="PortfolioID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="PortfolioHeading" ColumnName="PortfolioHeading" />
+          <ScalarProperty Name="PortfolioDescription" ColumnName="PortfolioDescription" />
+          <ScalarProperty Name="CoverPhoto" ColumnName="CoverPhoto" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblPortfolioGalleries">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPortfolioGallery">
+        <MappingFragment StoreEntitySet="tblPortfolioGallery">
+          <ScalarProperty Name="PortfolioGalleryID" ColumnName="PortfolioGalleryID" />
+          <ScalarProperty Name="PortfolioID" ColumnName="PortfolioID" />
+          <ScalarProperty Name="PortfolioGalleryCategoryID" ColumnName="PortfolioGalleryCategoryID" />
+          <ScalarProperty Name="PortfolioGalleryImage" ColumnName="PortfolioGalleryImage" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblPortfolioGalleryCategories">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPortfolioGalleryCategory">
+        <MappingFragment StoreEntitySet="tblPortfolioGalleryCategory">
+          <ScalarProperty Name="PortfolioGalleryCategoryID" ColumnName="PortfolioGalleryCategoryID" />
+          <ScalarProperty Name="PortfolioGalleryCategoryName" ColumnName="PortfolioGalleryCategoryName" />
+          <ScalarProperty Name="PortfolioGalleryCategoryImage" ColumnName="PortfolioGalleryCategoryImage" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblQuotations">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblQuotation">
+        <MappingFragment StoreEntitySet="tblQuotation">
+          <ScalarProperty Name="QuotationID" ColumnName="QuotationID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="NumberOfCinematographers" ColumnName="NumberOfCinematographers" />
+          <ScalarProperty Name="NumberOfPhotographers" ColumnName="NumberOfPhotographers" />
+          <ScalarProperty Name="NumberOfDrones" ColumnName="NumberOfDrones" />
+          <ScalarProperty Name="SizeOfLEDScreen" ColumnName="SizeOfLEDScreen" />
+          <ScalarProperty Name="NumberOfLedScreens" ColumnName="NumberOfLedScreens" />
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="IsDisccount" ColumnName="IsDisccount" />
+          <ScalarProperty Name="DisscountPercentage" ColumnName="DisscountPercentage" />
+          <ScalarProperty Name="AmmountAfterDisscount" ColumnName="AmmountAfterDisscount" />
+          <ScalarProperty Name="PercentageOfAdvancePayment" ColumnName="PercentageOfAdvancePayment" />
+          <ScalarProperty Name="PercentageOfPaymentAtEventDay" ColumnName="PercentageOfPaymentAtEventDay" />
+          <ScalarProperty Name="PercentageOfPaymentAfterEvent" ColumnName="PercentageOfPaymentAfterEvent" />
+          <ScalarProperty Name="IsPass" ColumnName="IsPass" />
+          <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="tblSystemUsers">
       <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblSystemUser">
         <MappingFragment StoreEntitySet="tblSystemUser">

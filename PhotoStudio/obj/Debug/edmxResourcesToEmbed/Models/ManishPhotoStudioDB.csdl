@@ -1,5 +1,127 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="ManishPhotoStudioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tblCategory">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="tblGalleries" Relationship="Self.FK_tblGallery_tblCategory" FromRole="tblCategory" ToRole="tblGallery" />
+  </EntityType>
+  <EntityType Name="tblCustomer">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+    </Key>
+    <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ProfilePic" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="tblGalleries" Relationship="Self.FK_tblGallery_tblCustomer" FromRole="tblCustomer" ToRole="tblGallery" />
+    <NavigationProperty Name="tblPortfolios" Relationship="Self.FK_tblPortfolio_tblCustomer" FromRole="tblCustomer" ToRole="tblPortfolio" />
+    <NavigationProperty Name="tblQuotations" Relationship="Self.FK_tblQuotation_tblCustomer" FromRole="tblCustomer" ToRole="tblQuotation" />
+  </EntityType>
+  <EntityType Name="tblGallery">
+    <Key>
+      <PropertyRef Name="GalleryID" />
+    </Key>
+    <Property Name="GalleryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryID" Type="Int32" Nullable="false" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="Image" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsSelected" Type="Boolean" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="tblCategory" Relationship="Self.FK_tblGallery_tblCategory" FromRole="tblGallery" ToRole="tblCategory" />
+    <NavigationProperty Name="tblCustomer" Relationship="Self.FK_tblGallery_tblCustomer" FromRole="tblGallery" ToRole="tblCustomer" />
+  </EntityType>
+  <EntityType Name="tblPhotographer">
+    <Key>
+      <PropertyRef Name="PhotographerID" />
+    </Key>
+    <Property Name="PhotographerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PhotographerTypeInternalCodeBWs" Type="Int32" Nullable="false" />
+    <Property Name="PhotographerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ProfilePic" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="IsFreeLancer" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="tblPhotographerType">
+    <Key>
+      <PropertyRef Name="PhotographerTypeInternalCodeBW" />
+    </Key>
+    <Property Name="PhotographerTypeInternalCodeBW" Type="Int32" Nullable="false" />
+    <Property Name="PhotographerTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tblPortfolio">
+    <Key>
+      <PropertyRef Name="PortfolioID" />
+    </Key>
+    <Property Name="PortfolioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="PortfolioHeading" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PortfolioDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CoverPhoto" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="tblCustomer" Relationship="Self.FK_tblPortfolio_tblCustomer" FromRole="tblPortfolio" ToRole="tblCustomer" />
+    <NavigationProperty Name="tblPortfolioGalleries" Relationship="Self.FK_tblPortfolioGallery_tblPortfolio" FromRole="tblPortfolio" ToRole="tblPortfolioGallery" />
+  </EntityType>
+  <EntityType Name="tblPortfolioGallery">
+    <Key>
+      <PropertyRef Name="PortfolioGalleryID" />
+    </Key>
+    <Property Name="PortfolioGalleryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PortfolioID" Type="Int32" Nullable="false" />
+    <Property Name="PortfolioGalleryCategoryID" Type="Int32" Nullable="false" />
+    <Property Name="PortfolioGalleryImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="tblPortfolio" Relationship="Self.FK_tblPortfolioGallery_tblPortfolio" FromRole="tblPortfolioGallery" ToRole="tblPortfolio" />
+    <NavigationProperty Name="tblPortfolioGalleryCategory" Relationship="Self.FK_tblPortfolioGallery_tblPortfolioGalleryCategory" FromRole="tblPortfolioGallery" ToRole="tblPortfolioGalleryCategory" />
+  </EntityType>
+  <EntityType Name="tblPortfolioGalleryCategory">
+    <Key>
+      <PropertyRef Name="PortfolioGalleryCategoryID" />
+    </Key>
+    <Property Name="PortfolioGalleryCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PortfolioGalleryCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PortfolioGalleryCategoryImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="tblPortfolioGalleries" Relationship="Self.FK_tblPortfolioGallery_tblPortfolioGalleryCategory" FromRole="tblPortfolioGalleryCategory" ToRole="tblPortfolioGallery" />
+  </EntityType>
+  <EntityType Name="tblQuotation">
+    <Key>
+      <PropertyRef Name="QuotationID" />
+    </Key>
+    <Property Name="QuotationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="NumberOfCinematographers" Type="Int32" />
+    <Property Name="NumberOfPhotographers" Type="Int32" />
+    <Property Name="NumberOfDrones" Type="Int32" />
+    <Property Name="SizeOfLEDScreen" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="NumberOfLedScreens" Type="Int32" />
+    <Property Name="TotalAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IsDisccount" Type="Boolean" />
+    <Property Name="DisscountPercentage" Type="Int32" />
+    <Property Name="AmmountAfterDisscount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PercentageOfAdvancePayment" Type="Int32" />
+    <Property Name="PercentageOfPaymentAtEventDay" Type="Int32" />
+    <Property Name="PercentageOfPaymentAfterEvent" Type="Int32" />
+    <Property Name="IsPass" Type="Boolean" />
+    <Property Name="EventDate" Type="DateTime" Precision="0" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="tblCustomer" Relationship="Self.FK_tblQuotation_tblCustomer" FromRole="tblQuotation" ToRole="tblCustomer" />
+  </EntityType>
   <EntityType Name="tblSystemUser">
     <Key>
       <PropertyRef Name="UserID" />
@@ -13,7 +135,124 @@
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="UpdatedDate" Type="DateTime" Precision="0" />
   </EntityType>
+  <Association Name="FK_tblGallery_tblCategory">
+    <End Role="tblCategory" Type="Self.tblCategory" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblGallery" Type="Self.tblGallery" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCategory">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="tblGallery">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblGallery_tblCustomer">
+    <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblGallery" Type="Self.tblGallery" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCustomer">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="tblGallery">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblPortfolio_tblCustomer">
+    <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblPortfolio" Type="Self.tblPortfolio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCustomer">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="tblPortfolio">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblQuotation_tblCustomer">
+    <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblQuotation" Type="Self.tblQuotation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCustomer">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="tblQuotation">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblPortfolioGallery_tblPortfolio">
+    <End Role="tblPortfolio" Type="Self.tblPortfolio" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblPortfolioGallery" Type="Self.tblPortfolioGallery" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPortfolio">
+        <PropertyRef Name="PortfolioID" />
+      </Principal>
+      <Dependent Role="tblPortfolioGallery">
+        <PropertyRef Name="PortfolioID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblPortfolioGallery_tblPortfolioGalleryCategory">
+    <End Role="tblPortfolioGalleryCategory" Type="Self.tblPortfolioGalleryCategory" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblPortfolioGallery" Type="Self.tblPortfolioGallery" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPortfolioGalleryCategory">
+        <PropertyRef Name="PortfolioGalleryCategoryID" />
+      </Principal>
+      <Dependent Role="tblPortfolioGallery">
+        <PropertyRef Name="PortfolioGalleryCategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="ManishPhotoStudioEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tblCategories" EntityType="Self.tblCategory" />
+    <EntitySet Name="tblCustomers" EntityType="Self.tblCustomer" />
+    <EntitySet Name="tblGalleries" EntityType="Self.tblGallery" />
+    <EntitySet Name="tblPhotographers" EntityType="Self.tblPhotographer" />
+    <EntitySet Name="tblPhotographerTypes" EntityType="Self.tblPhotographerType" />
+    <EntitySet Name="tblPortfolios" EntityType="Self.tblPortfolio" />
+    <EntitySet Name="tblPortfolioGalleries" EntityType="Self.tblPortfolioGallery" />
+    <EntitySet Name="tblPortfolioGalleryCategories" EntityType="Self.tblPortfolioGalleryCategory" />
+    <EntitySet Name="tblQuotations" EntityType="Self.tblQuotation" />
     <EntitySet Name="tblSystemUsers" EntityType="Self.tblSystemUser" />
+    <AssociationSet Name="FK_tblGallery_tblCategory" Association="Self.FK_tblGallery_tblCategory">
+      <End Role="tblCategory" EntitySet="tblCategories" />
+      <End Role="tblGallery" EntitySet="tblGalleries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblGallery_tblCustomer" Association="Self.FK_tblGallery_tblCustomer">
+      <End Role="tblCustomer" EntitySet="tblCustomers" />
+      <End Role="tblGallery" EntitySet="tblGalleries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblPortfolio_tblCustomer" Association="Self.FK_tblPortfolio_tblCustomer">
+      <End Role="tblCustomer" EntitySet="tblCustomers" />
+      <End Role="tblPortfolio" EntitySet="tblPortfolios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblQuotation_tblCustomer" Association="Self.FK_tblQuotation_tblCustomer">
+      <End Role="tblCustomer" EntitySet="tblCustomers" />
+      <End Role="tblQuotation" EntitySet="tblQuotations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblPortfolioGallery_tblPortfolio" Association="Self.FK_tblPortfolioGallery_tblPortfolio">
+      <End Role="tblPortfolio" EntitySet="tblPortfolios" />
+      <End Role="tblPortfolioGallery" EntitySet="tblPortfolioGalleries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblPortfolioGallery_tblPortfolioGalleryCategory" Association="Self.FK_tblPortfolioGallery_tblPortfolioGalleryCategory">
+      <End Role="tblPortfolioGalleryCategory" EntitySet="tblPortfolioGalleryCategories" />
+      <End Role="tblPortfolioGallery" EntitySet="tblPortfolioGalleries" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

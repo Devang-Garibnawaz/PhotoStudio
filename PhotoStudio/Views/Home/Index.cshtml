@@ -4,5 +4,83 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Admin Dashboard</h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">Home</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-center border-dark">
+                <div class="card-header bg-dark">
+                    <h4 class="m-b-0 text-white">User Management</h4>
+                </div>
+                <div class="card-body ">
+                    <a href="@Url.Action("Index", "SystemUsers")" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-md-4">
+            <div class="card text-center border-dark">
+                <div class="card-header bg-primary">
+                    <h4 class="m-b-0 text-white">Category Management</h4>
+                </div>
+                <div class="card-body ">
+                    <a href="" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-md-4">
+            <div class="card text-center border-dark">
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Gallery Management</h4>
+                </div>
+                <div class="card-body">
+                    <a href="@Url.Action("GalleryCustomerList", "Gallery")" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-center border-dark">
+                <div class="card-header bg-success">
+                    <h4 class="m-b-0 text-white">Customer Management</h4>
+                </div>
+                <div class="card-body ">
+                    <a href="@Url.Action("Index", "Customers")" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-center border-dark">
+                <div class="card-header bg-danger">
+                    <h4 class="m-b-0 text-white">Photographer Management</h4>
+                </div>
+                <div class="card-body">
+                    <a href="javascript:void(0)" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-center border-dark">
+                <div class="card-header bg-warning">
+                    <h4 class="m-b-0 text-white">Order Management</h4>
+                </div>
+                <div class="card-body ">
+                    <a href="javascript:void(0)" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+    </div>

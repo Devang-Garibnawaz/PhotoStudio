@@ -1,0 +1,243 @@
+﻿@model IEnumerable<PhotoStudio.Models.tblCategory>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <script type="text/javascript">
+        function ConfirmationDialog(CategoryID) {
+            if (confirm("Are you sure to delete?"))
+                fnDeleteRecord(CategoryID);
+            else
+                return false;
+        }
+
+        function fnDeleteRecord(CategoryID) {
+            $.ajax({
+                async: true,
+                type: 'POST',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: "{'id':'" + CategoryID + "'}",
+                url: '/Category/DeleteCategory',
+                success: function (response) {
+                    if (response.success === true) {
+                        toastr.success(
+                            response.message,
+                            'Record is deleted',
+                            {
+                                timeOut: 1000,
+                                fadeOut: 1000,
+                                onHidden: function () {
+                                    window.location.reload();
+                                }
+                            }
+                        );
+                    }
+                    else {
+                        toastr.info(response.message, 'Record is not deleted', { timeOut: 3000 });
+                    }
+                },
+                error: function () {
+                    toastr.error('Error occur', 'Error occur while deleting record.', { timeOut: 3000 });
+                }
+
+            });
+        }
+
+        function fnInsertCategory()
+        {
+
+            var txtCategoryName = document.getElementById("txtCategoryName");
+
+            if (__glb_fnIsNullOrEmpty(txtCategoryName.value)) {
+                toastr.warning('Input Error', 'Please enter category name', { timeOut: 1000, fadeOut: 1000 });
+                return;
+            }
+
+            var formData = new FormData();
+            var file = document.getElementById("inputProfile").files[0];
+            if (document.getElementById("inputProfile").files.length <= 0) {
+                toastr.warning('Input Error', 'Please select cover pic', { timeOut: 1000, fadeOut: 1000 });
+                return;
+            }
+            formData.append("imageFile", file);
+            formData.append("CategoryName", txtCategoryName.value);
+
+            var result = __glb_fnIUDOperation(formData, '/Category/InsertCategory')
+
+            if (result.success === true)
+            {
+                toastr.success(
+                    result.message,
+                    'Record is inserted',
+                    {
+                        timeOut: 1000,
+                        fadeOut: 1000,
+                        onHidden: function () {
+                            window.location.reload();
+                        }
+                    }
+                );
+            }
+            else if (result.Formatwarning === true)
+            {
+                toastr.warning(
+                    result.message,
+                    'Picture format error',
+                    {
+                        timeOut: 3000,
+                        fadeOut: 1000,
+                        onHidden: function () {
+                            return;
+                        }
+                    }
+                );
+            }
+            else
+            {
+                toastr.error('Error occur', 'Error occur while inserting record.', { timeOut: 3000 });
+                return;
+            }
+        }
+    </script>
+<div id="add-category" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="H1">Add New Category</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-md-12 m-b-20">
+                        Category Name: <input type="text" id="txtCategoryName" class="form-control" required placeholder="Enter Category Name:" /><br /><br />
+                        Category Cover Pic: <input type="file" id="inputProfile" class="form-control" /><br /><br />
+                        <div class="modal-footer">
+                            <input type="submit" value="Insert" class="btn btn-success" onclick="fnInsertCategory()" />
+                            <input type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true" value="Cancel" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Category List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="Home.aspx">Home</a></li>
+                <li class="breadcrumb-item active">Category List</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">Category list:</h4>
+            </div>
+
+            <div class="card-body">
+
+                <div class="table-responsive m-t-40">
+                    <button class="btn waves-effect waves-light btn-outline-success" data-toggle="modal" data-target="#add-category">
+                        + Add Category
+                    </button>
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Cover Pic</th>
+                                <th>Category Name</th>
+                                <th>Created Date</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td align="center"> <a target="_blank" href="~/CategoryImages/@item.CategoryImage"><img src="~/CategoryImages/@item.CategoryImage" height="50px" width="50px" /></a></td>
+                                    <td align="left">@item.CategoryName</td>
+                                    <td align='center'>@item.CreatedDate</td>
+                                    <td align="center">
+                                        <button type="submit" class="btn btn-danger waves-effect waves-light" onclick="return ConfirmationDialog(@item.CategoryID)">
+                                            <span class="btn-label"><i class="fa fa-trash"></i></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+<script src="~/adminassets/node_modules/datatables/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+
+<script>
+    $(function () {
+        $('#example23').DataTable();
+        $(function () {
+            var table = $('#example23').DataTable({
+                "columnDefs": [{
+                    "visible": false,
+                    "targets": 2
+                }],
+                "order": [
+                    [2, 'asc']
+                ],
+                "displayLength": 25,
+                "drawCallback": function (settings) {
+                    var api = this.api();
+                    var rows = api.rows({
+                        page: 'current'
+                    }).nodes();
+                    var last = null;
+                    api.column(2, {
+                        page: 'current'
+                    }).data().each(function (group, i) {
+                        if (last !== group) {
+                            $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
+                            last = group;
+                        }
+                    });
+                }
+            });
+            // Order by the grouping
+            $('#example tbody').on('click', 'tr.group', function () {
+                var currentOrder = table.order()[0];
+                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
+                    table.order([2, 'desc']).draw();
+                } else {
+                    table.order([2, 'asc']).draw();
+                }
+            });
+        });
+    });
+    $('#example23').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'excel', 'pdf', 'print'
+        ]
+    });
+    $('.buttons-print, .buttons-pdf, .buttons-excel').addClass('btn btn-primary mr-1');
+</script>

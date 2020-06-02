@@ -1,0 +1,150 @@
+﻿@model PhotoStudio.Models.tblCustomer
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function fnUpdateRecord() {
+
+        var hdnCustomerID = document.getElementById("hdnCustomerID");
+        var txtClientName = document.getElementById("txtClientName");
+        var txtEmail = document.getElementById("txtCustomerEmail");
+        var txtPhoneNumber = document.getElementById("txtPhoneNumber");
+        var chkIsActive = $('#chkIsActive').is(':checked');
+
+        if (__glb_fnIsNullOrEmpty(txtClientName.value))
+        {
+            toastr.warning('Input Error', 'Please enter client name', { timeOut: 3000, fadeOut: 1000 });
+            return;
+        }
+        if (__glb_fnIsNullOrEmpty(txtEmail.value) || !__glb_validateEmail(txtEmail.value))
+        {
+            toastr.warning('Input Error', 'Please enter valid Email', { timeOut: 3000, fadeOut: 1000 });
+            return;
+        }
+
+        var formData = new FormData();
+        var file = document.getElementById("inputProfile").files[0];
+        formData.append("imageFile", file);
+        formData.append("CustomerID", hdnCustomerID.value);
+        formData.append("CustomerName", txtClientName.value);
+        formData.append("Email", txtEmail.value);
+        formData.append("PhoneNumber", txtPhoneNumber.value);
+        formData.append("IsActive", chkIsActive);
+
+        var result = __glb_fnIUDOperation(formData,'/Customers/EditCustomer')
+        if (result.success == true) {
+            toastr.success(
+                result.message,
+                'Record is updated',
+                {
+                    timeOut: 1000,
+                    fadeOut: 1000,
+                    onHidden: function () {
+                        window.location.href = '/Customers/Index';
+                    }
+                }
+            );
+        }
+        else if (result.Formatwarning == true) {
+            toastr.warning(
+                result.message,
+                'Picture format error',
+                {
+                    timeOut: 3000,
+                    fadeOut: 1000,
+                    onHidden: function () {
+                        return;
+                    }
+                }
+            );
+        }
+        else
+        {
+            toastr.error('Error occur', 'Error occur while updating record.', { timeOut: 3000 });
+            return;
+        }
+    }
+
+</script>
+
+
+
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Edit Customer</h4>
+        </div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="Home.aspx">Home</a></li>
+                    <li class="breadcrumb-item"><a href="">Customer List</a></li>
+                    <li class="breadcrumb-item active">Edit Customer</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4 class="m-b-0 text-white">Customer Details:</h4>
+                </div>
+                <div class="card-body">    
+                    <div class="form-body">
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Customer Name:</label>
+                            <div class="col-md-3">
+                                <input type="hidden" id="hdnCustomerID" value="@Html.DisplayFor(model => model.CustomerID)" />
+                                <input type="text" required id="txtClientName" value="@Html.DisplayFor(model => model.CustomerName)" placeholder="Enter Client Name" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Email:</label>
+                            <div class="col-md-3">
+                                <input type="email" required id="txtCustomerEmail" value="@Html.DisplayFor(model => model.Email)" placeholder="Enter Client Email" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Phone number:</label>
+                            <div class="col-md-3">
+                                <input type="text" readonly id="txtPhoneNumber" value="@Html.DisplayFor(model => model.PhoneNumber)" placeholder="Enter Phone Number" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Profile Pic:</label>
+                            <div class="col-md-3">
+                                <input type="file" class="form-control" id="inputProfile">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Is Active:</label>
+                            <div class="col-md-3">
+                                @if (Model.IsActive == true)
+                                {
+                                    <input type="checkbox" id="chkIsActive" checked class="js-switch" />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" id="chkIsActive" class="js-switch" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="offset-sm-3 col-md-9">
+                                        <input type="submit" value="Submit" onclick="javascript:fnUpdateRecord()" class="btn btn-success" />
+                                        <a href="@Url.Action("Index", "Customers")" title="Click here to get List" class="btn btn-primary">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

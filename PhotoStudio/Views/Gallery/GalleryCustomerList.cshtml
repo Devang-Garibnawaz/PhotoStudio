@@ -1,0 +1,38 @@
+﻿@model IEnumerable<PhotoStudio.Models.tblCustomer>
+@{
+    ViewBag.Title = "CustomerGallery";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Customer List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="Home.aspx">Home</a></li>
+                <li class="breadcrumb-item active">Gallery Management</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <!-- column -->
+    @foreach (var item in Model)
+    {
+    <div class="col-lg-3 col-md-6">
+        <!-- Card -->
+        <div class="card">
+            <img class="card-img-top img-responsive" src="~/CustomerProfile/@item.ProfilePic" alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title">@item.CustomerName</h4>
+                <label class="control-label">Phone Number: <a href="tel:@item.PhoneNumber">@item.PhoneNumber</a></label>
+                <label class="control-label">Email: <a href="mailto:@item.Email">@item.Email</a></label><br />
+                @Html.ActionLink("View Gallery", "GalleryList", new { id = item.CustomerID }, htmlAttributes: new { @class = "btn btn-primary" })
+            </div>
+        </div>
+    </div>
+    }
+</div>

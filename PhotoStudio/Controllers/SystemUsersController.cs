@@ -20,30 +20,11 @@ namespace PhotoStudio.Controllers
             return View(db.tblSystemUsers.ToList());
         }
 
-        // GET: SystemUsers/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            tblSystemUser tblSystemUser = db.tblSystemUsers.Find(id);
-            if (tblSystemUser == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tblSystemUser);
-        }
-
-        // GET: SystemUsers/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: SystemUsers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         public ActionResult InsertSystemUser()
         {
@@ -65,7 +46,7 @@ namespace PhotoStudio.Controllers
 
                     db.tblSystemUsers.Add(SU);
                     db.SaveChanges();
-                    return Json(new { success = true, message = "Operation done successfully" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, message = "Record inserted successfully" }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -74,12 +55,11 @@ namespace PhotoStudio.Controllers
             }
             catch(Exception ex)
             {
-                return Json(new { success = false,message = ex.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
-        // GET: SystemUsers/Edit/5
-        public ActionResult Edit(int? id)
+       public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -93,46 +73,26 @@ namespace PhotoStudio.Controllers
             return View(tblSystemUser);
         }
 
-        // POST: SystemUsers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,UserName,Email,Password,PhoneNumber,IsActive,CreatedDate,UpdatedDate")] tblSystemUser tblSystemUser)
+        public ActionResult Edit()
         {
-            if (ModelState.IsValid)
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DeleteUser(int id)
+        {
+            try
             {
-                db.Entry(tblSystemUser).State = EntityState.Modified;
+                tblSystemUser tblSystemUser = db.tblSystemUsers.Find(id);
+                db.tblSystemUsers.Remove(tblSystemUser);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { success = true, message = "Record deleted successfully" }, JsonRequestBehavior.AllowGet);
             }
-            return View(tblSystemUser);
-        }
-
-        // GET: SystemUsers/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
+            catch(Exception ex)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return Json(new { success = false, message = "Error-->"+ex.Message }, JsonRequestBehavior.AllowGet);
             }
-            tblSystemUser tblSystemUser = db.tblSystemUsers.Find(id);
-            if (tblSystemUser == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tblSystemUser);
-        }
-
-        // POST: SystemUsers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            tblSystemUser tblSystemUser = db.tblSystemUsers.Find(id);
-            db.tblSystemUsers.Remove(tblSystemUser);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
@@ -142,6 +102,25 @@ namespace PhotoStudio.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult IsPhoneNumberExist()
+        {
+            try
+            {
+                string PhoneNumber = Request.Form["PhoneNumber"];
+                if(string.IsNullOrEmpty(PhoneNumber))
+                    return Json(new { success = false, message = "Phone number is not supplied!" }, JsonRequestBehavior.AllowGet);
+                
+                if (db.tblSystemUsers.Any(SU => SU.PhoneNumber == PhoneNumber))
+                    return Json(new { success = true, message = "Phone number already registered!" }, JsonRequestBehavior.AllowGet);
+                else
+                    return Json(new { success = false, message = "Record Not Existed" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = true, message = "Error!" + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }
