@@ -132,6 +132,7 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\SystemUsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -608,6 +609,11 @@
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Gallery\GalleryList.cshtml" />
     <Content Include="Views\Gallery\GalleryCustomerList.cshtml" />
+    <Content Include="Views\Quotation\Create.cshtml" />
+    <Content Include="Views\Quotation\Delete.cshtml" />
+    <Content Include="Views\Quotation\Details.cshtml" />
+    <Content Include="Views\Quotation\Edit.cshtml" />
+    <Content Include="Views\Quotation\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

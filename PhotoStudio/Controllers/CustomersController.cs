@@ -21,6 +21,15 @@ namespace PhotoStudio.Controllers
             return View(db.tblCustomers.ToList());
         }
 
+        public ActionResult getAllActiveCustomers()
+        {
+            return Json(db.tblCustomers.Where(c => c.IsActive == true).Select(c => new
+            {
+                id = c.CustomerID,
+                name = c.CustomerName
+            }).ToList(), JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public ActionResult InsertCustomers()
         {

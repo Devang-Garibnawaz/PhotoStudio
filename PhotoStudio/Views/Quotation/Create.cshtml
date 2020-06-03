@@ -1,0 +1,366 @@
+﻿@model PhotoStudio.Models.tblQuotation
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script>
+        $(document).ready(function () {
+
+            var cmbCustomer = $("#cmbCustomer");
+            $.ajax({
+                type: "GET",
+                url: "/Customers/getAllActiveCustomers",
+                data: "{}",
+                success: function (data) {
+                    var CustomerData = '<option value="0">Select Customer</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        CustomerData += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                    }
+                    cmbCustomer.html(CustomerData);
+
+                }
+            });
+
+        });
+    </script>
+<script>
+    function fnManageDisscountControls()
+    {
+
+        var chkGiveDisscount = document.getElementById("chkGiveDisscount");
+        var divDisscountPercentage = $("#divDisscountPercentage");
+        var divDisscountAmount = $("#divDisscountAmount");
+        if (chkGiveDisscount.checked)
+        {
+            divDisscountPercentage.show();
+            divDisscountAmount.show();
+        }
+        else
+        {
+            divDisscountPercentage.hide();
+            divDisscountAmount.hide();
+        }
+       
+    }
+</script>
+
+<script>
+
+    function fnUpdateDisscountAmount()
+    {
+        var txtDisscountPercentage = $("#txtDisscountPercentage");
+        var txtAmountAfterDisccount = $("#txtAmountAfterDisccount");
+        var txtTotalAmount = $("#txtTotalAmount");
+        if (__glb_fnIsNullOrEmpty(txtTotalAmount.val()))
+        {
+            toastr.warning('Input Error', 'Please enter totla amount.', { timeOut: 1000, fadeOut: 1000 });
+            txtTotalAmount.focus();
+            return;
+        }
+        var finalAmount = parseFloat(txtTotalAmount.val()) - (parseFloat(txtTotalAmount.val()) * parseFloat(txtDisscountPercentage.val()) / 100);
+        txtAmountAfterDisccount.val(finalAmount);
+    }
+
+    function fnInsertRecord()
+    {
+
+        var cmbCustomer = $("#cmbCustomer");
+        var txtEventDate = $("#txtEventDate");
+        var cmbCenematographer = $("#cmbCenematographer");
+        var cmbPhotographer = $("#cmbPhotographer");
+        var cmbDrones = $("#cmbDrones");
+        var txtLedScreenSize = $("#txtLedScreenSize");
+        var cmbLEDScreen = $("#cmbLEDScreen");
+        var txtTotalAmount = $("#txtTotalAmount");
+        var chkGiveDisscount = document.getElementById("chkGiveDisscount");
+        var txtDisscountPercentage = $("#txtDisscountPercentage");
+        var txtAmountAfterDisccount = $("#txtAmountAfterDisccount");
+        var txtAdvancePaymentPercentage = $("#txtAdvancePaymentPercentage");
+        var txtPercentageOfPaymentAtEventDay = $("#txtPercentageOfPaymentAtEventDay");
+        var txtPerecentageOfPaymentAfterEvent = $("#txtPerecentageOfPaymentAfterEvent");
+
+        if (cmbCustomer.val() == "0")
+        {
+            toastr.warning('Input Error', 'Please select customer.', { timeOut: 1000, fadeOut: 1000 });
+            cmbCustomer.focus();
+            return;
+        }
+
+        if (__glb_fnIsNullOrEmpty(txtEventDate.val()))
+        {
+            toastr.warning('Input Error', 'Please select event date.', { timeOut: 1000, fadeOut: 1000 });
+            txtEventDate.focus();
+            return;
+        }
+
+        if (__glb_fnIsNullOrEmpty(txtTotalAmount.val())) {
+            toastr.warning('Input Error', 'Please enter total amount.', { timeOut: 1000, fadeOut: 1000 });
+            txtTotalAmount.focus();
+            return;
+        }
+
+        if (chkGiveDisscount.checked)
+        {
+            if (__glb_fnIsNullOrEmpty(txtDisscountPercentage.val())) {
+                toastr.warning('Input Error', 'Please enter disscount percentage.', { timeOut: 1000, fadeOut: 1000 });
+                txtDisscountPercentage.focus();
+                return;
+            }
+        }
+
+        if (__glb_fnIsNullOrEmpty(txtAdvancePaymentPercentage.val())) {
+            toastr.warning('Input Error', 'Please enter percentage of advance payment.', { timeOut: 1000, fadeOut: 1000 });
+            txtAdvancePaymentPercentage.focus();
+            return;
+        }
+        if (__glb_fnIsNullOrEmpty(txtPercentageOfPaymentAtEventDay.val())) {
+            toastr.warning('Input Error', 'Please enter percentage of on event payment.', { timeOut: 1000, fadeOut: 1000 });
+            txtPercentageOfPaymentAtEventDay.focus();
+            return;
+        }
+        if (__glb_fnIsNullOrEmpty(txtPerecentageOfPaymentAfterEvent.val())) {
+            toastr.warning('Input Error', 'Please enter percentage of payment after event.', { timeOut: 1000, fadeOut: 1000 });
+            txtPerecentageOfPaymentAfterEvent.focus();
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append("CustomerID", cmbCustomer.val());
+        formData.append("EventDate", txtEventDate.val());
+        formData.append("NOCG", cmbCenematographer.val());
+        formData.append("NOPG", cmbPhotographer.val());
+        formData.append("NOD", cmbDrones.val());
+        formData.append("SOLEDS", txtLedScreenSize.val());
+        formData.append("NOLEDS", cmbLEDScreen.val());
+        formData.append("TotalAmount", txtTotalAmount.val());
+        formData.append("IsDisscount", $('#chkGiveDisscount').is(':checked'));
+        formData.append("DP", txtDisscountPercentage.val());
+        formData.append("AAD", txtAmountAfterDisccount.val());
+        formData.append("POAP", txtAdvancePaymentPercentage.val());
+        formData.append("POPAED", txtPercentageOfPaymentAtEventDay.val());
+        formData.append("POPAE", txtPerecentageOfPaymentAfterEvent.val());
+
+        var response = __glb_fnIUDOperation(formData,'/Quotation/InsertQuotation');
+        if (response.success == true) {
+            toastr.success(
+                response.message,
+                'Record is inserted',
+                {
+                    timeOut: 1000,
+                    fadeOut: 1000,
+                    onHidden: function () {
+                        window.location.href = '/Quotation/';
+                    }
+                }
+            );
+        }
+        else {
+            toastr.error('Error occur!', response.message, { timeOut: 1000, fadeOut: 1000 });
+        }
+    }
+
+</script>
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Faculty</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Quotation")">Quotation List</a></li>
+                <li class="breadcrumb-item active">Add Quotation</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="row" >
+    <div class="col-lg-12">
+        <div class="card ">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">Quotation Details:</h4>
+            </div>
+            <div class="card-body ">
+                    <div class="form-body">
+                        <hr class="m-t-0 m-b-40" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Select Customer:</label>
+                                    <div class="col-md-4">
+                                        <select id="cmbCustomer" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Event Date:</label>
+                                    <div class="col-md-4">
+                                        <input type="date" id="txtEventDate" class="form-control" placeholder="Select Event Date" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Number Of Cenematographer:</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control" id="cmbCenematographer">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Number Of Photographers:</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control" id="cmbPhotographer">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Number Of Drones:</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control" id="cmbDrones">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">LED Screen Size:</label>
+                                    <div class="col-md-4">
+                                        <input type="text" id="txtLedScreenSize" class="form-control" placeholder="Enter Screen Size" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Number Of LED Screen:</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control" id="cmbLEDScreen">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="box-title">Monetorial Details</h3>
+                        <hr class="m-t-0 m-b-40">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Total Ammount:</label>
+                                    <div class="col-md-9">
+                                        <input type="number" id="txtTotalAmount" class="form-control" placeholder="Enter total amount" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Give Disscount?:</label>
+                                    <div class="col-md-9">
+                                        <input type="checkbox" onchange="fnManageDisscountControls()" class="js-switch" id="chkGiveDisscount" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="divDisscountPercentage" style="display:none">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Percentage Of Disscount:</label>
+                                    <div class="col-md-9">
+                                        <input type="number" id="txtDisscountPercentage" onchange="fnUpdateDisscountAmount()" class="form-control" placeholder="Enter Percentage of Disccount" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="divDisscountAmount" style="display:none">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Amount With Disscount:</label>
+                                    <div class="col-md-9">
+                                        <input type="text" id="txtAmountAfterDisccount" class="form-control" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Percentage Of Advance Payment:</label>
+                                    <div class="col-md-9">
+                                        <input type="number" id="txtAdvancePaymentPercentage" class="form-control" placeholder="Enter Percentage of Advance Payment" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Perecentage Of Payment At Event Day:</label>
+                                    <div class="col-md-9">
+                                        <input type="number" id="txtPercentageOfPaymentAtEventDay" class="form-control" placeholder="Enter Percentage of Payment At Event Day" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Perecentage Of Payment After Event:</label>
+                                    <div class="col-md-9">
+                                        <input type="number" id="txtPerecentageOfPaymentAfterEvent" class="form-control" placeholder="Enter Percentage of Payment After Event" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-offset-9 col-md-9">
+                                        <input type="submit" value="Submit" class="btn btn-success" onclick="javascript:fnInsertRecord()" />
+                                        <a href="@Url.Action("Index", "Quotation")" class="btn btn-primary">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

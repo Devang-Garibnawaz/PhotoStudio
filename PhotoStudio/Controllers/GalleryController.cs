@@ -28,7 +28,7 @@ namespace PhotoStudio.Controllers
 
         public ActionResult GalleryCustomerList()
         {
-            return View(db.tblCustomers.ToList());
+            return View(db.tblCustomers.Where(c => c.IsActive == true).ToList());
         }
 
         [HttpPost]

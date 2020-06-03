@@ -175,7 +175,7 @@
 
             var result = __glb_fnIUDOperation(formData,'/Customers/ActivateDeactivateCustomer')
 
-            if (result.Act === true)
+            if (result.Act == true)
             {
                 toastr.success(
                     result.message,
@@ -189,7 +189,7 @@
                     }
                 );
             }
-            else if (result.DeAct === true)
+            else if (result.DeAct == true)
             {
                 toastr.success(
                     result.message,
