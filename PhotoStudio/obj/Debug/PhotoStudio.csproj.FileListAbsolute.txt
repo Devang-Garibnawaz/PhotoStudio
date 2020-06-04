@@ -242,8 +242,8 @@ C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\bin\System.Web.WebPages.Raz
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\bin\Newtonsoft.Json.xml
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\bin\Antlr3.Runtime.pdb
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.csprojAssemblyReference.cache
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.csproj.CoreCompileInputs.cache
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.csproj.CopyComplete
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.dll
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.pdb
+C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.csprojAssemblyReference.cache

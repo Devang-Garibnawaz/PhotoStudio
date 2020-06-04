@@ -1,0 +1,183 @@
+﻿
+@{
+    ViewBag.Title = "_userLayout";
+}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Insta Album</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Responsive Photography HTML5 Website Template" />
+    <meta name="keywords" content="HTML5, CSS3, Bootsrtrap, Responsive, Photography, Portfolio, Template, Theme, Website, Themetorium" />
+    <meta name="author" content="themetorium.net" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="icon" type="image/x-icon" href="~/adminassets/img/logo3.png" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <!-- Google fonts (https://www.google.com/fonts) -->
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Galada" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bilbo+Swash+Caps" rel="stylesheet">
+    <!-- Bootstrap CSS (http://getbootstrap.com) -->
+    <link rel="stylesheet" href="~/userassets/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Libs and Plugins CSS -->
+    <link rel="stylesheet" href="~/userassets/vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" href="~/userassets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/userassets/vendor/lightgallery/css/lightgallery.min.css">
+    <link rel="stylesheet" href="~/userassets/vendor/owl-carousel/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/userassets/vendor/owl-carousel/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/userassets/vendor/ytplayer/css/jquery.mb.YTPlayer.min.css">
+    <link rel="stylesheet" href="~/userassets/vendor/animate.min.css">
+    <!-- Template master CSS -->
+    <link rel="stylesheet" href="~/userassets/css/helper.css">
+    <link rel="stylesheet" href="~/userassets/css/theme.css">
+    <link rel="stylesheet" href="~/userassets/css/demo-dark-style.css">
+    <script src="~/JavascriptFunctions/Operational.js"></script>
+    <script>
+        function fnLogout() {
+
+            $.ajax({
+                async: true,
+                type: 'POST',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: "",
+                url: '/Login/LogOut',
+                success: function (response) {
+                    if (response.success === true) {
+                        toastr.success(response.message, 'You are logging out!',
+                        {
+                            timeOut: 1000, fadeOut: 1000,
+                            onHidden: function () { window.location.href = "/UserHome/"; }
+                        });
+                    }
+                },
+                error: function () {
+                    toastr.error('Error occur', 'Error occur while loging out!.', { timeOut: 1000 });
+                    return;
+                }
+
+            });
+        }
+
+
+    </script>
+</head>
+<body class="temp-uppercase temp-grayscale animsition">
+
+
+    <span class="page-cover"></span>
+
+
+    <div id="header" class="header-hover">
+
+        <div class="header-close" title="Close">×</div>
+        <div class="logo-small">
+            <a href="@Url.Action("Index","UserHome")"><img src="~/userassets/img/logo3.png" title="Home" alt="logo"></a>
+        </div>
+        <span class="header-menu-icon" title="Open Menu"><i class="fa fa-bars"></i></span>
+        <a href="#" class="header-contact-icon" title="Contact Me"><i class="fa fa-envelope"></i></a>
+        <div class="header-inner">
+            <div class="header-top">
+                <div class="logo-big">
+                    <a href="@Url.Action("Index","UserHome")"><img src="~/userassets/img/logo3.png" title="Home" alt="logo"></a>
+                </div>
+            </div>
+            <div class="header-middle">
+                <div id="menu">
+                    <ul class="menu-list">
+                        <li class="has-children">
+                            <a href="@Url.Action("Index","UserHome")">Home</a>
+                        </li>
+                        <li class="has-children">
+                            <a href="@Url.Action("About","UserHome")">About Us</a>
+                        </li>
+                        <li class="has-children">
+                            <a href="@Url.Action("Gallery","UserHome")">Gallery</a>
+                        </li>
+                        <li class="has-children">
+                            <a href="@Url.Action("Protfolio","UserHome")">Protfolio</a>
+                        </li>
+                        <li class="has-children">
+                            <a href="@Url.Action("Contact","UserHome")">Contact</a>
+                        </li>
+                        @if (Session["CustomerID"] == null && Session["CustomerName"] == null && Session["CustomerPhoneNumber"] == null)
+                        {
+                            <li class="has-children">
+                                <a href="@Url.Action("Login","Login")">LogIn</a>
+                            </li>
+                            <li class="has-children">
+                                <a href="@Url.Action("Registration","Login")">Registration</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="has-children">
+                                <a href="@Url.Action("GalleryCategories", "UserHome")">Photo Selection</a>
+                            </li>
+                            <li class="has-children">
+                                <a href="#" onclick="javascript:fnLogout()">Logout</a>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="header-bottom">
+                <div class="follow-me-buttons">
+                    <ul>
+                        @*<li><a href="#" title="Follow me on Facebook" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" title="Follow me on Twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" title="Follow me on Instagram" target="_blank"><i class="fa fa-instagram"></i></a></li>*@
+                        <li><a href="mailto:info@your-email.com" title="Email Me" target="_blank"><i class="fa fa-envelope"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobile-header">
+        <div class="logo-mobile">
+            <a href="index.html"><img src="~/userassets/img/logo3.png" alt="logo"></a>
+        </div>
+        <div class="mobile-menu-trigger"><span></span></div>
+    </div>
+
+    <div id="body-content">
+        @RenderBody()
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"></script>
+    <script src="~/userassets/js/jquery-3.5.1.min.js"></script>
+    <script src="~/userassets/vendor/jquery/jquery.min.js"></script> <!-- jquery JS (https://jquery.com) -->
+    <script src="~/userassets/vendor/bootstrap/js/bootstrap.min.js"></script> <!-- bootstrap JS (http://getbootstrap.com) -->
+    <script src="~/userassets/vendor/animsition/js/animsition.min.js"></script>
+    <script src="~/userassets/vendor/jquery.easing.min.js"></script>
+    <script src="~/userassets/vendor/isotope.pkgd.min.js"></script>
+    <script src="~/userassets/vendor/imagesloaded.pkgd.min.js"></script>
+    <script src="~/userassets/vendor/jquery.nicescroll.min.js"></script>
+    <script src="~/userassets/vendor/owl-carousel/js/owl.carousel.min.js"></script>
+    <script src="~/userassets/vendor/jquery.mousewheel.min.js"></script>
+    <script src="~/userassets/vendor/ytplayer/js/jquery.mb.YTPlayer.min.js"></script>
+    <script src="~/userassets/vendor/lightgallery/js/lightgallery.min.js"></script>
+    <script src="~/userassets/vendor/lightgallery/js/lightgallery-plugins.js"></script>
+    <script src="~/userassets/js/theme.js"></script>
+
+    
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyt;csObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '~/userassets/analytics.js', 'ga');
+
+        ga('create', 'UA-89383509-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+</body>
+</html>

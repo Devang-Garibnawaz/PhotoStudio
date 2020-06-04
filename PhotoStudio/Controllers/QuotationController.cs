@@ -17,6 +17,9 @@ namespace PhotoStudio.Controllers
         // GET: Quotation
         public ActionResult Index()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             var tblQuotations = db.tblQuotations.Include(t => t.tblCustomer);
             return View(tblQuotations.ToList());
         }
@@ -24,6 +27,9 @@ namespace PhotoStudio.Controllers
         [HttpPost]
         public ActionResult getQuotationDetail()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             int id = Convert.ToInt32(Request.Form["QID"]);
             return Json(db.tblQuotations.Where(Q => Q.QuotationID == id).Select(Q => new
             {
@@ -48,6 +54,9 @@ namespace PhotoStudio.Controllers
 
         public ActionResult Create()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             ViewBag.CustomerID = new SelectList(db.tblCustomers, "CustomerID", "CustomerName");
             return View();
         }
@@ -55,6 +64,9 @@ namespace PhotoStudio.Controllers
         [HttpPost]
         public ActionResult InsertQuotation()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 if (ModelState.IsValid)
@@ -95,6 +107,9 @@ namespace PhotoStudio.Controllers
         // GET: Quotation/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -112,38 +127,53 @@ namespace PhotoStudio.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "QuotationID,CustomerID,NumberOfCinematographers,NumberOfPhotographers,NumberOfDrones,SizeOfLEDScreen,NumberOfLedScreens,TotalAmount,IsDisccount,DisscountPercentage,AmmountAfterDisscount,PercentageOfAdvancePayment,PercentageOfPaymentAtEventDay,PercentageOfPaymentAfterEvent,IsPass,EventDate,CreatedDate,UpdatedDate")] tblQuotation tblQuotation)
+        public ActionResult UpdateQuotation()
         {
-            if (ModelState.IsValid)
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
+            try
             {
-                db.Entry(tblQuotation).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    int QID = Convert.ToInt32(Request.Form["QID"]);
+                    tblQuotation quotation = db.tblQuotations.SingleOrDefault(Q => Q.QuotationID == QID);
+                    quotation.CustomerID = Convert.ToInt32(Request.Form["CustomerID"]);
+                    quotation.NumberOfCinematographers = Convert.ToInt32(Request.Form["NOCG"]);
+                    quotation.NumberOfPhotographers = Convert.ToInt32(Request.Form["NOPG"]);
+                    quotation.NumberOfDrones = Convert.ToInt32(Request.Form["NOD"]);
+                    quotation.SizeOfLEDScreen = Request.Form["SOLEDS"];
+                    quotation.NumberOfLedScreens = Convert.ToInt32(Request.Form["NOLEDS"]);
+                    quotation.TotalAmount = Convert.ToDecimal(Request.Form["TotalAmount"]);
+                    quotation.IsDisccount = Request.Form["IsDisscount"] == "true" ? true : false;
+                    quotation.DisscountPercentage = string.IsNullOrEmpty(Request.Form["DP"]) ? 0 : Convert.ToInt32(Request.Form["DP"]);
+                    quotation.AmmountAfterDisscount = string.IsNullOrEmpty(Request.Form["AAD"]) ? 0 : Convert.ToDecimal(Request.Form["AAD"]);
+                    quotation.PercentageOfAdvancePayment = Convert.ToInt32(Request.Form["POAP"]);
+                    quotation.PercentageOfPaymentAtEventDay = Convert.ToInt32(Request.Form["POPAED"]);
+                    quotation.PercentageOfPaymentAfterEvent = Convert.ToInt32(Request.Form["POPAE"]);
+                    quotation.IsPass = false;
+                    quotation.CreatedDate = DateTime.Now;
+
+                    db.Entry(quotation).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return Json(new { success = true, message = "Record updated successfully" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return Json(new { success = false, message = "Record is not updated!" }, JsonRequestBehavior.AllowGet);
+
             }
-            ViewBag.CustomerID = new SelectList(db.tblCustomers, "CustomerID", "CustomerName", tblQuotation.CustomerID);
-            return View(tblQuotation);
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error! " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
 
-        // GET: Quotation/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            tblQuotation tblQuotation = db.tblQuotations.Find(id);
-            if (tblQuotation == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tblQuotation);
-        }
-
-        // POST: Quotation/Delete/5
         [HttpPost]
         public ActionResult DeleteQuotation(int id)
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 tblQuotation tblQuotation = db.tblQuotations.Find(id);
@@ -160,6 +190,9 @@ namespace PhotoStudio.Controllers
         [HttpPost]
         public ActionResult ChangeIsPassStatus()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 int id = Convert.ToInt32(Request.Form["id"]);

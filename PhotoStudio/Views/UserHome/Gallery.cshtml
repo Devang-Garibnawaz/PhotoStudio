@@ -1,0 +1,41 @@
+﻿@model IEnumerable<InstaAlbum.Models.tblWebGallery>
+@{
+    ViewBag.Title = "Gallery";
+    Layout = "~/Views/Shared/_userLayout.cshtml";
+}
+
+<section id="gallery-single-section">
+    <div class="container-fluid no-padding">
+        <div class="isotope-wrap">
+            <div class="isotope col-4 gutter-2">
+                <div id="gallery" class="isotope-items-wrap lightgallery cover-color">
+                    <div class="grid-sizer"></div>
+                    @foreach (var item in Model)
+                    {
+                        <div class="isotope-item iso-height-1 ">
+                            <a href="../WebGalleryImages/@item.Image" class="gallery-single-item lg-trigger" data-exthumbnail="../WebGalleryImages/@item.Image" data-sub-html="<h4>Image Description</h4><p>@item.Description</p>">
+                                <div class="gs-item-image bg-image" style="background-image: url(../WebGalleryImages/@item.Image); background-position: 50% 50%"></div>
+
+                                <div class="gs-item-cover">
+                                    <div class="gs-item-info">
+                                        <span class="s-icon"><i class="fa fa-search"></i></span>
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+                <!-- End isotope items wrap -->
+
+            </div>
+            <!-- End isotope -->
+
+        </div> <!-- /.isotope-wrap -->
+
+    </div> <!-- /.container -->
+</section>
+
+
+
+

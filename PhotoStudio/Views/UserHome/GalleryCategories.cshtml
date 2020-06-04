@@ -1,0 +1,45 @@
+﻿@model IEnumerable<PhotoStudio.Models.tblCategory>
+@{
+    ViewBag.Title = "GalleryCategories";
+    Layout = "~/Views/Shared/_userLayout.cshtml";
+}
+
+<section id="page-header">
+    <div class="page-header-image parallax-3 bg-image" style="background-image: url(~/userassets/img/blog/single/big/img-1.jpg); background-position: 50% 50%;">
+        <div class="cover bg-transparent-6-dark"></div>
+    </div>
+    <div class="page-header-caption fade-out-scroll-3 parallax-4">
+        <h1 class="page-header-title font-alter-1"></h1>
+    </div>
+</section>
+
+<section id="gallery-list-section">
+    <div class="container-fluid no-padding">
+        <div class="isotope-wrap">
+            <div class="isotope col-4 gutter-2">
+                <div class="isotope-items-wrap">
+                    <div class="grid-sizer"></div>
+                    @foreach (var item in Model)
+                    {
+                        <div class="isotope-item iso-height-1">
+                            <a href="@Url.Action("CategoryWiseImage/"+item.CategoryID,"UserHome")" class="gallery-list-item">
+                                <div class="gl-item-image bg-image" style="background-image: url(../../CategoryImages/@item.CategoryImage); background-position: 50% 50%"></div>
+                                <div class="gl-item-info">
+                                    <div class="gl-item-caption">
+                                        <h2 class="gl-item-title">@item.CategoryName</h2>
+                                    </div>
+                                    <span class="gl-item-count" title="Pictures count">
+                                        <i class="fa fa-camera"></i>
+                                        @item.tblGalleries.Where(S => S.tblCustomer.CustomerID == Convert.ToInt32(Session["CustomerID"])).Where(S => S.tblCategory.CategoryID == item.CategoryID).Count()
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

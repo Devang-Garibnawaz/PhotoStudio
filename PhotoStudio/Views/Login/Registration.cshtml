@@ -1,0 +1,218 @@
+﻿
+@{
+    ViewBag.Title = "Registration";
+    Layout = "~/Views/Shared/_userLayout.cshtml";
+}
+
+<style>
+    label {
+        display: inline-block;
+        width: 5em;
+        padding: 0 1em;
+        text-align: right;
+    }
+    /* Hide the file input using
+            opacity */
+    [type=file] {
+        position: absolute;
+        filter: alpha(opacity=0);
+        opacity: 0;
+    }
+
+        input,
+        [type=file] + label {
+            border: 1px solid #CCC;
+            border-radius: 3px;
+            text-align: left;
+            padding: 10px;
+            width: 200px;
+            margin: 0;
+            left: 0;
+            position: relative;
+        }
+
+        [type=file] + label {
+            text-align: center;
+            left: 7.35em;
+            top: 0.5em;
+            /* Decorative */
+            background: #101010;
+            color: #ccc;
+            border: none;
+            cursor: pointer;
+        }
+
+            [type=file] + label:hover {
+                background: #ea4e4e
+            }
+</style>
+<script>
+    $(document).ready(function () {
+
+        var txtPhno = document.getElementById("txtPhoneNumber");
+        $("#txtPhoneNumber").blur(function () {
+
+            $.ajax({
+                async: true,
+                type: 'POST',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: "{'Phno':'" + txtPhno.value + "'}",
+                url: '/Login/IsClientPhnoExistOrNot',
+                success: function (response) {
+                    if (response.success === true) {
+                        toastr.error(response.message, 'Phone Number already exist', { timeOut: 1000 });
+                        txtPhno.value = "";
+                        txtPhno.focus();
+                        return;
+                    }
+                },
+                error: function () {
+                    toastr.error('Error occur', 'Error occur while deleting record.', { timeOut: 1000 });
+                    return;
+                }
+
+            });
+        })
+    });
+    function fnInsertRecord() {
+
+        var txtClientName = document.getElementById("txtClientName");
+        var txtEmail = document.getElementById("txtCustomerEmail");
+        var txtPhoneNumber = document.getElementById("txtPhoneNumber");
+        var txtPassword = document.getElementById("txtPassword");
+
+        if (txtClientName.value == null || txtClientName.value.length <= 0) {
+            toastr.warning('Input Error', 'Please enter client name', { timeOut: 1000, fadeOut: 1000 });
+            return;
+        }
+        if (txtEmail.value == null || txtEmail.value.length <= 0) {
+            toastr.warning('Input Error', 'Please enter client Email', { timeOut: 1000, fadeOut: 1000 });
+            return;
+        }
+        if (txtPhoneNumber.value == null || txtPhoneNumber.value.length <= 0) {
+            toastr.warning('Input Error', 'Please enter client phone number', { timeOut: 1000, fadeOut: 1000 });
+            return;
+        }
+        if (txtPassword.value == null || txtPassword.value.length <= 0) {
+            toastr.warning('Input Error', 'Please enter password', { timeOut: 1000, fadeOut: 1000 });
+            return;
+        }
+
+        var formData = new FormData();
+        var file = document.getElementById("inputProfile").files[0];
+        formData.append("imageFile", file);
+        formData.append("CustomerName", txtClientName.value);
+        formData.append("CustomerEmail", txtEmail.value);
+        formData.append("PhoneNo", txtPhoneNumber.value);
+        formData.append("Password", txtPassword.value);
+
+        $.ajax({
+               type: "POST",
+                url: '/Login/InsertUser',
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.success === true) {
+                        toastr.success(
+                            response.message,
+                            'Registration successfully.',
+                            {
+                                timeOut: 1000,
+                                fadeOut: 1000,
+                                onHidden: function () {
+                                    window.location.href = "/Login/Login";
+                                }
+                            }
+                        );
+                    }
+                    else if (response.Formatwarning === true) {
+                        toastr.warning(
+                            response.message,
+                            'Picture format error',
+                            {
+                                timeOut: 1000,
+                                fadeOut: 1000,
+                                onHidden: function () {
+                                    return;
+                                }
+                            }
+                        );
+                    }
+                },
+                error: function () {
+                    toastr.error('Error occur', 'Error occur while inserting record.', { timeOut: 1000 });
+                    return;
+                }
+
+            });
+    }
+
+</script>
+<script>
+$("[type=file]").on("change", function(){
+    var file = this.files[0].name;
+    var dflt = $(this).attr("placeholder");
+    if($(this).val()!=""){
+        $(this).next().text(file);
+    } else {
+    $(this).next().text(dflt);
+    }
+});
+</script>
+<section id="contact-section" class="contact-simple" style="background-image: url(../userassets/img/misc/misc-4.jpg); background-position: 50% 50%;">
+    <div class="cover"></div>
+    <form id="contact-form">
+        <div class="contact-info-wrap">
+            <div class="contact-info text-center">
+                <h1 class="contact-form-title font-alter-1">Registration</h1>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <input type="text" id="txtClientName" placeholder="Enter User Name" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <input type="email" id="txtCustomerEmail" placeholder="Enter User Email" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <input type="text" id="txtPhoneNumber" placeholder="Enter Phone Number" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <input type="password" id="txtPassword" placeholder="Enter password" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <input id="inputProfile" type="file" placeholder="Add profile picture" />
+                            <label for="inputProfile">Add profile picture</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="small text-gray"><em>* All fields are required!</em></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <button type="submit" onclick="javascript:fnInsertRecord()" class="btn btn-primary btn-lg btn-block margin-top-40">SignUp</button>
+                </div>
+                <div class="col-lg-6">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block margin-top-40">Cancle</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+

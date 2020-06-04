@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using PhotoStudio.Models;
 
 namespace PhotoStudio.Controllers
@@ -18,6 +19,9 @@ namespace PhotoStudio.Controllers
         // GET: Gallery
         public ActionResult GalleryList(int id=0)
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             if (id <= 0)
                 return View("GalleryCustomerList", db.tblCustomers.ToList());
             var tblGalleries = db.tblGalleries.Where(g => g.CustomerID == id);
@@ -28,12 +32,18 @@ namespace PhotoStudio.Controllers
 
         public ActionResult GalleryCustomerList()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             return View(db.tblCustomers.Where(c => c.IsActive == true).ToList());
         }
 
         [HttpPost]
         public ActionResult InsertImage()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 if (ModelState.IsValid)
@@ -110,10 +120,65 @@ namespace PhotoStudio.Controllers
             }
         }
 
-       
+
+        [HttpPost]
+        public ActionResult getJsonFile()
+        {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
+            int CustomerID = Convert.ToInt32(Request.Form["CustomerID"]);
+            int CategoryID = Convert.ToInt32(Request.Form["CategoryID"]);
+            try
+            {
+
+
+                //7.
+                var data = db.tblGalleries.Where(g => g.CustomerID == CustomerID)
+                            .Where(g => g.CategoryID == CategoryID)
+                            .Where(g => g.IsSelected == true)
+                            .ToDictionary(g => g.GalleryID, g => g.Image).ToList();
+
+
+                if(data.Count <= 0)
+                {
+                    return Json(new { success = false, message = "No file is selected! Please inform client to select images" }, JsonRequestBehavior.AllowGet);
+                }
+                string json = new JavaScriptSerializer().Serialize(data);
+                if (!Directory.Exists(Server.MapPath("~/App_Data/")))
+                    Directory.CreateDirectory(Server.MapPath("~/App_Data/"));
+
+                string path = Server.MapPath("~/App_Data/");
+                Random random = new Random();
+                string Num = "";
+                for (int i = 0; i < 4; i++)
+                {
+                    Num += random.Next(1, 9).ToString();
+                }
+                // Write that JSON to txt file,  
+                System.IO.File.WriteAllText(path + Num + "_" + DateTime.Now.ToString("d-M-yyyy") + ".json", json);
+                WebClient webClient = new WebClient();
+                if (!Directory.Exists(@"C:\AllJsonFiles\"))
+                {
+                    Directory.CreateDirectory(@"C:\AllJsonFiles");
+                }
+                webClient.DownloadFile(path + Num + "_" + DateTime.Now.ToString("d-M-yyyy") + ".json", @"C:\AllJsonFiles\" + Num + "_" + DateTime.Now.ToString("d-M-yyyy") + ".json");
+                FileInfo delfile = new FileInfo(path + Num + "_" + DateTime.Now.ToString("d-M-yyyy") + ".json");
+                delfile.Delete();
+                return Json(new { success = true, message = "File is created." }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "File is not created." + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [HttpPost]
         public ActionResult DeleteImage(int id)
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 tblGallery tblGallery = db.tblGalleries.Find(id);
@@ -129,9 +194,13 @@ namespace PhotoStudio.Controllers
                 return Json(new { success = false, message = "Image is not deleted." }, JsonRequestBehavior.AllowGet);
             }
         }
+
         [HttpPost]
         public ActionResult DeleteSelectedImages(List<int> CheckedID)
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 // iterate through input list and pass to process method

@@ -18,11 +18,17 @@ namespace PhotoStudio.Controllers
         // GET: Customers
         public ActionResult Index()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             return View(db.tblCustomers.ToList());
         }
 
         public ActionResult getAllActiveCustomers()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             return Json(db.tblCustomers.Where(c => c.IsActive == true).Select(c => new
             {
                 id = c.CustomerID,
@@ -33,6 +39,9 @@ namespace PhotoStudio.Controllers
         [HttpPost]
         public ActionResult InsertCustomers()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 if (ModelState.IsValid)
@@ -95,6 +104,9 @@ namespace PhotoStudio.Controllers
         // GET: Customers/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -110,6 +122,9 @@ namespace PhotoStudio.Controllers
         [HttpPost]
         public ActionResult EditCustomer()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 if (ModelState.IsValid)
@@ -175,6 +190,9 @@ namespace PhotoStudio.Controllers
         [HttpPost]
         public ActionResult DeleteCustomer(int id)
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 tblCustomer tblCustomer = db.tblCustomers.Find(id);
@@ -194,6 +212,9 @@ namespace PhotoStudio.Controllers
 
         public ActionResult ActivateDeactivateCustomer()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 int id = Convert.ToInt32(Request.Form["id"]);
@@ -219,6 +240,9 @@ namespace PhotoStudio.Controllers
 
         public ActionResult IsPhoneNumberExist()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 string PhoneNumber = Request.Form["PhoneNumber"];

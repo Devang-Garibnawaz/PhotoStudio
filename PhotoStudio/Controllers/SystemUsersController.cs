@@ -17,17 +17,18 @@ namespace PhotoStudio.Controllers
         // GET: SystemUsers
         public ActionResult Index()
         {
-            return View(db.tblSystemUsers.ToList());
-        }
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
 
-        public ActionResult Create()
-        {
-            return View();
+            return View(db.tblSystemUsers.ToList());
         }
 
         [HttpPost]
         public ActionResult InsertSystemUser()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 if (ModelState.IsValid)
@@ -59,29 +60,12 @@ namespace PhotoStudio.Controllers
             }
         }
 
-       public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            tblSystemUser tblSystemUser = db.tblSystemUsers.Find(id);
-            if (tblSystemUser == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tblSystemUser);
-        }
-
-        [HttpPost]
-        public ActionResult Edit()
-        {
-            return View();
-        }
-
         [HttpPost]
         public ActionResult DeleteUser(int id)
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 tblSystemUser tblSystemUser = db.tblSystemUsers.Find(id);
@@ -106,6 +90,9 @@ namespace PhotoStudio.Controllers
 
         public ActionResult IsPhoneNumberExist()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 string PhoneNumber = Request.Form["PhoneNumber"];

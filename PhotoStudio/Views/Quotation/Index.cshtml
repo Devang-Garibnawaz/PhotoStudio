@@ -95,7 +95,7 @@
             url: "/Quotation/getQuotationDetail",
             data: formData,
             success: function (data) {
-                fnPopulateDivOfMoreInfo(data);
+                fnPopulateDivOfMoreInfo(data[0]);
             }
         });
     }
@@ -103,7 +103,15 @@
     function fnPopulateDivOfMoreInfo(data)
     {
         console.log(data);
-        alert(data[0].CustomerName);
+        document.getElementById("lblCustomerName").innerHTML = __glb_fnIsNullOrEmpty(data.CustomerName) ? "-" : data.CustomerName;
+        document.getElementById("lblPOAP").innerHTML = __glb_fnIsNullOrEmpty(data.POAP) ? "-" : data.POAP + "%";
+        document.getElementById("lblPOPAED").innerHTML = __glb_fnIsNullOrEmpty(data.POPAED) ? "-" : data.POPAED + "%";
+        document.getElementById("lblPOPAE").innerHTML = __glb_fnIsNullOrEmpty(data.POPAE) ? "-" : data.POPAE + "%";
+        document.getElementById("lblNOCG").innerHTML = __glb_fnIsNullOrEmpty(data.NOCG) ? "-" : data.NOCG;
+        document.getElementById("lblNOPG").innerHTML = __glb_fnIsNullOrEmpty(data.NOPG) ? "-" : data.NOPG;
+        document.getElementById("lblNOD").innerHTML = __glb_fnIsNullOrEmpty(data.NOD) ? "-" : data.NOD;
+        document.getElementById("lblSOLEDS").innerHTML = __glb_fnIsNullOrEmpty(data.SOLEDS) ? "-" : data.SOLEDS;
+        document.getElementById("lblNOLEDS").innerHTML = __glb_fnIsNullOrEmpty(data.NOLEDS) ? "-" : data.NOLEDS;
     }
 </script>
 
@@ -112,13 +120,18 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4>
+                <h4 class="modal-title" id="myLargeModalLabel">More Info</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <h4>Overflowing text to show scroll behavior</h4>
-                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-                <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                <label class="col-4 col-form-label">Customer Name:</label><label class="" id="lblCustomerName"></label><br /><hr />
+                <label class="col-4 col-form-label">Cenematographers:</label><label class="col-5 col-form-label" id="lblNOCG"></label><br /><hr />
+                <label class="col-4 col-form-label">Photographers:</label><label class="col-5 col-form-label" id="lblNOPG"></label><br /><hr />
+                <label class="col-4 col-form-label">Drones:</label><label class="col-5 col-form-label" id="lblNOD"></label><br /><hr />
+                <label class="col-4 col-form-label">LED Screen Size:</label><label class="col-5 col-form-label" id="lblSOLEDS"></label><br /><hr />
+                <label class="col-4 col-form-label">Advance Payment:</label><label class="col-5 col-form-label" id="lblPOAP"></label><br /><hr />
+                <label class="col-4 col-form-label">Payment At Event:</label><label class="col-5 col-form-label" id="lblPOPAED"></label><br /><hr />
+                <label class="col-4 col-form-label">Payment After Event:</label><label class="col-5 col-form-label" id="lblPOPAE"></label><br /><hr />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
@@ -202,7 +215,7 @@
                                 <td align='center'><font color="green">@item.CreatedDate</font> <br /> <font color="red">@item.UpdatedDate</font></td>
                                 <td align="center">
 
-                                    @Html.ActionLink("Update", "Edit", new { id = item.CustomerID }, htmlAttributes: new { @class = "btn btn-warning waves-effect waves-light" })
+                                    @Html.ActionLink("Update", "Edit", new { id = item.QuotationID }, htmlAttributes: new { @class = "btn btn-warning waves-effect waves-light" })
                                 </td>
                                 <td align="center">
                                     <button type="submit" class="btn btn-danger waves-effect waves-light" onclick="return ConfirmationDialog(@item.QuotationID)">

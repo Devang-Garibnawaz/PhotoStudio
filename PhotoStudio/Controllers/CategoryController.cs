@@ -18,6 +18,8 @@ namespace PhotoStudio.Controllers
         // GET: Category
         public ActionResult Index()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null )
+                return RedirectToAction("Login", "Login");
             return View(db.tblCategories.ToList());
         }
 
@@ -25,6 +27,9 @@ namespace PhotoStudio.Controllers
 
         public ActionResult getAllCategory()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             return Json(db.tblCategories.Select(c => new
             {
                 id = c.CategoryID,
@@ -35,6 +40,8 @@ namespace PhotoStudio.Controllers
         [HttpPost]
         public ActionResult InsertCategory()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
 
             try
             {
@@ -92,6 +99,8 @@ namespace PhotoStudio.Controllers
         [HttpPost]
         public ActionResult DeleteCategory(int id)
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
             try
             {
                 tblCategory tblCategory = db.tblCategories.Find(id);

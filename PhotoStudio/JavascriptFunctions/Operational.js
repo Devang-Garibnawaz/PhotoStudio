@@ -73,3 +73,9 @@ function __glb_fnIsRecordExist(formData, ControlURL)
 
     return result;
 }
+
+function __glb_fnGetValidGsonDateTime(strDate)
+{
+    var format = "dd/mm/yyyy hh:MM TT";
+    return strDate.format2(format);
+}

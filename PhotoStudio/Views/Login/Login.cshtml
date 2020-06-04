@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_userLayout.cshtml";
+}
+
+<script>
+    function fnCheckUserExistsOrNot() {
+
+        var txtPhoneNumber = document.getElementById("txtPhoneNumber");
+        var txtPassword = document.getElementById("txtPassword");
+
+        if (txtPhoneNumber.value == null || txtPhoneNumber.value.length <= 0) {
+            toastr.warning('Input Error', 'Please Enter Phone Number', { timeOut: 1000, fadeOut: 1000 });
+            return;
+        }
+        if (txtPassword.value == null || txtPassword.value.length <= 0) {
+            toastr.warning('Input Error', 'Please Enter Password', { timeOut: 1000, fadeOut: 1000 });
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append("PhoneNo", txtPhoneNumber.value);
+        formData.append("Password", txtPassword.value);
+        var response = __glb_fnIUDOperation(formData, '/Login/CheckUserIsExistsOrNot');
+
+        if (response.UserExist === true) {
+            toastr.success(
+                response.message,
+                'User Login successfully.',
+                {
+                    timeOut: 1000,
+                    fadeOut: 1000,
+                    onHidden: function () {
+                        window.location.href = '/UserHome/Index';
+                    }
+                }
+            );
+        }
+        else if (response.AdminExist === true) {
+            toastr.success(
+                response.message,
+                'Admin Login successfully.',
+                {
+                    timeOut: 1000,
+                    fadeOut: 1000,
+                    onHidden: function () {
+                        window.location.href = '/Home/';
+                    }
+                }
+            );
+        }
+        else if (response.UserExist === false) {
+            toastr.warning('Credential Error', 'Phone Number And Password Do not Match Try Again.!!! ', { timeOut: 1000, fadeOut: 1000 });
+            return;
+        }
+        else {
+            toastr.error('Error occur', 'Error occur.', { timeOut: 1000 });
+            return;
+        }
+    }
+
+</script>
+
+<section id="contact-section" class="contact-simple" style="background-image: url(../userassets/img/misc/misc-4.jpg); background-position: 50% 50%;">
+    <div class="cover"></div>
+    <form id="contact-form">
+        <div class="contact-info-wrap">
+            <div class="contact-info text-center">
+                <h1 class="contact-form-title font-alter-1">Login</h1>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <input type="text" id="txtPhoneNumber" placeholder="Enter Phone Number" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="txtPassword" placeholder="Enter password" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="small text-gray"><em>* All fields are required!</em></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <button type="submit" onclick="javascript:fnCheckUserExistsOrNot()" class="btn btn-primary btn-lg btn-block margin-top-40">Login</button>
+                </div>
+                <div class="col-lg-6">
+                    <button type="submit" onclick="@Url.Action("Index","UserHome")" class="btn btn-primary btn-lg btn-block margin-top-40">Cancle</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+

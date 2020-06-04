@@ -10,6 +10,9 @@ namespace PhotoStudio.Controllers
     {
         public ActionResult Index()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             return View();
         }
 
