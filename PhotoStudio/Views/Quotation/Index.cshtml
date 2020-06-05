@@ -95,7 +95,6 @@
             url: "/Quotation/getAlbumAndVideoEditingDetails",
             data: formData,
             success: function (data) {
-                console.log(data);
                 fnPopulateDivOfMoreInfo(data[0]);
             }
         });
@@ -178,12 +177,12 @@
                             <tr>
                                 <th>Customer</th>
                                 <th>Disscount Applied</th>
-                                <th><font color="green">Disscount Percentage/</font><br/><font color="red">Amount After Disscount</font></th>
+                                <th><font color="green">Disscount Percentage/</font><br/><font color="red">Disscounted Amount</font></th>
                                 <th>Total Amount</th>
                                 <th>Approved</th>
                                 <th>More Info</th>
-                                <th><font color="green">Created</font> / <font color="red">Updated Date</font></th>
-                                <th>Update</th>
+                                <th><font color="green">Created/</font><br /> <font color="red">Updated Date</font></th>
+                                <th><font color="green">Update /</font><br/><font color="red">+ Add Quotation Details</font></th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
@@ -197,13 +196,12 @@
 
                                 <td align="left">
                                     <font color="green">@item.DisscountPercentage% </font><br />
-                                    <font color="red">@Convert.ToDecimal(item.DisscountedAmount).ToString("0.00")</font>
+                                    <font color="red"><i class="fas fa-rupee-sign"></i> @Convert.ToDecimal(item.DisscountedAmount).ToString("0.00")</font>
                                 </td>
-                                <td align="left">@Convert.ToDecimal(item.FinalAmount).ToString("0.00")</td>
+                                <td align="left"><font color="red"><i class="fas fa-rupee-sign"></i> @Convert.ToDecimal(item.FinalAmount).ToString("0.00")</font></td>
                                 <td align="center">
                                     @if (item.IsPass == true)
                                     {
-
                                         <button class="btn btn-success btn-rounded" title="Click here to Deactivate Customer" onclick="javascript:fnChangeIsPassStatus(@item.AlbumAndVideoEditingChargesID,0)">
                                             <i class="fa fa-check"></i> Is Pass
                                         </button>
@@ -216,12 +214,14 @@
                                     }
                                 </td>
                                 <td align="center">
-                                    <a data-toggle="modal" data-target=".bs-example-modal-lg" href="" onclick="javascript:fnShowMoreInfo(@item.AlbumAndVideoEditingChargesID)"> <h3 class="mdi mdi-magnify"></h3></a>
+                                    <a data-toggle="modal" data-target=".bs-example-modal-lg" href="" onclick="javascript:fnShowMoreInfo(@item.AlbumAndVideoEditingChargesID)"> <img src="~/adminassets/images/searchPNG.png" height="40px" width="40px"/></a>
                                     <br />
                                 </td>
                                 <td align='center'><font color="green">@item.CreatedDate</font> <br /> <font color="red">@item.UpdatedDate</font></td>
-                                <td align="center">
-                                    @Html.ActionLink("Update", "UpdateAlbumAndVideoEditingCharge", new { id = item.AlbumAndVideoEditingChargesID }, htmlAttributes: new { @class = "btn btn-warning waves-effect waves-light" })
+                                <td align="left">
+                                    <a href="@Url.Action("UpdateAlbumAndVideoEditingCharge/"+item.AlbumAndVideoEditingChargesID, "Quotation")" class="btn btn-success btn-circle" title="Click here to update details"><i class="fa fa-pencil-alt"></i></a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a href="@Url.Action("ManageQuotationDetails/"+item.AlbumAndVideoEditingChargesID, "Quotation")" class="btn btn-danger btn-circle" title="Click here to add another quotation details"><i class="fa fa-plus"></i></a>
                                 </td>
                                 <td align="center">
                                     <button type="submit" class="btn btn-danger waves-effect waves-light" onclick="return ConfirmationDialog(@item.AlbumAndVideoEditingChargesID)">

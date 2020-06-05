@@ -286,6 +286,7 @@
     <Content Include="adminassets\images\MPS_Logo.png" />
     <Content Include="adminassets\images\MPS_Logo2.jpeg" />
     <Content Include="adminassets\images\news\slide1.jpg" />
+    <Content Include="adminassets\images\searchPNG.png" />
     <Content Include="adminassets\images\tooltip\Euclid.png" />
     <Content Include="adminassets\images\users\1.jpg" />
     <Content Include="adminassets\images\users\2.jpg" />

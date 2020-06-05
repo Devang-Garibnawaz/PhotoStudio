@@ -9,6 +9,7 @@
 
         var cmbCustomer = $("#cmbCustomer");
         var cmbAlbumtype = $("#cmbAlbumtype");
+        
         fnManageDisscountControls();
 
         $.ajax({
@@ -36,7 +37,6 @@
             var divDisscountPercentage = $("#divDisscountPercentage");
             var divDisscountAmount = $("#divDisscountAmount");
             var divFinalAmount = $("#divFinalAmount");
-
             if (chkGiveDisscount.checked) {
                 divDisscountPercentage.show();
                 divDisscountAmount.show();
@@ -335,7 +335,14 @@
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3">Give Disscount?:</label>
                                 <div class="col-md-9">
-                                    <input type="checkbox" onchange="fnManageDisscountControls()" class="js-switch" id="chkGiveDisscount" />
+                                    @if (@Model.IsDisscount)
+                                    {
+                                        <input type="checkbox" checked onchange="fnManageDisscountControls()" class="js-switch" id="chkGiveDisscount" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" onchange="fnManageDisscountControls()" class="js-switch" id="chkGiveDisscount" />
+                                    }
                                 </div>
                             </div>
                         </div>
