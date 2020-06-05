@@ -1,6 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ManishPhotoStudioModelStoreContainer" CdmEntityContainer="ManishPhotoStudioEntities">
+    <EntitySetMapping Name="tblAlbumAndVideoEditingCharges">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblAlbumAndVideoEditingCharge">
+        <MappingFragment StoreEntitySet="tblAlbumAndVideoEditingCharges">
+          <ScalarProperty Name="AlbumAndVideoEditingChargesID" ColumnName="AlbumAndVideoEditingChargesID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="AlbumPage" ColumnName="AlbumPage" />
+          <ScalarProperty Name="AlbumSize" ColumnName="AlbumSize" />
+          <ScalarProperty Name="AlbumType" ColumnName="AlbumType" />
+          <ScalarProperty Name="AlbumPrice" ColumnName="AlbumPrice" />
+          <ScalarProperty Name="AlbumPadSize" ColumnName="AlbumPadSize" />
+          <ScalarProperty Name="AlbumPadPrice" ColumnName="AlbumPadPrice" />
+          <ScalarProperty Name="AlbumLeadherBagPrice" ColumnName="AlbumLeadherBagPrice" />
+          <ScalarProperty Name="PhotoLEDFramePrice" ColumnName="PhotoLEDFramePrice" />
+          <ScalarProperty Name="FamilyBannerPrice" ColumnName="FamilyBannerPrice" />
+          <ScalarProperty Name="SpecialAlbum" ColumnName="SpecialAlbum" />
+          <ScalarProperty Name="HDVideoDubbPendrivePrice" ColumnName="HDVideoDubbPendrivePrice" />
+          <ScalarProperty Name="Other" ColumnName="Other" />
+          <ScalarProperty Name="IsPass" ColumnName="IsPass" />
+          <ScalarProperty Name="IsDisscount" ColumnName="IsDisscount" />
+          <ScalarProperty Name="DisscountPercentage" ColumnName="DisscountPercentage" />
+          <ScalarProperty Name="OriginalAmount" ColumnName="OriginalAmount" />
+          <ScalarProperty Name="DisscountedAmount" ColumnName="DisscountedAmount" />
+          <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="tblCategories">
       <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblCategory">
         <MappingFragment StoreEntitySet="tblCategory">
@@ -42,10 +70,10 @@
       <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPhotographer">
         <MappingFragment StoreEntitySet="tblPhotographer">
           <ScalarProperty Name="PhotographerID" ColumnName="PhotographerID" />
-          <ScalarProperty Name="PhotographerTypeInternalCodeBWs" ColumnName="PhotographerTypeInternalCodeBWs" />
           <ScalarProperty Name="PhotographerName" ColumnName="PhotographerName" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Salary" ColumnName="Salary" />
           <ScalarProperty Name="ProfilePic" ColumnName="ProfilePic" />
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -100,21 +128,19 @@
       <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblQuotation">
         <MappingFragment StoreEntitySet="tblQuotation">
           <ScalarProperty Name="QuotationID" ColumnName="QuotationID" />
-          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-          <ScalarProperty Name="NumberOfCinematographers" ColumnName="NumberOfCinematographers" />
-          <ScalarProperty Name="NumberOfPhotographers" ColumnName="NumberOfPhotographers" />
+          <ScalarProperty Name="AlbumAndVideoEditingChargesID" ColumnName="AlbumAndVideoEditingChargesID" />
+          <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+          <ScalarProperty Name="FunctionName" ColumnName="FunctionName" />
+          <ScalarProperty Name="CandidCenematographers" ColumnName="CandidCenematographers" />
+          <ScalarProperty Name="RegularCenematographers" ColumnName="RegularCenematographers" />
+          <ScalarProperty Name="CandidPhotographer" ColumnName="CandidPhotographer" />
+          <ScalarProperty Name="RegularPhotographer" ColumnName="RegularPhotographer" />
+          <ScalarProperty Name="DSLR" ColumnName="DSLR" />
           <ScalarProperty Name="NumberOfDrones" ColumnName="NumberOfDrones" />
           <ScalarProperty Name="SizeOfLEDScreen" ColumnName="SizeOfLEDScreen" />
           <ScalarProperty Name="NumberOfLedScreens" ColumnName="NumberOfLedScreens" />
+          <ScalarProperty Name="Others" ColumnName="Others" />
           <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-          <ScalarProperty Name="IsDisccount" ColumnName="IsDisccount" />
-          <ScalarProperty Name="DisscountPercentage" ColumnName="DisscountPercentage" />
-          <ScalarProperty Name="AmmountAfterDisscount" ColumnName="AmmountAfterDisscount" />
-          <ScalarProperty Name="PercentageOfAdvancePayment" ColumnName="PercentageOfAdvancePayment" />
-          <ScalarProperty Name="PercentageOfPaymentAtEventDay" ColumnName="PercentageOfPaymentAtEventDay" />
-          <ScalarProperty Name="PercentageOfPaymentAfterEvent" ColumnName="PercentageOfPaymentAfterEvent" />
-          <ScalarProperty Name="IsPass" ColumnName="IsPass" />
-          <ScalarProperty Name="EventDate" ColumnName="EventDate" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
         </MappingFragment>

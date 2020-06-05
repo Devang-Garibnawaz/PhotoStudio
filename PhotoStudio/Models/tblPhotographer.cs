@@ -15,10 +15,10 @@ namespace PhotoStudio.Models
     public partial class tblPhotographer
     {
         public int PhotographerID { get; set; }
-        public int PhotographerTypeInternalCodeBWs { get; set; }
         public string PhotographerName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public decimal Salary { get; set; }
         public string ProfilePic { get; set; }
         public string Address { get; set; }
         public bool IsActive { get; set; }

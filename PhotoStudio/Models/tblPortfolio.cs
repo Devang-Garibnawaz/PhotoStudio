@@ -21,7 +21,7 @@ namespace PhotoStudio.Models
         }
     
         public int PortfolioID { get; set; }
-        public Nullable<int> CustomerID { get; set; }
+        public Nullable<long> CustomerID { get; set; }
         public string PortfolioHeading { get; set; }
         public string PortfolioDescription { get; set; }
         public string CoverPhoto { get; set; }

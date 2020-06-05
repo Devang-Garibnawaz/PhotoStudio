@@ -16,7 +16,7 @@ namespace PhotoStudio.Models
     {
         public int GalleryID { get; set; }
         public int CategoryID { get; set; }
-        public int CustomerID { get; set; }
+        public long CustomerID { get; set; }
         public string Image { get; set; }
         public Nullable<bool> IsSelected { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }

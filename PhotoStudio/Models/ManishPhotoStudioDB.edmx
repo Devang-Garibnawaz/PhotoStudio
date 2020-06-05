@@ -5,6 +5,33 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="ManishPhotoStudioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblAlbumAndVideoEditingCharges">
+          <Key>
+            <PropertyRef Name="AlbumAndVideoEditingChargesID" />
+          </Key>
+          <Property Name="AlbumAndVideoEditingChargesID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerID" Type="bigint" />
+          <Property Name="AlbumPage" Type="int" />
+          <Property Name="AlbumSize" Type="nvarchar" MaxLength="50" />
+          <Property Name="AlbumType" Type="nvarchar" MaxLength="20" />
+          <Property Name="AlbumPrice" Type="money" />
+          <Property Name="AlbumPadSize" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AlbumPadPrice" Type="money" Nullable="false" />
+          <Property Name="AlbumLeadherBagPrice" Type="money" Nullable="false" />
+          <Property Name="PhotoLEDFramePrice" Type="money" Nullable="false" />
+          <Property Name="FamilyBannerPrice" Type="money" Nullable="false" />
+          <Property Name="SpecialAlbum" Type="money" Nullable="false" />
+          <Property Name="HDVideoDubbPendrivePrice" Type="money" Nullable="false" />
+          <Property Name="Other" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="IsPass" Type="bit" />
+          <Property Name="IsDisscount" Type="bit" Nullable="false" />
+          <Property Name="DisscountPercentage" Type="int" />
+          <Property Name="OriginalAmount" Type="money" Nullable="false" />
+          <Property Name="DisscountedAmount" Type="money" />
+          <Property Name="FinalAmount" Type="money" Nullable="false" />
+          <Property Name="CreatedDate" Type="smalldatetime" />
+          <Property Name="UpdatedDate" Type="smalldatetime" />
+        </EntityType>
         <EntityType Name="tblCategory">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -18,7 +45,7 @@
           <Key>
             <PropertyRef Name="CustomerID" />
           </Key>
-          <Property Name="CustomerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -34,7 +61,7 @@
           </Key>
           <Property Name="GalleryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
-          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="CustomerID" Type="bigint" Nullable="false" />
           <Property Name="Image" Type="nvarchar" MaxLength="200" />
           <Property Name="IsSelected" Type="bit" />
           <Property Name="CreatedDate" Type="smalldatetime" />
@@ -44,10 +71,10 @@
             <PropertyRef Name="PhotographerID" />
           </Key>
           <Property Name="PhotographerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PhotographerTypeInternalCodeBWs" Type="int" Nullable="false" />
           <Property Name="PhotographerName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Salary" Type="money" Nullable="false" />
           <Property Name="ProfilePic" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -67,7 +94,7 @@
             <PropertyRef Name="PortfolioID" />
           </Key>
           <Property Name="PortfolioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CustomerID" Type="int" />
+          <Property Name="CustomerID" Type="bigint" />
           <Property Name="PortfolioHeading" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PortfolioDescription" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CoverPhoto" Type="nvarchar" MaxLength="200" Nullable="false" />
@@ -96,22 +123,20 @@
           <Key>
             <PropertyRef Name="QuotationID" />
           </Key>
-          <Property Name="QuotationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CustomerID" Type="int" Nullable="false" />
-          <Property Name="NumberOfCinematographers" Type="int" />
-          <Property Name="NumberOfPhotographers" Type="int" />
-          <Property Name="NumberOfDrones" Type="int" />
-          <Property Name="SizeOfLEDScreen" Type="nvarchar" MaxLength="20" />
-          <Property Name="NumberOfLedScreens" Type="int" />
-          <Property Name="TotalAmount" Type="money" />
-          <Property Name="IsDisccount" Type="bit" />
-          <Property Name="DisscountPercentage" Type="int" />
-          <Property Name="AmmountAfterDisscount" Type="money" />
-          <Property Name="PercentageOfAdvancePayment" Type="int" />
-          <Property Name="PercentageOfPaymentAtEventDay" Type="int" />
-          <Property Name="PercentageOfPaymentAfterEvent" Type="int" />
-          <Property Name="IsPass" Type="bit" />
+          <Property Name="QuotationID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AlbumAndVideoEditingChargesID" Type="bigint" Nullable="false" />
           <Property Name="EventDate" Type="smalldatetime" />
+          <Property Name="FunctionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CandidCenematographers" Type="int" />
+          <Property Name="RegularCenematographers" Type="int" />
+          <Property Name="CandidPhotographer" Type="int" />
+          <Property Name="RegularPhotographer" Type="int" />
+          <Property Name="DSLR" Type="int" />
+          <Property Name="NumberOfDrones" Type="int" />
+          <Property Name="SizeOfLEDScreen" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="NumberOfLedScreens" Type="int" />
+          <Property Name="Others" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="TotalAmount" Type="money" />
           <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="UpdatedDate" Type="smalldatetime" />
         </EntityType>
@@ -128,6 +153,18 @@
           <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="UpdatedDate" Type="smalldatetime" />
         </EntityType>
+        <Association Name="FK_tblAlbumAndVideoEditingCharges_tblCustomer">
+          <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="0..1" />
+          <End Role="tblAlbumAndVideoEditingCharges" Type="Self.tblAlbumAndVideoEditingCharges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCustomer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="tblAlbumAndVideoEditingCharges">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblGallery_tblCategory">
           <End Role="tblCategory" Type="Self.tblCategory" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -198,21 +235,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tblQuotation_tblCustomer">
-          <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="1">
+        <Association Name="FK_tblQuotation_tblAlbumAndVideoEditingCharges">
+          <End Role="tblAlbumAndVideoEditingCharges" Type="Self.tblAlbumAndVideoEditingCharges" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="tblQuotation" Type="Self.tblQuotation" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tblCustomer">
-              <PropertyRef Name="CustomerID" />
+            <Principal Role="tblAlbumAndVideoEditingCharges">
+              <PropertyRef Name="AlbumAndVideoEditingChargesID" />
             </Principal>
             <Dependent Role="tblQuotation">
-              <PropertyRef Name="CustomerID" />
+              <PropertyRef Name="AlbumAndVideoEditingChargesID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ManishPhotoStudioModelStoreContainer">
+          <EntitySet Name="tblAlbumAndVideoEditingCharges" EntityType="Self.tblAlbumAndVideoEditingCharges" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCategory" EntityType="Self.tblCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCustomer" EntityType="Self.tblCustomer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblGallery" EntityType="Self.tblGallery" Schema="dbo" store:Type="Tables" />
@@ -223,6 +261,10 @@
           <EntitySet Name="tblPortfolioGalleryCategory" EntityType="Self.tblPortfolioGalleryCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblQuotation" EntityType="Self.tblQuotation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSystemUser" EntityType="Self.tblSystemUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tblAlbumAndVideoEditingCharges_tblCustomer" Association="Self.FK_tblAlbumAndVideoEditingCharges_tblCustomer">
+            <End Role="tblCustomer" EntitySet="tblCustomer" />
+            <End Role="tblAlbumAndVideoEditingCharges" EntitySet="tblAlbumAndVideoEditingCharges" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblGallery_tblCategory" Association="Self.FK_tblGallery_tblCategory">
             <End Role="tblCategory" EntitySet="tblCategory" />
             <End Role="tblGallery" EntitySet="tblGallery" />
@@ -243,8 +285,8 @@
             <End Role="tblPortfolioGalleryCategory" EntitySet="tblPortfolioGalleryCategory" />
             <End Role="tblPortfolioGallery" EntitySet="tblPortfolioGallery" />
           </AssociationSet>
-          <AssociationSet Name="FK_tblQuotation_tblCustomer" Association="Self.FK_tblQuotation_tblCustomer">
-            <End Role="tblCustomer" EntitySet="tblCustomer" />
+          <AssociationSet Name="FK_tblQuotation_tblAlbumAndVideoEditingCharges" Association="Self.FK_tblQuotation_tblAlbumAndVideoEditingCharges">
+            <End Role="tblAlbumAndVideoEditingCharges" EntitySet="tblAlbumAndVideoEditingCharges" />
             <End Role="tblQuotation" EntitySet="tblQuotation" />
           </AssociationSet>
         </EntityContainer>
@@ -253,6 +295,35 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ManishPhotoStudioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblAlbumAndVideoEditingCharge">
+          <Key>
+            <PropertyRef Name="AlbumAndVideoEditingChargesID" />
+          </Key>
+          <Property Name="AlbumAndVideoEditingChargesID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int64" />
+          <Property Name="AlbumPage" Type="Int32" />
+          <Property Name="AlbumSize" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AlbumType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="AlbumPrice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AlbumPadSize" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AlbumPadPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="AlbumLeadherBagPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="PhotoLEDFramePrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="FamilyBannerPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="SpecialAlbum" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="HDVideoDubbPendrivePrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Other" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsPass" Type="Boolean" />
+          <Property Name="IsDisscount" Type="Boolean" Nullable="false" />
+          <Property Name="DisscountPercentage" Type="Int32" />
+          <Property Name="OriginalAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="DisscountedAmount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="FinalAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="tblCustomer" Relationship="Self.FK_tblAlbumAndVideoEditingCharges_tblCustomer" FromRole="tblAlbumAndVideoEditingCharges" ToRole="tblCustomer" />
+          <NavigationProperty Name="tblQuotations" Relationship="Self.FK_tblQuotation_tblAlbumAndVideoEditingCharges" FromRole="tblAlbumAndVideoEditingCharges" ToRole="tblQuotation" />
+        </EntityType>
         <EntityType Name="tblCategory">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -267,7 +338,7 @@
           <Key>
             <PropertyRef Name="CustomerID" />
           </Key>
-          <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -276,9 +347,9 @@
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="tblAlbumAndVideoEditingCharges" Relationship="Self.FK_tblAlbumAndVideoEditingCharges_tblCustomer" FromRole="tblCustomer" ToRole="tblAlbumAndVideoEditingCharges" />
           <NavigationProperty Name="tblGalleries" Relationship="Self.FK_tblGallery_tblCustomer" FromRole="tblCustomer" ToRole="tblGallery" />
           <NavigationProperty Name="tblPortfolios" Relationship="Self.FK_tblPortfolio_tblCustomer" FromRole="tblCustomer" ToRole="tblPortfolio" />
-          <NavigationProperty Name="tblQuotations" Relationship="Self.FK_tblQuotation_tblCustomer" FromRole="tblCustomer" ToRole="tblQuotation" />
         </EntityType>
         <EntityType Name="tblGallery">
           <Key>
@@ -286,7 +357,7 @@
           </Key>
           <Property Name="GalleryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
-          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="CustomerID" Type="Int64" Nullable="false" />
           <Property Name="Image" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="IsSelected" Type="Boolean" />
           <Property Name="CreatedDate" Type="DateTime" Precision="0" />
@@ -298,10 +369,10 @@
             <PropertyRef Name="PhotographerID" />
           </Key>
           <Property Name="PhotographerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PhotographerTypeInternalCodeBWs" Type="Int32" Nullable="false" />
           <Property Name="PhotographerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Salary" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="ProfilePic" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
@@ -321,7 +392,7 @@
             <PropertyRef Name="PortfolioID" />
           </Key>
           <Property Name="PortfolioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="CustomerID" Type="Int64" />
           <Property Name="PortfolioHeading" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PortfolioDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CoverPhoto" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
@@ -355,25 +426,23 @@
           <Key>
             <PropertyRef Name="QuotationID" />
           </Key>
-          <Property Name="QuotationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerID" Type="Int32" Nullable="false" />
-          <Property Name="NumberOfCinematographers" Type="Int32" />
-          <Property Name="NumberOfPhotographers" Type="Int32" />
-          <Property Name="NumberOfDrones" Type="Int32" />
-          <Property Name="SizeOfLEDScreen" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="NumberOfLedScreens" Type="Int32" />
-          <Property Name="TotalAmount" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="IsDisccount" Type="Boolean" />
-          <Property Name="DisscountPercentage" Type="Int32" />
-          <Property Name="AmmountAfterDisscount" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="PercentageOfAdvancePayment" Type="Int32" />
-          <Property Name="PercentageOfPaymentAtEventDay" Type="Int32" />
-          <Property Name="PercentageOfPaymentAfterEvent" Type="Int32" />
-          <Property Name="IsPass" Type="Boolean" />
+          <Property Name="QuotationID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AlbumAndVideoEditingChargesID" Type="Int64" Nullable="false" />
           <Property Name="EventDate" Type="DateTime" Precision="0" />
+          <Property Name="FunctionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CandidCenematographers" Type="Int32" />
+          <Property Name="RegularCenematographers" Type="Int32" />
+          <Property Name="CandidPhotographer" Type="Int32" />
+          <Property Name="RegularPhotographer" Type="Int32" />
+          <Property Name="DSLR" Type="Int32" />
+          <Property Name="NumberOfDrones" Type="Int32" />
+          <Property Name="SizeOfLEDScreen" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumberOfLedScreens" Type="Int32" />
+          <Property Name="Others" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="tblCustomer" Relationship="Self.FK_tblQuotation_tblCustomer" FromRole="tblQuotation" ToRole="tblCustomer" />
+          <NavigationProperty Name="tblAlbumAndVideoEditingCharge" Relationship="Self.FK_tblQuotation_tblAlbumAndVideoEditingCharges" FromRole="tblQuotation" ToRole="tblAlbumAndVideoEditingCharges" />
         </EntityType>
         <EntityType Name="tblSystemUser">
           <Key>
@@ -388,6 +457,32 @@
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="0" />
         </EntityType>
+        <Association Name="FK_tblAlbumAndVideoEditingCharges_tblCustomer">
+          <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="0..1" />
+          <End Role="tblAlbumAndVideoEditingCharges" Type="Self.tblAlbumAndVideoEditingCharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCustomer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="tblAlbumAndVideoEditingCharges">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblQuotation_tblAlbumAndVideoEditingCharges">
+          <End Role="tblAlbumAndVideoEditingCharges" Type="Self.tblAlbumAndVideoEditingCharge" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblQuotation" Type="Self.tblQuotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAlbumAndVideoEditingCharges">
+              <PropertyRef Name="AlbumAndVideoEditingChargesID" />
+            </Principal>
+            <Dependent Role="tblQuotation">
+              <PropertyRef Name="AlbumAndVideoEditingChargesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblGallery_tblCategory">
           <End Role="tblCategory" Type="Self.tblCategory" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -430,20 +525,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tblQuotation_tblCustomer">
-          <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="tblQuotation" Type="Self.tblQuotation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCustomer">
-              <PropertyRef Name="CustomerID" />
-            </Principal>
-            <Dependent Role="tblQuotation">
-              <PropertyRef Name="CustomerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tblPortfolioGallery_tblPortfolio">
           <End Role="tblPortfolio" Type="Self.tblPortfolio" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -473,6 +554,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ManishPhotoStudioEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblAlbumAndVideoEditingCharges" EntityType="Self.tblAlbumAndVideoEditingCharge" />
           <EntitySet Name="tblCategories" EntityType="Self.tblCategory" />
           <EntitySet Name="tblCustomers" EntityType="Self.tblCustomer" />
           <EntitySet Name="tblGalleries" EntityType="Self.tblGallery" />
@@ -483,6 +565,14 @@
           <EntitySet Name="tblPortfolioGalleryCategories" EntityType="Self.tblPortfolioGalleryCategory" />
           <EntitySet Name="tblQuotations" EntityType="Self.tblQuotation" />
           <EntitySet Name="tblSystemUsers" EntityType="Self.tblSystemUser" />
+          <AssociationSet Name="FK_tblAlbumAndVideoEditingCharges_tblCustomer" Association="Self.FK_tblAlbumAndVideoEditingCharges_tblCustomer">
+            <End Role="tblCustomer" EntitySet="tblCustomers" />
+            <End Role="tblAlbumAndVideoEditingCharges" EntitySet="tblAlbumAndVideoEditingCharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblQuotation_tblAlbumAndVideoEditingCharges" Association="Self.FK_tblQuotation_tblAlbumAndVideoEditingCharges">
+            <End Role="tblAlbumAndVideoEditingCharges" EntitySet="tblAlbumAndVideoEditingCharges" />
+            <End Role="tblQuotation" EntitySet="tblQuotations" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblGallery_tblCategory" Association="Self.FK_tblGallery_tblCategory">
             <End Role="tblCategory" EntitySet="tblCategories" />
             <End Role="tblGallery" EntitySet="tblGalleries" />
@@ -494,10 +584,6 @@
           <AssociationSet Name="FK_tblPortfolio_tblCustomer" Association="Self.FK_tblPortfolio_tblCustomer">
             <End Role="tblCustomer" EntitySet="tblCustomers" />
             <End Role="tblPortfolio" EntitySet="tblPortfolios" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblQuotation_tblCustomer" Association="Self.FK_tblQuotation_tblCustomer">
-            <End Role="tblCustomer" EntitySet="tblCustomers" />
-            <End Role="tblQuotation" EntitySet="tblQuotations" />
           </AssociationSet>
           <AssociationSet Name="FK_tblPortfolioGallery_tblPortfolio" Association="Self.FK_tblPortfolioGallery_tblPortfolio">
             <End Role="tblPortfolio" EntitySet="tblPortfolios" />
@@ -514,6 +600,34 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ManishPhotoStudioModelStoreContainer" CdmEntityContainer="ManishPhotoStudioEntities">
+          <EntitySetMapping Name="tblAlbumAndVideoEditingCharges">
+            <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblAlbumAndVideoEditingCharge">
+              <MappingFragment StoreEntitySet="tblAlbumAndVideoEditingCharges">
+                <ScalarProperty Name="AlbumAndVideoEditingChargesID" ColumnName="AlbumAndVideoEditingChargesID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="AlbumPage" ColumnName="AlbumPage" />
+                <ScalarProperty Name="AlbumSize" ColumnName="AlbumSize" />
+                <ScalarProperty Name="AlbumType" ColumnName="AlbumType" />
+                <ScalarProperty Name="AlbumPrice" ColumnName="AlbumPrice" />
+                <ScalarProperty Name="AlbumPadSize" ColumnName="AlbumPadSize" />
+                <ScalarProperty Name="AlbumPadPrice" ColumnName="AlbumPadPrice" />
+                <ScalarProperty Name="AlbumLeadherBagPrice" ColumnName="AlbumLeadherBagPrice" />
+                <ScalarProperty Name="PhotoLEDFramePrice" ColumnName="PhotoLEDFramePrice" />
+                <ScalarProperty Name="FamilyBannerPrice" ColumnName="FamilyBannerPrice" />
+                <ScalarProperty Name="SpecialAlbum" ColumnName="SpecialAlbum" />
+                <ScalarProperty Name="HDVideoDubbPendrivePrice" ColumnName="HDVideoDubbPendrivePrice" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="IsPass" ColumnName="IsPass" />
+                <ScalarProperty Name="IsDisscount" ColumnName="IsDisscount" />
+                <ScalarProperty Name="DisscountPercentage" ColumnName="DisscountPercentage" />
+                <ScalarProperty Name="OriginalAmount" ColumnName="OriginalAmount" />
+                <ScalarProperty Name="DisscountedAmount" ColumnName="DisscountedAmount" />
+                <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblCategories">
             <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblCategory">
               <MappingFragment StoreEntitySet="tblCategory">
@@ -555,10 +669,10 @@
             <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPhotographer">
               <MappingFragment StoreEntitySet="tblPhotographer">
                 <ScalarProperty Name="PhotographerID" ColumnName="PhotographerID" />
-                <ScalarProperty Name="PhotographerTypeInternalCodeBWs" ColumnName="PhotographerTypeInternalCodeBWs" />
                 <ScalarProperty Name="PhotographerName" ColumnName="PhotographerName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
                 <ScalarProperty Name="ProfilePic" ColumnName="ProfilePic" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -613,21 +727,19 @@
             <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblQuotation">
               <MappingFragment StoreEntitySet="tblQuotation">
                 <ScalarProperty Name="QuotationID" ColumnName="QuotationID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="NumberOfCinematographers" ColumnName="NumberOfCinematographers" />
-                <ScalarProperty Name="NumberOfPhotographers" ColumnName="NumberOfPhotographers" />
+                <ScalarProperty Name="AlbumAndVideoEditingChargesID" ColumnName="AlbumAndVideoEditingChargesID" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+                <ScalarProperty Name="FunctionName" ColumnName="FunctionName" />
+                <ScalarProperty Name="CandidCenematographers" ColumnName="CandidCenematographers" />
+                <ScalarProperty Name="RegularCenematographers" ColumnName="RegularCenematographers" />
+                <ScalarProperty Name="CandidPhotographer" ColumnName="CandidPhotographer" />
+                <ScalarProperty Name="RegularPhotographer" ColumnName="RegularPhotographer" />
+                <ScalarProperty Name="DSLR" ColumnName="DSLR" />
                 <ScalarProperty Name="NumberOfDrones" ColumnName="NumberOfDrones" />
                 <ScalarProperty Name="SizeOfLEDScreen" ColumnName="SizeOfLEDScreen" />
                 <ScalarProperty Name="NumberOfLedScreens" ColumnName="NumberOfLedScreens" />
+                <ScalarProperty Name="Others" ColumnName="Others" />
                 <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="IsDisccount" ColumnName="IsDisccount" />
-                <ScalarProperty Name="DisscountPercentage" ColumnName="DisscountPercentage" />
-                <ScalarProperty Name="AmmountAfterDisscount" ColumnName="AmmountAfterDisscount" />
-                <ScalarProperty Name="PercentageOfAdvancePayment" ColumnName="PercentageOfAdvancePayment" />
-                <ScalarProperty Name="PercentageOfPaymentAtEventDay" ColumnName="PercentageOfPaymentAtEventDay" />
-                <ScalarProperty Name="PercentageOfPaymentAfterEvent" ColumnName="PercentageOfPaymentAfterEvent" />
-                <ScalarProperty Name="IsPass" ColumnName="IsPass" />
-                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
               </MappingFragment>

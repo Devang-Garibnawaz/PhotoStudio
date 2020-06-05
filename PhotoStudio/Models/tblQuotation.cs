@@ -14,25 +14,23 @@ namespace PhotoStudio.Models
     
     public partial class tblQuotation
     {
-        public int QuotationID { get; set; }
-        public int CustomerID { get; set; }
-        public Nullable<int> NumberOfCinematographers { get; set; }
-        public Nullable<int> NumberOfPhotographers { get; set; }
+        public long QuotationID { get; set; }
+        public long AlbumAndVideoEditingChargesID { get; set; }
+        public Nullable<System.DateTime> EventDate { get; set; }
+        public string FunctionName { get; set; }
+        public Nullable<int> CandidCenematographers { get; set; }
+        public Nullable<int> RegularCenematographers { get; set; }
+        public Nullable<int> CandidPhotographer { get; set; }
+        public Nullable<int> RegularPhotographer { get; set; }
+        public Nullable<int> DSLR { get; set; }
         public Nullable<int> NumberOfDrones { get; set; }
         public string SizeOfLEDScreen { get; set; }
         public Nullable<int> NumberOfLedScreens { get; set; }
+        public string Others { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }
-        public Nullable<bool> IsDisccount { get; set; }
-        public Nullable<int> DisscountPercentage { get; set; }
-        public Nullable<decimal> AmmountAfterDisscount { get; set; }
-        public Nullable<int> PercentageOfAdvancePayment { get; set; }
-        public Nullable<int> PercentageOfPaymentAtEventDay { get; set; }
-        public Nullable<int> PercentageOfPaymentAfterEvent { get; set; }
-        public Nullable<bool> IsPass { get; set; }
-        public Nullable<System.DateTime> EventDate { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
     
-        public virtual tblCustomer tblCustomer { get; set; }
+        public virtual tblAlbumAndVideoEditingCharge tblAlbumAndVideoEditingCharge { get; set; }
     }
 }

@@ -25,6 +25,7 @@ namespace PhotoStudio.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<tblAlbumAndVideoEditingCharge> tblAlbumAndVideoEditingCharges { get; set; }
         public virtual DbSet<tblCategory> tblCategories { get; set; }
         public virtual DbSet<tblCustomer> tblCustomers { get; set; }
         public virtual DbSet<tblGallery> tblGalleries { get; set; }

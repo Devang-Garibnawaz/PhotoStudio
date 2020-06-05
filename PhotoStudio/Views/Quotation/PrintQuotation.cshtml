@@ -1,0 +1,260 @@
+﻿@model PhotoStudio.Models.tblQuotation
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>Print Quotation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+    <style>
+        .clearfix:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        a {
+            color: #5D6975;
+            text-decoration: underline;
+        }
+
+        body {
+            position: relative;
+            width: 21cm;
+            height: 29.7cm;
+            margin: 0 auto;
+            color: #001028;
+            background: #FFFFFF;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            font-family: Arial;
+        }
+
+        header {
+            padding: 10px 0;
+            margin-bottom: 30px;
+        }
+
+        #logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+            #logo img {
+                width: 200px;
+            }
+
+        h1 {
+            border-top: 1px solid #5D6975;
+            border-bottom: 1px solid #5D6975;
+            color: #5D6975;
+            font-size: 2.4em;
+            line-height: 1.4em;
+            font-weight: normal;
+            text-align: center;
+            margin: 0 0 20px 0;
+            background: url(dimension.png);
+        }
+
+        #project {
+            float: left;
+            font-size: 1.2em;
+        }
+
+            #project span {
+                color: #5D6975;
+                text-align: right;
+                width: 70px;
+                margin-right: 10px;
+                display: inline-block;
+                font-size: 1em;
+            }
+
+        #company {
+            float: right;
+            text-align: right;
+            font-size: 1.2em;
+        }
+
+            #project div,
+            #company div {
+                white-space: nowrap;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin-bottom: 20px;
+        }
+
+            table tr:nth-child(2n-1) td {
+                background: #F5F5F5;
+            }
+
+            table th,
+            table td {
+                text-align: center;
+            }
+
+            table th {
+                padding: 5px 20px;
+                color: #5D6975;
+                border-bottom: 1px solid #C1CED9;
+                white-space: nowrap;
+                font-weight: normal;
+            }
+
+            table .service,
+            table .desc {
+                text-align: left;
+            }
+
+            table td {
+                padding: 20px;
+                text-align: right;
+                font-size: 1.2em;
+            }
+
+                table td.service,
+                table td.desc {
+                    vertical-align: top;
+                }
+
+
+
+
+                table td.unit,
+                table td.qty,
+                table td.total {
+                    font-size: 1.6em;
+                }
+
+                table td.grand {
+                    border-top: 1px solid #5D6975;
+                    ;
+                }
+
+        #notices .notice {
+            color: #5D6975;
+            font-size: 1.6em;
+        }
+
+        footer {
+            color: #5D6975;
+            width: 100%;
+            height: 30px;
+            position: absolute;
+            bottom: 0;
+            border-top: 1px solid #C1CED9;
+            padding: 8px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header class="clearfix">
+        <div id="logo">
+            <img src="~/adminassets/images/MPS_Logo2.jpeg" />
+        </div>
+        <h1></h1>
+        <div id="company" class="clearfix">
+            <div>MANISH PHOTOSTUDIO</div>
+            <div>Vardhaman Complex,<br /> Bhatar Rd, Dinbandhu Society, Bhatar, Athwa<br />Surat 395007, IND</div>
+            <div>(+91) 98251 28612</div>
+        </div>
+        <div id="project">
+            <div><span class="col-1">BILL NO.</span> @Model.QuotationID</div>
+            <div><span class="col-1">NAME</span>  @Model.tblCustomer.CustomerName </div>
+            <div><span class="col-1">Invoice Date</span> @Convert.ToString(string.Format("{0:dd/MM/yyyy}", DateTime.Now))</div>
+            <div><span class="col-1">Event Date</span> @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.EventDate))</div>
+
+        </div>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th class="desc">DESCRIPTION</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th align="center">Values</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+
+                    <td class="desc" colspan="4">Cenemato Graphers</td>
+                    <td class="unit">@Model.NumberOfCinematographers</td>
+                </tr>
+                <tr>
+
+                    <td class="desc" colspan="4">Photo Graphers</td>
+                    <td class="unit">@Model.NumberOfPhotographers</td>
+
+                </tr>
+                <tr>
+
+                    <td class="desc" colspan="4">Drones</td>
+                    <td class="unit">@Model.NumberOfDrones</td>
+
+                </tr>
+                <tr>
+
+                    <td class="desc" colspan="4">LED Screen Size</td>
+                    <td class="unit">@Model.SizeOfLEDScreen</td>
+
+                </tr>
+
+                <tr>
+
+                    <td class="desc" colspan="4">LED Screens</td>
+                    <td class="unit">@Model.NumberOfLedScreens</td>
+
+                </tr>
+
+                @if (Model.IsDisccount == false)
+                {
+                    <tr>
+                        <td class="desc" colspan="4">Total Amount</td>
+                        <td class="unit">@Model.TotalAmount</td>
+
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="grand total">Disscount</td>
+                        <td class="grand total">@Model.DisscountPercentage%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="grand total">TOTAL Amount</td>
+                        <td class="grand total">@Model.AmmountAfterDisscount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div id="notices">
+            <div>NOTICE:</div>
+            <div class="notice">Pecentage Of Advance Payment: @Model.PercentageOfAdvancePayment%</div>
+            <div class="notice">Pecentage Of Payment At The Day Of Event: @Model.PercentageOfPaymentAtEventDay%</div>
+            <div class="notice">Pecentage Of Payment After Work Is Done: @Model.PercentageOfPaymentAfterEvent%</div>
+
+        </div>
+    </main>
+    <br/>
+    <div class="text-center">
+        <button onclick="myFunction()" class="btn btn-info">Print</button>
+    </div>
+    <script>
+        function myFunction() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

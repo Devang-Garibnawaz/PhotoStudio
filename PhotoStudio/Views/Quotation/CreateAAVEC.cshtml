@@ -1,0 +1,400 @@
+﻿@model PhotoStudio.Models.tblQuotation
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script>
+        $(document).ready(function () {
+
+            var cmbCustomer = $("#cmbCustomer");
+            $.ajax({
+                type: "GET",
+                url: "/Customers/getAllActiveCustomers",
+                data: "{}",
+                success: function (data) {
+                    var CustomerData = '<option value="0">Select Customer</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        CustomerData += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                    }
+                    cmbCustomer.html(CustomerData);
+
+                }
+            });
+
+        });
+    </script>
+<script>
+    function fnManageDisscountControls()
+    {
+
+        var chkGiveDisscount = document.getElementById("chkGiveDisscount");
+        var divDisscountPercentage = $("#divDisscountPercentage");
+        var divDisscountAmount = $("#divDisscountAmount");
+        var divFinalAmount = $("#divFinalAmount");
+
+        if (chkGiveDisscount.checked)
+        {
+            divDisscountPercentage.show();
+            divDisscountAmount.show();
+            divFinalAmount.show();
+        }
+        else
+        {
+            divDisscountPercentage.hide();
+            divDisscountAmount.hide();
+            divFinalAmount.hide();
+        }
+       
+    }
+</script>
+
+<script>
+
+    function fnUpdateDisscountAmount()
+    {
+        var txtDisscountPercentage = $("#txtDisscountPercentage");
+        var txtDisscountedAmount = $("#txtDisscountedAmount");
+        var txtTotalAmount = $("#txtTotalAmount");
+        var txtFinalAmount = $("#txtFinalAmount");
+
+        if (__glb_fnIsNullOrEmpty(txtTotalAmount.val()))
+        {
+            toastr.warning('Input Error', 'Please enter total amount.', { timeOut: 1000, fadeOut: 1000 });
+            txtTotalAmount.focus();
+            return;
+        }
+        var finalAmount = parseFloat(txtTotalAmount.val()) - (parseFloat(txtTotalAmount.val()) * parseFloat(txtDisscountPercentage.val()) / 100);
+        txtFinalAmount.val(finalAmount);
+        txtDisscountedAmount.val(parseFloat(txtTotalAmount.val()) - parseFloat(txtFinalAmount.val()));
+    }
+
+    function fnUpdateTotalAmount() {
+        var HDVideoDubbPendrivePrice = $("#txtHDVideoDubbPendrivePrice").val();
+        var AlbumPrice = $("#txtAlbumPrice").val();
+        var AlbumPadPrice = $("#txtAlbumPadPrice").val();
+        var AlbumLatherBag = $("#txtAlbumLatherBag").val();
+        var PhotoLEDFrame = $("#txtPhotoLEDFrame").val();
+        var FamilyBaner = $("#txtFamilyBaner").val();
+        var SpecialAlbum = $("#txtSpecialAlbum").val();
+        var txtTotalAmount = $("#txtTotalAmount");
+        var txtFinalAmount = $("#txtFinalAmount");
+
+        var TotalAmount = 0;
+        if (!__glb_fnIsNullOrEmpty(HDVideoDubbPendrivePrice))
+            TotalAmount += parseFloat(HDVideoDubbPendrivePrice);
+
+        if (!__glb_fnIsNullOrEmpty(AlbumPrice))
+            TotalAmount += parseFloat(AlbumPrice);
+
+        if (!__glb_fnIsNullOrEmpty(AlbumPadPrice))
+            TotalAmount += parseFloat(AlbumPadPrice);
+
+        if (!__glb_fnIsNullOrEmpty(AlbumLatherBag))
+            TotalAmount += parseFloat(AlbumLatherBag);
+
+        if (!__glb_fnIsNullOrEmpty(PhotoLEDFrame))
+            TotalAmount += parseFloat(PhotoLEDFrame);
+
+        if (!__glb_fnIsNullOrEmpty(FamilyBaner))
+            TotalAmount += parseFloat(FamilyBaner);
+
+        if (!__glb_fnIsNullOrEmpty(SpecialAlbum))
+            TotalAmount += parseFloat(SpecialAlbum);
+
+        txtTotalAmount.val(TotalAmount);
+        txtFinalAmount.val(TotalAmount);
+    }
+
+    function fnInsertRecord()
+    {
+
+        var cmbCustomer = $("#cmbCustomer");
+        var txtHDVideoDubbPendrivePrice = $("#txtHDVideoDubbPendrivePrice");
+        var txtAlbumPage = $("#txtAlbumPage");
+        var txtAlbumSize = $("#txtAlbumSize");
+        var cmbAlbumtype = $("#cmbAlbumtype");
+        var txtAlbumPrice = $("#txtAlbumPrice");
+        var txtAlbumPadSize = $("#txtAlbumPadSize");
+        var txtAlbumPadPrice = $("#txtAlbumPadPrice");
+        var txtAlbumLatherBag = $("#txtAlbumLatherBag");
+        var chkGiveDisscount = document.getElementById("chkGiveDisscount");
+        var txtPhotoLEDFrame = $("#txtPhotoLEDFrame");
+        var txtFamilyBaner = $("#txtFamilyBaner");
+        var txtSpecialAlbum = $("#txtSpecialAlbum");
+        var txtTotalAmount = $("#txtTotalAmount");
+        var txtDisscountPercentage = $("#txtDisscountPercentage");
+        var txtDisscountedAmount = $("#txtDisscountedAmount");
+        var txtFinalAmount = $("#txtFinalAmount");
+        var txtOther = $("#txtOther");
+
+        if (cmbCustomer.val() == "0")
+        {
+            toastr.warning('Input Error', 'Please select customer.', { timeOut: 1000, fadeOut: 1000 });
+            cmbCustomer.focus();
+            return;
+        }
+
+        if (__glb_fnIsNullOrEmpty(txtHDVideoDubbPendrivePrice.val()))
+        {
+            toastr.warning('Input Error', 'Please enter price for HD Video + Dubb +Pendrive Price.', { timeOut: 1000, fadeOut: 1000 });
+            txtHDVideoDubbPendrivePrice.focus();
+            return;
+        }
+
+        if (__glb_fnIsNullOrEmpty(txtTotalAmount.val())) {
+            toastr.warning('Input Error', 'Please enter total amount.', { timeOut: 1000, fadeOut: 1000 });
+            txtTotalAmount.focus();
+            return;
+        }
+
+        if (chkGiveDisscount.checked)
+        {
+            if (__glb_fnIsNullOrEmpty(txtDisscountPercentage.val())) {
+                toastr.warning('Input Error', 'Please enter disscount percentage.', { timeOut: 1000, fadeOut: 1000 });
+                txtDisscountPercentage.focus();
+                return;
+            }
+        }
+
+
+        var formData = new FormData();
+        formData.append("CustomerID", cmbCustomer.val());
+        formData.append("AlbumPage", txtAlbumPage.val());
+        formData.append("AlbumSize", txtAlbumSize.val());
+        formData.append("AlbumType", cmbAlbumtype.val());
+        formData.append("AlbumPrice", txtAlbumPrice.val());
+        formData.append("AlbumPadSize", txtAlbumPadSize.val());
+        formData.append("AlbumPadPrice", txtAlbumPadPrice.val());
+        formData.append("AlbumLeadherBagPrice", txtAlbumLatherBag.val());
+        formData.append("PhotoLEDFramePrice", txtPhotoLEDFrame.val());
+        formData.append("FamilyBannerPrice", txtFamilyBaner.val());
+        formData.append("SpecialAlbum", txtSpecialAlbum.val());
+        formData.append("HDVideoDubbPendrivePrice", txtHDVideoDubbPendrivePrice.val());
+        formData.append("Other", txtOther.val());
+
+        formData.append("IsDisscount", $('#chkGiveDisscount').is(':checked'));
+        formData.append("DisscountPercentage", txtDisscountPercentage.val());
+        formData.append("OriginalAmount", txtTotalAmount.val());
+        formData.append("DisscountedAmount", txtDisscountedAmount.val());
+        formData.append("FinalAmount", txtFinalAmount.val());
+
+        var response = __glb_fnIUDOperation(formData,'/Quotation/InsertAlbumAndVideoEditingCharge');
+        if (response.success == true) {
+            toastr.success(
+                response.message,
+                'Record is inserted',
+                {
+                    timeOut: 1000,
+                    fadeOut: 1000,
+                    onHidden: function () {
+                        window.location.href = '/Quotation/';
+                    }
+                }
+            );
+        }
+        else {
+            toastr.error('Error occur!', response.message, { timeOut: 1000, fadeOut: 1000 });
+        }
+    }
+
+</script>
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Add Quotation</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Quotation")">Quotation List</a></li>
+                <li class="breadcrumb-item active">Add Album and Vieo Editing Charges</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="row" >
+    <div class="col-lg-12">
+        <div class="card ">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">Album and Vieo Editing Charges Details:</h4>
+            </div>
+            <div class="card-body ">
+                    <div class="form-body">
+                        <hr class="m-t-0 m-b-40" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Select Customer:</label>
+                                    <div class="col-md-4">
+                                        <select id="cmbCustomer" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">HD Video Editing + Dubbing + pendrive(Price):</label>
+                                    <div class="col-md-4">
+                                        <input type="number" id="txtHDVideoDubbPendrivePrice" value="0" onchange="fnUpdateTotalAmount()" class="form-control" placeholder="Enter Price" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Album Pages:</label>
+                                    <div class="col-md-4">
+                                        <input type="number" id="txtAlbumPage" value="0" class="form-control" placeholder="Enter Album Pages e.g 10 or 15 or 17" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Album Size:</label>
+                                    <div class="col-md-4">
+                                        <input type="text" id="txtAlbumSize" class="form-control" value="12 * 36 " placeholder="Enter Album Size e.g 12*36" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Album Type:</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control" id="cmbAlbumtype">
+                                            <option value="Matt">Matt</option>
+                                            <option value="Glossy">Glossy</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Album Price:</label>
+                                    <div class="col-md-4">
+                                        <input type="number" id="txtAlbumPrice" value="0" onchange="fnUpdateTotalAmount()" class="form-control" placeholder="Enter Album Price" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Album Pad Size:</label>
+                                    <div class="col-md-4">
+                                        <input type="text" id="txtAlbumPadSize" class="form-control" value="12 * 36" placeholder="Enter Album Pad Size" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Album Pad Price:</label>
+                                    <div class="col-md-4">
+                                        <input type="text" id="txtAlbumPadPrice" value="0" onchange="fnUpdateTotalAmount()" class="form-control" placeholder="Enter Album Pad Price" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Album Leadher Bag Price:</label>
+                                    <div class="col-md-4">
+                                        <input type="number" id="txtAlbumLatherBag" value="0" onchange="fnUpdateTotalAmount()" class="form-control" placeholder="Enter Lather Bag Price" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Photo LED Frame in Reception(Price):</label>
+                                    <div class="col-md-4">
+                                        <input type="number" id="txtPhotoLEDFrame" value="0" onchange="fnUpdateTotalAmount()" class="form-control" placeholder="Enter LED Frame Price" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Reception Family Banner 5x3 size(Price):</label>
+                                    <div class="col-md-4">
+                                        <input type="number" id="txtFamilyBaner" value="0" onchange="fnUpdateTotalAmount()" class="form-control" placeholder="Enter banner Price" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Groom & Bride Special Album(Price):</label>
+                                    <div class="col-md-4">
+                                        <input type="number" id="txtSpecialAlbum" value="0" onchange="fnUpdateTotalAmount()" class="form-control" placeholder="Enter Price For Special Album" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="box-title">Monetorial Details</h3>
+                        <hr class="m-t-0 m-b-40">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Total Amount:</label>
+                                    <div class="col-md-9">
+                                        <input type="number" id="txtTotalAmount" value="0" class="form-control" placeholder="Enter total amount" readonly/>
+                                        <font color="red">Note: This is not final amount! Amount will be updated after photographer details will be added!</font>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Give Disscount?:</label>
+                                    <div class="col-md-9">
+                                        <input type="checkbox" onchange="fnManageDisscountControls()" class="js-switch" id="chkGiveDisscount" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="divDisscountPercentage" style="display:none">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Percentage Of Disscount:</label>
+                                    <div class="col-md-9">
+                                        <input type="number" value="0" id="txtDisscountPercentage" onchange="fnUpdateDisscountAmount()" class="form-control" placeholder="Enter Percentage of Disccount" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="divDisscountAmount" style="display:none">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Disscounted Amount:</label>
+                                    <div class="col-md-9">
+                                        <input type="text" id="txtDisscountedAmount" style="color:red" value="0" class="form-control" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="divFinalAmount" style="display:none">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Final Amount:</label>
+                                    <div class="col-md-9">
+                                        <input type="text" id="txtFinalAmount" value="0"  class="form-control" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Other: (Mendatory)</label>
+                                    <div class="col-md-9">
+                                        <textarea id="txtOther" class="form-control" placeholder="Enter Any Other Information"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-offset-9 col-md-9">
+                                        <input type="submit" value="Submit" class="btn btn-success" onclick="javascript:fnInsertRecord()" />
+                                        <a href="@Url.Action("Index", "Quotation")" class="btn btn-primary">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

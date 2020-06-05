@@ -17,12 +17,12 @@ namespace PhotoStudio.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblCustomer()
         {
+            this.tblAlbumAndVideoEditingCharges = new HashSet<tblAlbumAndVideoEditingCharge>();
             this.tblGalleries = new HashSet<tblGallery>();
             this.tblPortfolios = new HashSet<tblPortfolio>();
-            this.tblQuotations = new HashSet<tblQuotation>();
         }
     
-        public int CustomerID { get; set; }
+        public long CustomerID { get; set; }
         public string CustomerName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
@@ -33,10 +33,10 @@ namespace PhotoStudio.Models
         public Nullable<System.DateTime> UpdatedDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblAlbumAndVideoEditingCharge> tblAlbumAndVideoEditingCharges { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblGallery> tblGalleries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblPortfolio> tblPortfolios { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblQuotation> tblQuotations { get; set; }
     }
 }
