@@ -1,260 +1,211 @@
-﻿@model PhotoStudio.Models.tblQuotation
+﻿@model IEnumerable < PhotoStudio.Models.tblQuotation>
+    
 @{
     Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-    <meta charset="utf-8">
-    <title>Print Quotation</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
-    <style>
-        .clearfix:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-        a {
-            color: #5D6975;
-            text-decoration: underline;
-        }
-
-        body {
-            position: relative;
-            width: 21cm;
-            height: 29.7cm;
-            margin: 0 auto;
-            color: #001028;
-            background: #FFFFFF;
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            font-family: Arial;
-        }
-
-        header {
-            padding: 10px 0;
-            margin-bottom: 30px;
-        }
-
-        #logo {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-            #logo img {
-                width: 200px;
+    <script>
+    $(document).ready(function () {
+        fnShowMoreInfo(@ViewBag.AAVECID);
+    });
+    function fnShowMoreInfo(ID) {
+        var formData = new FormData();
+        formData.append("AAVEID", ID);
+        $.ajax({
+            type: "POST",
+            processData: false,
+            contentType: false,
+            url: "/Quotation/getAlbumAndVideoEditingDetails",
+            data: formData,
+            success: function (data) {
+                fnPopulateDivOfMoreInfo(data[0]);
             }
+        });
+    }
 
-        h1 {
-            border-top: 1px solid #5D6975;
-            border-bottom: 1px solid #5D6975;
-            color: #5D6975;
-            font-size: 2.4em;
-            line-height: 1.4em;
-            font-weight: normal;
-            text-align: center;
-            margin: 0 0 20px 0;
-            background: url(dimension.png);
-        }
+    function fnPopulateDivOfMoreInfo(data)
+    {
+        document.getElementById("lblAlbumPages").innerHTML = __glb_fnIsNullOrEmpty(data.ALBPG) ? "-" : data.ALBPG;
+        document.getElementById("lblAlbumSize").innerHTML = __glb_fnIsNullOrEmpty(data.ALBSZ) ? "-" : data.ALBSZ + " Pages";
+        document.getElementById("lblAlbumPrice").innerHTML = __glb_fnIsNullOrEmpty(data.ALBPR) ? "-" : data.ALBPR;
+        document.getElementById("lblAlbumType").innerHTML = __glb_fnIsNullOrEmpty(data.ALBType) ? "-" : data.ALBType;
 
-        #project {
-            float: left;
-            font-size: 1.2em;
-        }
+        document.getElementById("lblHDVDP").innerHTML = __glb_fnIsNullOrEmpty(data.HDVDDUBBPD) ? "-" : data.HDVDDUBBPD;
 
-            #project span {
-                color: #5D6975;
-                text-align: right;
-                width: 70px;
-                margin-right: 10px;
-                display: inline-block;
-                font-size: 1em;
-            }
+        document.getElementById("lblAlbumPadSize").innerHTML = __glb_fnIsNullOrEmpty(data.ALBPDSZ) ? "-" : data.ALBPDSZ;
+        document.getElementById("lblAlbumPadPrice").innerHTML = __glb_fnIsNullOrEmpty(data.ALBPDPR) ? "-" : data.ALBPDPR;
 
-        #company {
-            float: right;
-            text-align: right;
-            font-size: 1.2em;
-        }
+        document.getElementById("lblLatherBagPrice").innerHTML = __glb_fnIsNullOrEmpty(data.ALBLBPR) ? "-" : data.ALBLBPR;
 
-            #project div,
-            #company div {
-                white-space: nowrap;
-            }
+        document.getElementById("lblLEDScreen").innerHTML = __glb_fnIsNullOrEmpty(data.PLEDPR) ? "-" : data.PLEDPR;
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border-spacing: 0;
-            margin-bottom: 20px;
-        }
+        document.getElementById("lblFamilyBanner").innerHTML = __glb_fnIsNullOrEmpty(data.FamilyBannerPR) ? "-" : data.FamilyBannerPR;
 
-            table tr:nth-child(2n-1) td {
-                background: #F5F5F5;
-            }
+        document.getElementById("lblSpecialAlbum").innerHTML = __glb_fnIsNullOrEmpty(data.SPALB) ? "-" : data.SPALB;
 
-            table th,
-            table td {
-                text-align: center;
-            }
+        document.getElementById("lblOriginalAmount").innerHTML = __glb_fnIsNullOrEmpty(data.OriginalAmount) ? "-" : data.OriginalAmount;
+        document.getElementById("lblDissPer").innerHTML = __glb_fnIsNullOrEmpty(data.DissPer) ? "-" : data.DissPer;
+        document.getElementById("lblDissAmt").innerHTML = __glb_fnIsNullOrEmpty(data.DissAmt) ? "-" : data.DissAmt;
+        document.getElementById("lblFinalAmount").innerHTML = __glb_fnIsNullOrEmpty(data.FinalAmt) ? "-" : data.FinalAmt;
 
-            table th {
-                padding: 5px 20px;
-                color: #5D6975;
-                border-bottom: 1px solid #C1CED9;
-                white-space: nowrap;
-                font-weight: normal;
-            }
+    }
+    </script>
 
-            table .service,
-            table .desc {
-                text-align: left;
-            }
-
-            table td {
-                padding: 20px;
-                text-align: right;
-                font-size: 1.2em;
-            }
-
-                table td.service,
-                table td.desc {
-                    vertical-align: top;
-                }
-
-
-
-
-                table td.unit,
-                table td.qty,
-                table td.total {
-                    font-size: 1.6em;
-                }
-
-                table td.grand {
-                    border-top: 1px solid #5D6975;
-                    ;
-                }
-
-        #notices .notice {
-            color: #5D6975;
-            font-size: 1.6em;
-        }
-
-        footer {
-            color: #5D6975;
-            width: 100%;
-            height: 30px;
-            position: absolute;
-            bottom: 0;
-            border-top: 1px solid #C1CED9;
-            padding: 8px 0;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <header class="clearfix">
-        <div id="logo">
-            <img src="~/adminassets/images/MPS_Logo2.jpeg" />
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">Print Quotation</h4>
         </div>
-        <h1></h1>
-        <div id="company" class="clearfix">
-            <div>MANISH PHOTOSTUDIO</div>
-            <div>Vardhaman Complex,<br /> Bhatar Rd, Dinbandhu Society, Bhatar, Athwa<br />Surat 395007, IND</div>
-            <div>(+91) 98251 28612</div>
+        <div class="col-md-7 align-self-center text-right">
+            <div class="d-flex justify-content-end align-items-center">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Quotation")">Album And Vieo Editing Charges</a></li>
+                    <li class="breadcrumb-item active">Print Quotation</li>
+                </ol>
+            </div>
         </div>
-        <div id="project">
-            <div><span class="col-1">BILL NO.</span> @Model.QuotationID</div>
-            <div><span class="col-1">NAME</span>  @Model.tblCustomer.CustomerName </div>
-            <div><span class="col-1">Invoice Date</span> @Convert.ToString(string.Format("{0:dd/MM/yyyy}", DateTime.Now))</div>
-            <div><span class="col-1">Event Date</span> @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.EventDate))</div>
-
-        </div>
-    </header>
+    </div>
     <main>
-        <table>
-            <thead>
-                <tr>
-                    <th class="desc">DESCRIPTION</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th align="center">Values</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
+        <div class="card card-body" id="printarea">
+            <center><img src="~/adminassets/images/MPS_Logo2.jpeg" height="60px" width="100px" /></center>
+            <hr>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-left">
+                        <address>
+                            <span class="pull-left"><h3> &nbsp;<b class="text-danger">MANISH PHOTOSTUDIO</b></h3></span>
+                            <p class="text-muted m-l-5">
+                                Vardhaman Complex,
+                                <br>Dinbandhu Society,
+                                <br> Bhatar Road,
+                                <br> Surat - 395007
+                            </p>
+                            <p class="m-t-30"><b>Invoice Date :</b> <i class="fa fa-calendar"></i> @DateTime.Now</p>
+                        </address>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive m-t-40" style="clear: both;">
+                        <table class="table table-hover">
+                            <caption>EMPLOYEES AND EQUIPMENTs CHARGES</caption>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Event Date</th>
+                                    <th class="text-center">Function</th>
+                                    <th class="text-center" colspan="2">Cinematographers</th>
+                                    <th class="text-center" colspan="2">Photographers</th>
+                                    <th class="text-center">DSLR</th>
+                                    <th class="text-center">Drones</th>
+                                    <th class="text-center">LED Screens</th>
+                                    <th class="text-center">Total Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td align="center">@Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.EventDate))</td>
+                                        <td align="center">@item.FunctionName</td>
+                                        <td align="center">Candid(@item.CandidCinematographers)</td>
+                                        <td align="center">Regular(@item.RegularCinematographers)</td>
+                                        <td align="center">Candid(@item.CandidPhotographer)</td>
+                                        <td align="center">Regular(@item.RegularPhotographer)</td>
+                                        <td align="center">@item.DSLR</td>
+                                        <td align="center">@item.NumberOfDrones</td>
+                                        <td align="center">@item.NumberOfLedScreens</td>
+                                        <td align="center"> @Convert.ToDecimal(item.TotalAmount).ToString("0.00")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-                    <td class="desc" colspan="4">Cenemato Graphers</td>
-                    <td class="unit">@Model.NumberOfCinematographers</td>
-                </tr>
-                <tr>
-
-                    <td class="desc" colspan="4">Photo Graphers</td>
-                    <td class="unit">@Model.NumberOfPhotographers</td>
-
-                </tr>
-                <tr>
-
-                    <td class="desc" colspan="4">Drones</td>
-                    <td class="unit">@Model.NumberOfDrones</td>
-
-                </tr>
-                <tr>
-
-                    <td class="desc" colspan="4">LED Screen Size</td>
-                    <td class="unit">@Model.SizeOfLEDScreen</td>
-
-                </tr>
-
-                <tr>
-
-                    <td class="desc" colspan="4">LED Screens</td>
-                    <td class="unit">@Model.NumberOfLedScreens</td>
-
-                </tr>
-
-                @if (Model.IsDisccount == false)
-                {
-                    <tr>
-                        <td class="desc" colspan="4">Total Amount</td>
-                        <td class="unit">@Model.TotalAmount</td>
-
-                    </tr>
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="4" class="grand total">Disscount</td>
-                        <td class="grand total">@Model.DisscountPercentage%</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" class="grand total">TOTAL Amount</td>
-                        <td class="grand total">@Model.AmmountAfterDisscount</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <div id="notices">
-            <div>NOTICE:</div>
-            <div class="notice">Pecentage Of Advance Payment: @Model.PercentageOfAdvancePayment%</div>
-            <div class="notice">Pecentage Of Payment At The Day Of Event: @Model.PercentageOfPaymentAtEventDay%</div>
-            <div class="notice">Pecentage Of Payment After Work Is Done: @Model.PercentageOfPaymentAfterEvent%</div>
-
+                <div class="col-md-12">
+                    <div class="table-responsive m-t-40" style="clear: both;">
+                        <table class="table table-hover">
+                            <tr>
+                                <th colspan="4">Details</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td><label id="lblAlbumSize"></label> Photo Book Album (<label id="lblAlbumType"></label>): </td>
+                                <td>Pages: <label id="lblAlbumPages"></label></td>
+                                <td></td>
+                                <td></td>
+                                <td><label id="lblAlbumPrice"></label></td>
+                            </tr>
+                            <tr>
+                                <td>HD Video Editing + Dubbing + pendrive:</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><label id="lblHDVDP"></label></td>
+                            </tr>
+                            <tr>
+                                <td>Album Pad - <label id="lblAlbumPadSize"></label>:</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><label id="lblAlbumPadPrice"></label></td>
+                            </tr>
+                            <tr>
+                                <td>Album Leadher Bag:</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><label id="lblLatherBagPrice"></label></td>
+                            </tr>
+                            <tr>
+                                <td>Photo LED Frame in Reception:</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><label id="lblLEDScreen"></label></td>
+                            </tr>
+                            <tr>
+                                <td>Reception Family Banner 5x3 size:</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><label id="lblFamilyBanner"></label></td>
+                            </tr>
+                            <tr>
+                                <td>Groom & Bride Special Album:</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><label id="lblSpecialAlbum"></label></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="pull-right m-t-30 text-right">
+                        <p>Total amount: <i class="fas fa-rupee-sign"></i> <label id="lblOriginalAmount"></label></p>
+                        <p>Discount (<label id="lblDissPer"></label>%): <i class="fas fa-rupee-sign"></i> <label id="lblDissAmt"></label></p>
+                        <hr>
+                        <h3><b>Total :</b> <i class="fas fa-rupee-sign"></i> <label id="lblFinalAmount"></label></h3>
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr>
+                    <div class="text-right">
+                        <button id="print" class="btn btn-default btn-outline" type="button"> <span><i class="fa fa-print"></i> Print</span> </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
-    <br/>
-    <div class="text-center">
-        <button onclick="myFunction()" class="btn btn-info">Print</button>
-    </div>
-    <script>
-        function myFunction() {
+<script>
+    $(document).ready(function () {
+        $("#print").click(function () {
+            var printContents = document.getElementById('printarea').innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
             window.print();
-        }
-    </script>
-</body>
-</html>
+
+            document.body.innerHTML = originalContents;
+        });
+    });
+</script>

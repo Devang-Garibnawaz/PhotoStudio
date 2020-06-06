@@ -29,6 +29,7 @@ namespace PhotoStudio.Models
         public virtual DbSet<tblCategory> tblCategories { get; set; }
         public virtual DbSet<tblCustomer> tblCustomers { get; set; }
         public virtual DbSet<tblGallery> tblGalleries { get; set; }
+        public virtual DbSet<tblOrder> tblOrders { get; set; }
         public virtual DbSet<tblPhotographer> tblPhotographers { get; set; }
         public virtual DbSet<tblPhotographerType> tblPhotographerTypes { get; set; }
         public virtual DbSet<tblPortfolio> tblPortfolios { get; set; }

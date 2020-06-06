@@ -12,18 +12,18 @@ namespace PhotoStudio.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tblPhotographerType
+    public partial class tblOrder
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblPhotographerType()
-        {
-            this.tblOrders = new HashSet<tblOrder>();
-        }
-    
+        public long OrderID { get; set; }
+        public long QuotationID { get; set; }
+        public int PhotographerID { get; set; }
         public int PhotographerTypeID { get; set; }
-        public string PhotographerTypeName { get; set; }
+        public Nullable<decimal> TotalPay { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.DateTime> UpdatedDateTime { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblOrder> tblOrders { get; set; }
+        public virtual tblPhotographer tblPhotographer { get; set; }
+        public virtual tblPhotographerType tblPhotographerType { get; set; }
+        public virtual tblQuotation tblQuotation { get; set; }
     }
 }

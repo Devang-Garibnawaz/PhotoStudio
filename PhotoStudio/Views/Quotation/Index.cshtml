@@ -102,7 +102,6 @@
 
     function fnPopulateDivOfMoreInfo(data)
     {
-        console.log(data);
         document.getElementById("lblCustomerName").innerHTML = __glb_fnIsNullOrEmpty(data.CustomerName) ? "-" : data.CustomerName;
         document.getElementById("lblALBPG").innerHTML = __glb_fnIsNullOrEmpty(data.ALBPG) ? "-" : data.ALBPG + " Pages";
         document.getElementById("lblALBSZ").innerHTML = __glb_fnIsNullOrEmpty(data.ALBSZ) ? "-" : data.ALBSZ;
@@ -152,13 +151,13 @@
 
 <div class="row page-titles">
     <div class="col-md-5 align-self-center">
-        <h4 class="text-themecolor">Quotation List</h4>
+        <h4 class="text-themecolor">Album and Vieo Editing Charges Details</h4>
     </div>
     <div class="col-md-7 align-self-center text-right">
         <div class="d-flex justify-content-end align-items-center">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="Home.aspx">Home</a></li>
-                <li class="breadcrumb-item active">Quotation List</li>
+                <li class="breadcrumb-item active">Album and Vieo Editing Charges Details</li>
             </ol>
         </div>
     </div>
@@ -167,18 +166,18 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header bg-info">
-                <h4 class="m-b-0 text-white">Quotation list:</h4>
+                <h4 class="m-b-0 text-white">Album And Video Editing Charges List:</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive m-t-40">
-                    <a href="@Url.Action("CreateAAVEC", "Quotation")" class="btn waves-effect waves-light btn-outline-success">+ Add Quotation</a>
+                    <a href="@Url.Action("CreateAAVEC", "Quotation")" class="btn waves-effect waves-light btn-outline-success">+ Add Album And Vieo Editing Charges</a>
                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered" width="100%">
                         <thead>
                             <tr>
                                 <th>Customer</th>
                                 <th>Disscount Applied</th>
-                                <th><font color="green">Disscount Percentage/</font><br/><font color="red">Disscounted Amount</font></th>
-                                <th>Total Amount</th>
+                                <th><font color="green">Discount Percentage/</font><br/><font color="red">Discounted Amount</font></th>
+                                <th><font color="green">Original Amount /</font><br/><font color="red">Total Amount</font></th>
                                 <th>Approved</th>
                                 <th>More Info</th>
                                 <th><font color="green">Created/</font><br /> <font color="red">Updated Date</font></th>
@@ -195,10 +194,14 @@
                                 <td align="center">@(item.IsDisscount == true ? "Yes" : "No")</td>
 
                                 <td align="left">
-                                    <font color="green">@item.DisscountPercentage% </font><br />
-                                    <font color="red"><i class="fas fa-rupee-sign"></i> @Convert.ToDecimal(item.DisscountedAmount).ToString("0.00")</font>
+                                    <font color="green">@item.DiscountPercentage% </font><br />
+                                    <font color="red"><i class="fas fa-rupee-sign"></i> @Convert.ToDecimal(item.DiscountedAmount).ToString("0.00")</font>
                                 </td>
-                                <td align="left"><font color="red"><i class="fas fa-rupee-sign"></i> @Convert.ToDecimal(item.FinalAmount).ToString("0.00")</font></td>
+                                <td align="left">
+                                    <font color="green"><i class="fas fa-rupee-sign"></i> @Convert.ToDecimal(item.OriginalAmount).ToString("0.00")</font>
+                                    <br/>
+                                    <font color="red"><i class="fas fa-rupee-sign"></i> @Convert.ToDecimal(item.FinalAmount).ToString("0.00")</font>
+                                </td>
                                 <td align="center">
                                     @if (item.IsPass == true)
                                     {
@@ -215,13 +218,15 @@
                                 </td>
                                 <td align="center">
                                     <a data-toggle="modal" data-target=".bs-example-modal-lg" href="" onclick="javascript:fnShowMoreInfo(@item.AlbumAndVideoEditingChargesID)"> <img src="~/adminassets/images/searchPNG.png" height="40px" width="40px"/></a>
-                                    <br />
                                 </td>
                                 <td align='center'><font color="green">@item.CreatedDate</font> <br /> <font color="red">@item.UpdatedDate</font></td>
                                 <td align="left">
                                     <a href="@Url.Action("UpdateAlbumAndVideoEditingCharge/"+item.AlbumAndVideoEditingChargesID, "Quotation")" class="btn btn-success btn-circle" title="Click here to update details"><i class="fa fa-pencil-alt"></i></a>
                                     &nbsp;&nbsp;&nbsp;
                                     <a href="@Url.Action("ManageQuotationDetails/"+item.AlbumAndVideoEditingChargesID, "Quotation")" class="btn btn-danger btn-circle" title="Click here to add another quotation details"><i class="fa fa-plus"></i></a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a href="@Url.Action("PrintQuotation/"+item.AlbumAndVideoEditingChargesID, "Quotation")" class="btn btn-danger btn-circle" title="Click here to print quotation"><i class="fas fa-print"></i></a>
+
                                 </td>
                                 <td align="center">
                                     <button type="submit" class="btn btn-danger waves-effect waves-light" onclick="return ConfirmationDialog(@item.AlbumAndVideoEditingChargesID)">

@@ -1,0 +1,363 @@
+﻿@model IEnumerable<PhotoStudio.Models.tblQuotation>
+
+@{
+    ViewBag.Title = "ManageQuotationDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+
+        var cmbCustomer = $("#cmbCustomer");
+        $.ajax({
+            type: "GET",
+            url: "/Customers/getAllActiveCustomers",
+            data: "{}",
+            success: function (data) {
+                var CustomerData = '<option value="0">Select Customer</option>';
+                for (var i = 0; i < data.length; i++) {
+                    CustomerData += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                }
+                cmbCustomer.html(CustomerData);
+
+            }
+        });
+
+    });
+</script>
+
+<script>
+    function ConfirmationDialog(ID) {
+        if (confirm("Are you sure to delete?"))
+            fnDeleteRecord(ID);
+        else
+            return false;
+    }
+
+    function fnDeleteRecord(ID) {
+        $.ajax({
+            async: true,
+            type: 'POST',
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: "{'id':'" + ID + "'}",
+            url: '/Quotation/DeleteQuotation',
+            success: function (response) {
+                if (response.success === true) {
+                    toastr.success(
+                        response.message,
+                        '',
+                        {
+                            timeOut: 1000,
+                            fadeOut: 1000,
+                            onHidden: function () {
+                                window.location.reload();
+                            }
+                        }
+                    );
+                }
+                else {
+                    toastr.info(response.message, '', { timeOut: 3000 });
+                }
+            },
+            error: function () {
+                toastr.error('Error occur', 'Error occur while deleting record.', { timeOut: 3000 });
+            }
+
+        });
+}
+
+    function fnShowMoreInfo(ID) {
+        var formData = new FormData();
+        formData.append("QID", ID);
+        $.ajax({
+            type: "POST",
+            processData: false,
+            contentType: false,
+            url: "/Quotation/getQuotationDetails",
+            data: formData,
+            success: function (data) {
+                fnPopulateDivOfMoreInfo(data[0]);
+            }
+        });
+    }
+
+    function fnPopulateDivOfMoreInfo(data) {
+        console.log(data);
+        document.getElementById("lblCCG").innerHTML = __glb_fnIsNullOrEmpty(data.CCG) ? "-" : data.CCG;
+        document.getElementById("lblRCG").innerHTML = __glb_fnIsNullOrEmpty(data.RCG) ? "-" : data.RCG;
+        document.getElementById("lblCPG").innerHTML = __glb_fnIsNullOrEmpty(data.CPG) ? "-" : data.CPG;
+        document.getElementById("lblRPG").innerHTML = __glb_fnIsNullOrEmpty(data.RPG) ? "-" : data.RPG;
+        document.getElementById("lblDSLR").innerHTML = __glb_fnIsNullOrEmpty(data.DSLR) ? "-" : data.DSLR;
+        document.getElementById("lblDrones").innerHTML = __glb_fnIsNullOrEmpty(data.Drones) ? "-" : data.Drones;
+        document.getElementById("lblNOLEDS").innerHTML = __glb_fnIsNullOrEmpty(data.NOLEDS) ? "-" : data.NOLEDS;
+    }
+
+    function fnInsertRecord() {
+
+        var AAVECID = @ViewBag.AAVECID;
+        var txtEventDate = $("#txtEventDate");
+        var txtFunctionName = $("#txtFunctionName");
+        var txtCandidCinemato = $("#txtCandidCinemato");
+        var txtRegularCinemato = $("#txtRegularCinemato");
+        var txtCandidPhoto = $("#txtCandidPhoto");
+        var txtRegularPhoto = $("#txtRegularPhoto");
+        var txtDSLR = $("#txtDSLR");
+        var txtDrones = $("#txtDrones");
+        var txtLEDScreen = $("#txtLEDScreen");
+        var txtTotalAmount = $("#txtTotalAmount");
+        var txtOther = $("#txtOther");
+
+        if (parseInt(AAVECID) <= 0) {
+            toastr.warning('Input Error', 'Album And Vieo Editing ID can not be blank.', { timeOut: 1000, fadeOut: 1000 });
+            return;
+        }
+
+        if (__glb_fnIsNullOrEmpty(txtEventDate.val())) {
+            toastr.warning('Input Error', 'Please Enter Event Date.', { timeOut: 1000, fadeOut: 1000 });
+            txtEventDate.focus();
+            return;
+        }
+
+        if (__glb_fnIsNullOrEmpty(txtFunctionName.val())) {
+            toastr.warning('Input Error', 'Please Enter Function Name.', { timeOut: 1000, fadeOut: 1000 });
+            txtFunctionName.focus();
+            return;
+        }
+
+        if (__glb_fnIsNullOrEmpty(txtTotalAmount.val())) {
+            toastr.warning('Input Error', 'Please enter total amount.', { timeOut: 1000, fadeOut: 1000 });
+            txtTotalAmount.focus();
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append("AAVECID", AAVECID);
+        formData.append("EventDate", txtEventDate.val());
+        formData.append("FunctionName", txtFunctionName.val());
+        formData.append("CandidCinemato", txtCandidCinemato.val());
+        formData.append("RegularCinemato", txtRegularCinemato.val());
+        formData.append("CandidPhoto", txtCandidPhoto.val());
+        formData.append("RegularPhoto", txtRegularPhoto.val());
+        formData.append("DSLR", txtDSLR.val());
+        formData.append("Drones", txtDrones.val());
+        formData.append("LEDScreen", txtLEDScreen.val());
+        formData.append("TotalAmount", txtTotalAmount.val());
+        var response = __glb_fnIUDOperation(formData, '/Quotation/InsertQuotation');
+        if (response.success == true) {
+            toastr.success(
+                response.message,
+                'Record is inserted',
+                {
+                    timeOut: 1000,
+                    fadeOut: 1000,
+                    onHidden: function () {
+                        window.location.href = '/Quotation/ManageQuotationDetails/'+@ViewBag.AAVECID;
+                    }
+                }
+            );
+        }
+        else {
+            toastr.error('Error occur!', response.message, { timeOut: 3000, fadeOut: 3000 });
+        }
+    }
+    </script>
+
+<div id="add-quotation" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="H1">Add Quotation Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-md-12 m-b-20">
+                        Event Date: <input type="date" id="txtEventDate" class="form-control" required placeholder="Enter Event Date:" /><br /><br />
+                        Function: <input type="text" id="txtFunctionName" class="form-control" required placeholder="Enter Function Name:" /><br /><br />
+                        Candid Cinematographer: <input type="number" id="txtCandidCinemato" class="form-control" required placeholder="Enter Number Of Candid Cinematographers:" /><br /><br />
+                        Regular Cinematographer: <input type="number" id="txtRegularCinemato" class="form-control" required placeholder="Enter Number Of Regular Cinematographers:" /><br /><br />
+                        Candid Photographer: <input type="number" id="txtCandidPhoto" class="form-control" required placeholder="Enter Number Of Candid Photographers:" /><br /><br />
+                        Regular Photographer: <input type="number" id="txtRegularPhoto" class="form-control" required placeholder="Enter Number Of Regular Photographers:" /><br /><br />
+                        DSLR: <input type="number" id="txtDSLR" class="form-control" required placeholder="Enter Number Of DSLR:" /><br /><br />
+                        Drones: <input type="number" id="txtDrones" class="form-control" required placeholder="Enter Number Of Drones:" /><br /><br />
+                        LED Screen: <input type="number" id="txtLEDScreen" class="form-control" required placeholder="Enter Number Of LED Screen:" /><br /><br />
+                        Other Note: <textarea class="form-control" id="txtOther" placeholder="Other Note"></textarea>
+                        Total Amount: <input type="number" id="txtTotalAmount" class="form-control" required placeholder="Enter Total Amount:" /><br /><br />
+                        <div class="modal-footer">
+                            <input type="submit" value="Insert" class="btn btn-success" onclick="fnInsertRecord()" />
+                            <input type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true" value="Cancel" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel">More Info</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <label class="col-4 col-form-label">Candid Cinematographer:</label><label class="col-5 col-form-label" id="lblCCG"></label><hr />
+                <label class="col-4 col-form-label">Regular Cinematographer:</label><label class="col-5 col-form-label" style="color:brown;" id="lblRCG"></label><hr />
+                <label class="col-4 col-form-label">Candid Photographer:</label><label class="col-5 col-form-label" style="color:brown;" id="lblCPG"></label><hr />
+                <label class="col-4 col-form-label">Regular Photographer:</label><label class="col-5 col-form-label" style="color:brown;" id="lblRPG"></label><hr />
+                <label class="col-4 col-form-label">DSLR:</label><label class="col-5 col-form-label" id="lblDSLR"></label><hr />
+                <label class="col-4 col-form-label">Drones:</label><label class="col-5 col-form-label" style="color:brown;" id="lblDrones"></label><hr />
+                <label class="col-4 col-form-label">Number Of LED Screen:</label><label class="col-5 col-form-label" id="lblNOLEDS"></label><hr />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Quotation List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Quotation")">Album and Vieo Editing Charges</a></li>
+                <li class="breadcrumb-item active">Quotation List</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">Quotation list:</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive m-t-40">
+                    <button class="btn waves-effect waves-light btn-outline-success" data-toggle="modal" data-target="#add-quotation">
+                        + Add Quotation
+                    </button>
+                    @if(ViewBag.IsPass == false)
+                    {
+                        <label style="color:red">Quotation is not pass yet!</label>
+                    }
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Function Date</th>
+                                <th>Function</th>
+                                <th>Total Amount</th>
+                                <th>More Info</th>
+                                <th><font color="green">Created/</font><br /> <font color="red">Updated Date</font></th>
+                                @if(ViewBag.IsPass == true)
+                                {
+                                    <th>Assign Employees</th>
+                                }
+                                <th><font color="green">Delete</font></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td align="left">@item.tblAlbumAndVideoEditingCharge.tblCustomer.CustomerName</td>
+                                <td align="center">@Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.EventDate))</td>
+
+                                <td align="left">
+                                    <font color="green">@item.FunctionName </font><br />
+                                </td>
+                                <td align="left"><font color="red"><i class="fas fa-rupee-sign"></i> @Convert.ToDecimal(item.TotalAmount).ToString("0.00")</font></td>
+                                <td align="center">
+                                    <a data-toggle="modal" data-target=".bs-example-modal-lg" href="" onclick="javascript:fnShowMoreInfo(@item.QuotationID)"> <img src="~/adminassets/images/searchPNG.png" height="40px" width="40px" /></a>
+                                </td>
+                                <td align='center'><font color="green">@item.CreatedDate</font> <br /> <font color="red">@item.UpdatedDate</font></td>
+                                @if (ViewBag.IsPass == true)
+                                {
+                                    <td>
+                                        <button class="btn waves-effect waves-light btn-outline-success" data-toggle="modal" data-target="#add-quotation">
+                                            + Assign Employees
+                                        </button>
+                                    </td>
+                                }
+                                <td align="center">
+                                    <button type="submit" class="btn btn-danger waves-effect waves-light" onclick="return ConfirmationDialog(@item.QuotationID)">
+                                        <span class="btn-label"><i class="fa fa-trash"></i></span>
+                                    </button>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+<script src="~/adminassets/node_modules/datatables/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+
+<script>
+    $(function () {
+        $('#example23').DataTable();
+        $(function () {
+            var table = $('#example23').DataTable({
+                "columnDefs": [{
+                    "visible": false,
+                    "targets": 2
+                }],
+                "order": [
+                    [2, 'asc']
+                ],
+                "displayLength": 25,
+                "drawCallback": function (settings) {
+                    var api = this.api();
+                    var rows = api.rows({
+                        page: 'current'
+                    }).nodes();
+                    var last = null;
+                    api.column(2, {
+                        page: 'current'
+                    }).data().each(function (group, i) {
+                        if (last !== group) {
+                            $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
+                            last = group;
+                        }
+                    });
+                }
+            });
+            // Order by the grouping
+            $('#example tbody').on('click', 'tr.group', function () {
+                var currentOrder = table.order()[0];
+                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
+                    table.order([2, 'desc']).draw();
+                } else {
+                    table.order([2, 'asc']).draw();
+                }
+            });
+        });
+    });
+    $('#example23').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'excel', 'pdf', 'print'
+        ]
+    });
+    $('.buttons-print, .buttons-pdf, .buttons-excel').addClass('btn btn-primary mr-1');
+</script>

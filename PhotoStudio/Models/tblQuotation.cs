@@ -14,17 +14,22 @@ namespace PhotoStudio.Models
     
     public partial class tblQuotation
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblQuotation()
+        {
+            this.tblOrders = new HashSet<tblOrder>();
+        }
+    
         public long QuotationID { get; set; }
         public long AlbumAndVideoEditingChargesID { get; set; }
         public Nullable<System.DateTime> EventDate { get; set; }
         public string FunctionName { get; set; }
-        public Nullable<int> CandidCenematographers { get; set; }
-        public Nullable<int> RegularCenematographers { get; set; }
+        public Nullable<int> CandidCinematographers { get; set; }
+        public Nullable<int> RegularCinematographers { get; set; }
         public Nullable<int> CandidPhotographer { get; set; }
         public Nullable<int> RegularPhotographer { get; set; }
         public Nullable<int> DSLR { get; set; }
         public Nullable<int> NumberOfDrones { get; set; }
-        public string SizeOfLEDScreen { get; set; }
         public Nullable<int> NumberOfLedScreens { get; set; }
         public string Others { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }
@@ -32,5 +37,7 @@ namespace PhotoStudio.Models
         public Nullable<System.DateTime> UpdatedDate { get; set; }
     
         public virtual tblAlbumAndVideoEditingCharge tblAlbumAndVideoEditingCharge { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblOrder> tblOrders { get; set; }
     }
 }

@@ -36,9 +36,9 @@ namespace PhotoStudio.Models
         public string Other { get; set; }
         public Nullable<bool> IsPass { get; set; }
         public bool IsDisscount { get; set; }
-        public Nullable<int> DisscountPercentage { get; set; }
+        public Nullable<long> DiscountPercentage { get; set; }
         public decimal OriginalAmount { get; set; }
-        public Nullable<decimal> DisscountedAmount { get; set; }
+        public Nullable<decimal> DiscountedAmount { get; set; }
         public decimal FinalAmount { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }

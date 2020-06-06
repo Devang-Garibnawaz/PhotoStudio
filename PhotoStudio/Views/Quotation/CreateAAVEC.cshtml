@@ -31,19 +31,19 @@
     {
 
         var chkGiveDisscount = document.getElementById("chkGiveDisscount");
-        var divDisscountPercentage = $("#divDisscountPercentage");
+        var divDiscountPercentage = $("#divDiscountPercentage");
         var divDisscountAmount = $("#divDisscountAmount");
         var divFinalAmount = $("#divFinalAmount");
 
         if (chkGiveDisscount.checked)
         {
-            divDisscountPercentage.show();
+            divDiscountPercentage.show();
             divDisscountAmount.show();
             divFinalAmount.show();
         }
         else
         {
-            divDisscountPercentage.hide();
+            divDiscountPercentage.hide();
             divDisscountAmount.hide();
             divFinalAmount.hide();
         }
@@ -55,8 +55,8 @@
 
     function fnUpdateDisscountAmount()
     {
-        var txtDisscountPercentage = $("#txtDisscountPercentage");
-        var txtDisscountedAmount = $("#txtDisscountedAmount");
+        var txtDiscountPercentage = $("#txtDiscountPercentage");
+        var txtDiscountedAmount = $("#txtDiscountedAmount");
         var txtTotalAmount = $("#txtTotalAmount");
         var txtFinalAmount = $("#txtFinalAmount");
 
@@ -66,9 +66,9 @@
             txtTotalAmount.focus();
             return;
         }
-        var finalAmount = parseFloat(txtTotalAmount.val()) - (parseFloat(txtTotalAmount.val()) * parseFloat(txtDisscountPercentage.val()) / 100);
+        var finalAmount = parseFloat(txtTotalAmount.val()) - (parseFloat(txtTotalAmount.val()) * parseFloat(txtDiscountPercentage.val()) / 100);
         txtFinalAmount.val(finalAmount);
-        txtDisscountedAmount.val(parseFloat(txtTotalAmount.val()) - parseFloat(txtFinalAmount.val()));
+        txtDiscountedAmount.val(parseFloat(txtTotalAmount.val()) - parseFloat(txtFinalAmount.val()));
     }
 
     function fnUpdateTotalAmount() {
@@ -125,8 +125,8 @@
         var txtFamilyBaner = $("#txtFamilyBaner");
         var txtSpecialAlbum = $("#txtSpecialAlbum");
         var txtTotalAmount = $("#txtTotalAmount");
-        var txtDisscountPercentage = $("#txtDisscountPercentage");
-        var txtDisscountedAmount = $("#txtDisscountedAmount");
+        var txtDiscountPercentage = $("#txtDiscountPercentage");
+        var txtDiscountedAmount = $("#txtDiscountedAmount");
         var txtFinalAmount = $("#txtFinalAmount");
         var txtOther = $("#txtOther");
 
@@ -152,9 +152,9 @@
 
         if (chkGiveDisscount.checked)
         {
-            if (__glb_fnIsNullOrEmpty(txtDisscountPercentage.val())) {
+            if (__glb_fnIsNullOrEmpty(txtDiscountPercentage.val())) {
                 toastr.warning('Input Error', 'Please enter disscount percentage.', { timeOut: 1000, fadeOut: 1000 });
-                txtDisscountPercentage.focus();
+                txtDiscountPercentage.focus();
                 return;
             }
         }
@@ -176,9 +176,9 @@
         formData.append("Other", txtOther.val());
 
         formData.append("IsDisscount", $('#chkGiveDisscount').is(':checked'));
-        formData.append("DisscountPercentage", txtDisscountPercentage.val());
+        formData.append("DiscountPercentage", txtDiscountPercentage.val());
         formData.append("OriginalAmount", txtTotalAmount.val());
-        formData.append("DisscountedAmount", txtDisscountedAmount.val());
+        formData.append("DiscountedAmount", txtDiscountedAmount.val());
         formData.append("FinalAmount", txtFinalAmount.val());
 
         var response = __glb_fnIUDOperation(formData,'/Quotation/InsertAlbumAndVideoEditingCharge');
@@ -196,7 +196,7 @@
             );
         }
         else {
-            toastr.error('Error occur!', response.message, { timeOut: 1000, fadeOut: 1000 });
+            toastr.error('Error occur!', response.message, { timeOut: 3000, fadeOut: 3000 });
         }
     }
 
@@ -348,11 +348,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6" id="divDisscountPercentage" style="display:none">
+                            <div class="col-md-6" id="divDiscountPercentage" style="display:none">
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Percentage Of Disscount:</label>
                                     <div class="col-md-9">
-                                        <input type="number" value="0" id="txtDisscountPercentage" onchange="fnUpdateDisscountAmount()" class="form-control" placeholder="Enter Percentage of Disccount" />
+                                        <input type="number" value="0" id="txtDiscountPercentage" onchange="fnUpdateDisscountAmount()" class="form-control" placeholder="Enter Percentage of Disccount" />
                                     </div>
                                 </div>
                             </div>
@@ -360,7 +360,7 @@
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Disscounted Amount:</label>
                                     <div class="col-md-9">
-                                        <input type="text" id="txtDisscountedAmount" style="color:red" value="0" class="form-control" readonly />
+                                        <input type="text" id="txtDiscountedAmount" style="color:red" value="0" class="form-control" readonly />
                                     </div>
                                 </div>
                             </div>

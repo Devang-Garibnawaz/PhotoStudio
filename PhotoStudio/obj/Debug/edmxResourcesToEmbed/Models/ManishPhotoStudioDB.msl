@@ -20,9 +20,9 @@
           <ScalarProperty Name="Other" ColumnName="Other" />
           <ScalarProperty Name="IsPass" ColumnName="IsPass" />
           <ScalarProperty Name="IsDisscount" ColumnName="IsDisscount" />
-          <ScalarProperty Name="DisscountPercentage" ColumnName="DisscountPercentage" />
+          <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
           <ScalarProperty Name="OriginalAmount" ColumnName="OriginalAmount" />
-          <ScalarProperty Name="DisscountedAmount" ColumnName="DisscountedAmount" />
+          <ScalarProperty Name="DiscountedAmount" ColumnName="DiscountedAmount" />
           <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
@@ -66,6 +66,19 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="tblOrders">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblOrder">
+        <MappingFragment StoreEntitySet="tblOrder">
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="QuotationID" ColumnName="QuotationID" />
+          <ScalarProperty Name="PhotographerID" ColumnName="PhotographerID" />
+          <ScalarProperty Name="PhotographerTypeID" ColumnName="PhotographerTypeID" />
+          <ScalarProperty Name="TotalPay" ColumnName="TotalPay" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedDateTime" ColumnName="UpdatedDateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="tblPhotographers">
       <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPhotographer">
         <MappingFragment StoreEntitySet="tblPhotographer">
@@ -86,7 +99,7 @@
     <EntitySetMapping Name="tblPhotographerTypes">
       <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPhotographerType">
         <MappingFragment StoreEntitySet="tblPhotographerType">
-          <ScalarProperty Name="PhotographerTypeInternalCodeBW" ColumnName="PhotographerTypeInternalCodeBW" />
+          <ScalarProperty Name="PhotographerTypeID" ColumnName="PhotographerTypeID" />
           <ScalarProperty Name="PhotographerTypeName" ColumnName="PhotographerTypeName" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -131,13 +144,12 @@
           <ScalarProperty Name="AlbumAndVideoEditingChargesID" ColumnName="AlbumAndVideoEditingChargesID" />
           <ScalarProperty Name="EventDate" ColumnName="EventDate" />
           <ScalarProperty Name="FunctionName" ColumnName="FunctionName" />
-          <ScalarProperty Name="CandidCenematographers" ColumnName="CandidCenematographers" />
-          <ScalarProperty Name="RegularCenematographers" ColumnName="RegularCenematographers" />
+          <ScalarProperty Name="CandidCinematographers" ColumnName="CandidCinematographers" />
+          <ScalarProperty Name="RegularCinematographers" ColumnName="RegularCinematographers" />
           <ScalarProperty Name="CandidPhotographer" ColumnName="CandidPhotographer" />
           <ScalarProperty Name="RegularPhotographer" ColumnName="RegularPhotographer" />
           <ScalarProperty Name="DSLR" ColumnName="DSLR" />
           <ScalarProperty Name="NumberOfDrones" ColumnName="NumberOfDrones" />
-          <ScalarProperty Name="SizeOfLEDScreen" ColumnName="SizeOfLEDScreen" />
           <ScalarProperty Name="NumberOfLedScreens" ColumnName="NumberOfLedScreens" />
           <ScalarProperty Name="Others" ColumnName="Others" />
           <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />

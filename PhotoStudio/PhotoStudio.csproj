@@ -133,6 +133,7 @@
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\PhotographerController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\SystemUsersController.cs" />
     <Compile Include="Controllers\UserHomeController.cs" />
@@ -167,6 +168,9 @@
       <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblGallery.cs">
+      <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblOrder.cs">
       <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblPhotographer.cs">
@@ -951,12 +955,19 @@
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Login\Registration.cshtml" />
     <Content Include="Views\Quotation\PrintQuotation.cshtml" />
+    <Content Include="Views\Quotation\ManageQuotationDetails.cshtml" />
+    <Content Include="Views\Photographer\Create.cshtml" />
+    <Content Include="Views\Photographer\Delete.cshtml" />
+    <Content Include="Views\Photographer\Details.cshtml" />
+    <Content Include="Views\Photographer\Edit.cshtml" />
+    <Content Include="Views\Photographer\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="CategoryImages\" />
     <Folder Include="CustomerProfile\" />
     <Folder Include="GalleryImages\" />
+    <Folder Include="PhotographerProfilePic\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

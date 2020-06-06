@@ -20,9 +20,9 @@
     <Property Name="Other" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="IsPass" Type="Boolean" />
     <Property Name="IsDisscount" Type="Boolean" Nullable="false" />
-    <Property Name="DisscountPercentage" Type="Int32" />
+    <Property Name="DiscountPercentage" Type="Int64" />
     <Property Name="OriginalAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-    <Property Name="DisscountedAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="DiscountedAmount" Type="Decimal" Precision="19" Scale="4" />
     <Property Name="FinalAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
     <Property Name="CreatedDate" Type="DateTime" Precision="0" />
     <Property Name="UpdatedDate" Type="DateTime" Precision="0" />
@@ -69,6 +69,21 @@
     <NavigationProperty Name="tblCategory" Relationship="Self.FK_tblGallery_tblCategory" FromRole="tblGallery" ToRole="tblCategory" />
     <NavigationProperty Name="tblCustomer" Relationship="Self.FK_tblGallery_tblCustomer" FromRole="tblGallery" ToRole="tblCustomer" />
   </EntityType>
+  <EntityType Name="tblOrder">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuotationID" Type="Int64" Nullable="false" />
+    <Property Name="PhotographerID" Type="Int32" Nullable="false" />
+    <Property Name="PhotographerTypeID" Type="Int32" Nullable="false" />
+    <Property Name="TotalPay" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="UpdatedDateTime" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="tblPhotographer" Relationship="Self.FK_tblOrder_tblPhotographer" FromRole="tblOrder" ToRole="tblPhotographer" />
+    <NavigationProperty Name="tblPhotographerType" Relationship="Self.FK_tblOrder_tblPhotographerType" FromRole="tblOrder" ToRole="tblPhotographerType" />
+    <NavigationProperty Name="tblQuotation" Relationship="Self.FK_tblOrder_tblQuotation" FromRole="tblOrder" ToRole="tblQuotation" />
+  </EntityType>
   <EntityType Name="tblPhotographer">
     <Key>
       <PropertyRef Name="PhotographerID" />
@@ -84,13 +99,15 @@
     <Property Name="IsFreeLancer" Type="Boolean" Nullable="false" />
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="UpdatedDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="tblOrders" Relationship="Self.FK_tblOrder_tblPhotographer" FromRole="tblPhotographer" ToRole="tblOrder" />
   </EntityType>
   <EntityType Name="tblPhotographerType">
     <Key>
-      <PropertyRef Name="PhotographerTypeInternalCodeBW" />
+      <PropertyRef Name="PhotographerTypeID" />
     </Key>
-    <Property Name="PhotographerTypeInternalCodeBW" Type="Int32" Nullable="false" />
+    <Property Name="PhotographerTypeID" Type="Int32" Nullable="false" />
     <Property Name="PhotographerTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tblOrders" Relationship="Self.FK_tblOrder_tblPhotographerType" FromRole="tblPhotographerType" ToRole="tblOrder" />
   </EntityType>
   <EntityType Name="tblPortfolio">
     <Key>
@@ -135,19 +152,19 @@
     <Property Name="AlbumAndVideoEditingChargesID" Type="Int64" Nullable="false" />
     <Property Name="EventDate" Type="DateTime" Precision="0" />
     <Property Name="FunctionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CandidCenematographers" Type="Int32" />
-    <Property Name="RegularCenematographers" Type="Int32" />
+    <Property Name="CandidCinematographers" Type="Int32" />
+    <Property Name="RegularCinematographers" Type="Int32" />
     <Property Name="CandidPhotographer" Type="Int32" />
     <Property Name="RegularPhotographer" Type="Int32" />
     <Property Name="DSLR" Type="Int32" />
     <Property Name="NumberOfDrones" Type="Int32" />
-    <Property Name="SizeOfLEDScreen" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="NumberOfLedScreens" Type="Int32" />
-    <Property Name="Others" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Others" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="TotalAmount" Type="Decimal" Precision="19" Scale="4" />
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="UpdatedDate" Type="DateTime" Precision="0" />
     <NavigationProperty Name="tblAlbumAndVideoEditingCharge" Relationship="Self.FK_tblQuotation_tblAlbumAndVideoEditingCharges" FromRole="tblQuotation" ToRole="tblAlbumAndVideoEditingCharges" />
+    <NavigationProperty Name="tblOrders" Relationship="Self.FK_tblOrder_tblQuotation" FromRole="tblQuotation" ToRole="tblOrder" />
   </EntityType>
   <EntityType Name="tblSystemUser">
     <Key>
@@ -230,6 +247,48 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tblOrder_tblPhotographer">
+    <End Role="tblPhotographer" Type="Self.tblPhotographer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblOrder" Type="Self.tblOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPhotographer">
+        <PropertyRef Name="PhotographerID" />
+      </Principal>
+      <Dependent Role="tblOrder">
+        <PropertyRef Name="PhotographerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblOrder_tblPhotographerType">
+    <End Role="tblPhotographerType" Type="Self.tblPhotographerType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblOrder" Type="Self.tblOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPhotographerType">
+        <PropertyRef Name="PhotographerTypeID" />
+      </Principal>
+      <Dependent Role="tblOrder">
+        <PropertyRef Name="PhotographerTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblOrder_tblQuotation">
+    <End Role="tblQuotation" Type="Self.tblQuotation" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblOrder" Type="Self.tblOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblQuotation">
+        <PropertyRef Name="QuotationID" />
+      </Principal>
+      <Dependent Role="tblOrder">
+        <PropertyRef Name="QuotationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tblPortfolioGallery_tblPortfolio">
     <End Role="tblPortfolio" Type="Self.tblPortfolio" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -263,6 +322,7 @@
     <EntitySet Name="tblCategories" EntityType="Self.tblCategory" />
     <EntitySet Name="tblCustomers" EntityType="Self.tblCustomer" />
     <EntitySet Name="tblGalleries" EntityType="Self.tblGallery" />
+    <EntitySet Name="tblOrders" EntityType="Self.tblOrder" />
     <EntitySet Name="tblPhotographers" EntityType="Self.tblPhotographer" />
     <EntitySet Name="tblPhotographerTypes" EntityType="Self.tblPhotographerType" />
     <EntitySet Name="tblPortfolios" EntityType="Self.tblPortfolio" />
@@ -289,6 +349,18 @@
     <AssociationSet Name="FK_tblPortfolio_tblCustomer" Association="Self.FK_tblPortfolio_tblCustomer">
       <End Role="tblCustomer" EntitySet="tblCustomers" />
       <End Role="tblPortfolio" EntitySet="tblPortfolios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblOrder_tblPhotographer" Association="Self.FK_tblOrder_tblPhotographer">
+      <End Role="tblPhotographer" EntitySet="tblPhotographers" />
+      <End Role="tblOrder" EntitySet="tblOrders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblOrder_tblPhotographerType" Association="Self.FK_tblOrder_tblPhotographerType">
+      <End Role="tblPhotographerType" EntitySet="tblPhotographerTypes" />
+      <End Role="tblOrder" EntitySet="tblOrders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblOrder_tblQuotation" Association="Self.FK_tblOrder_tblQuotation">
+      <End Role="tblQuotation" EntitySet="tblQuotations" />
+      <End Role="tblOrder" EntitySet="tblOrders" />
     </AssociationSet>
     <AssociationSet Name="FK_tblPortfolioGallery_tblPortfolio" Association="Self.FK_tblPortfolioGallery_tblPortfolio">
       <End Role="tblPortfolio" EntitySet="tblPortfolios" />
