@@ -7,9 +7,7 @@
     <script>
         $(document).ready(function ()
         {
-        var cmbAlbumtype = $("#cmbAlbumtype");
-        fnManageDisscountControls();
-        cmbAlbumtype.val("@Model.AlbumType.ToString()");
+            
         });
 
 
@@ -52,9 +50,7 @@
             var HDVideoDubbPendrivePrice = $("#txtHDVideoDubbPendrivePrice").val();
             var AlbumPrice = $("#txtAlbumPrice").val();
             var AlbumPadPrice = $("#txtAlbumPadPrice").val();
-            var AlbumLatherBag = $("#txtAlbumLatherBag").val();
             var PhotoLEDFrame = $("#txtPhotoLEDFrame").val();
-            var FamilyBaner = $("#txtFamilyBaner").val();
             var SpecialAlbum = $("#txtSpecialAlbum").val();
             var txtTotalAmount = $("#txtTotalAmount");
             var txtFinalAmount = $("#txtFinalAmount");
@@ -69,14 +65,11 @@
             if (!__glb_fnIsNullOrEmpty(AlbumPadPrice))
                 TotalAmount += parseFloat(AlbumPadPrice);
 
-            if (!__glb_fnIsNullOrEmpty(AlbumLatherBag))
-                TotalAmount += parseFloat(AlbumLatherBag);
+            
 
             if (!__glb_fnIsNullOrEmpty(PhotoLEDFrame))
                 TotalAmount += parseFloat(PhotoLEDFrame);
 
-            if (!__glb_fnIsNullOrEmpty(FamilyBaner))
-                TotalAmount += parseFloat(FamilyBaner);
 
             if (!__glb_fnIsNullOrEmpty(SpecialAlbum))
                 TotalAmount += parseFloat(SpecialAlbum);
@@ -91,14 +84,14 @@
             var txtHDVideoDubbPendrivePrice = $("#txtHDVideoDubbPendrivePrice");
             var txtAlbumPage = $("#txtAlbumPage");
             var txtAlbumSize = $("#txtAlbumSize");
-            var cmbAlbumtype = $("#cmbAlbumtype");
+
             var txtAlbumPrice = $("#txtAlbumPrice");
             var txtAlbumPadSize = $("#txtAlbumPadSize");
             var txtAlbumPadPrice = $("#txtAlbumPadPrice");
-            var txtAlbumLatherBag = $("#txtAlbumLatherBag");
+
             var chkGiveDisscount = document.getElementById("chkGiveDisscount");
             var txtPhotoLEDFrame = $("#txtPhotoLEDFrame");
-            var txtFamilyBaner = $("#txtFamilyBaner");
+
             var txtSpecialAlbum = $("#txtSpecialAlbum");
             var txtTotalAmount = $("#txtTotalAmount");
             var txtDiscountPercentage = $("#txtDiscountPercentage");
@@ -130,13 +123,13 @@
             formData.append("AAVECID", hdnAAVECID.val())
             formData.append("AlbumPage", txtAlbumPage.val());
             formData.append("AlbumSize", txtAlbumSize.val());
-            formData.append("AlbumType", cmbAlbumtype.val());
+            
             formData.append("AlbumPrice", txtAlbumPrice.val());
             formData.append("AlbumPadSize", txtAlbumPadSize.val());
             formData.append("AlbumPadPrice", txtAlbumPadPrice.val());
-            formData.append("AlbumLeadherBagPrice", txtAlbumLatherBag.val());
+
             formData.append("PhotoLEDFramePrice", txtPhotoLEDFrame.val());
-            formData.append("FamilyBannerPrice", txtFamilyBaner.val());
+
             formData.append("SpecialAlbum", txtSpecialAlbum.val());
             formData.append("HDVideoDubbPendrivePrice", txtHDVideoDubbPendrivePrice.val());
             formData.append("Other", txtOther.val());
@@ -226,17 +219,6 @@
 
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="control-label text-right col-md-3">Album Type:</label>
-                                <div class="col-md-4">
-                                    <select class="form-control" id="cmbAlbumtype">
-                                        <option value="Matt">Matt</option>
-                                        <option value="Glossy">Glossy</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
                                 <label class="control-label text-right col-md-3">Album Price:</label>
                                 <div class="col-md-4">
                                     <input type="number" id="txtAlbumPrice" value="@Convert.ToDecimal(Model.AlbumPrice).ToString("0.00")" onchange="fnUpdateTotalAmount()" class="form-control" placeholder="Enter Album Price" />
@@ -259,14 +241,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="control-label text-right col-md-3">Album Leadher Bag Price:</label>
-                                <div class="col-md-4">
-                                    <input type="number" id="txtAlbumLatherBag" value="@Convert.ToDecimal(Model.AlbumLeadherBagPrice).ToString("0.00")" onchange="fnUpdateTotalAmount()" class="form-control" placeholder="Enter Lather Bag Price" />
-                                </div>
-                            </div>
-                        </div>
+                       
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3">Photo LED Frame in Reception(Price):</label>
@@ -275,14 +250,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="control-label text-right col-md-3">Reception Family Banner 5x3 size(Price):</label>
-                                <div class="col-md-4">
-                                    <input type="number" id="txtFamilyBaner" value="@Convert.ToDecimal(Model.FamilyBannerPrice).ToString("0.00")" onchange="fnUpdateTotalAmount()" class="form-control" placeholder="Enter banner Price" />
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3">Groom & Bride Special Album(Price):</label>
@@ -308,7 +276,7 @@
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3">Give Discount?:</label>
                                 <div class="col-md-9">
-                                    @if (@Model.IsDisscount)
+                                    @if (@Model.IsDisscount == true)
                                     {
                                         <input type="checkbox" checked onchange="fnManageDisscountControls()" class="js-switch" id="chkGiveDisscount" />
                                     }

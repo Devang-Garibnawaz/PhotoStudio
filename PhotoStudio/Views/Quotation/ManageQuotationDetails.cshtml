@@ -5,9 +5,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script>
+    <script>
     $(document).ready(function () {
 
+        fnPopulatecmbCustomer();
+        fnPopulatecmbPhotographer();
+        fnPopulatecmbPhotographerType();
+
+        $("#cmbPhotographer_AE").change(function () {
+            var selectedValue = $('#cmbPhotographer_AE option:selected').val();
+            $("#hdnPGID_AE").val(selectedValue);
+            fnSetSalary();
+        });
+    });
+
+    function fnPopulatecmbCustomer()
+    {
         var cmbCustomer = $("#cmbCustomer");
         $.ajax({
             type: "GET",
@@ -22,9 +35,134 @@
 
             }
         });
+    }
 
-    });
-</script>
+    function fnSetQuotationID(QID)
+    {
+        $("#hdnQID_AE").val(QID);
+    }
+    function fnPopulatecmbPhotographer()
+    {
+        var cmbPhotographer = $("#cmbPhotographer_AE");
+        $.ajax({
+            type: "GET",
+            url: "/Photographer/getAllActivePhotographer",
+            data: "{}",
+            success: function (data) {
+                var PhotographerData = '<option value="0">Select Photographer</option>';
+                for (var i = 0; i < data.length; i++) {
+                    PhotographerData += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                }
+                cmbPhotographer.html(PhotographerData);
+
+            }
+        });
+    }
+    function fnPopulatecmbPhotographerType()
+    {
+        var cmbType = $("#cmbType_AE");
+        $.ajax({
+            type: "GET",
+            url: "/Photographer/getAllPhotographerType",
+            data: "{}",
+            success: function (data) {
+                var PhotographerTypeData = '<option value="0">Select Type</option>';
+                for (var i = 0; i < data.length; i++) {
+                    PhotographerTypeData += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                }
+                cmbType.html(PhotographerTypeData);
+
+            }
+        });
+    }
+
+    function fnSetSalary()
+    {
+        var txtSalary = $("#txtSalary_AE");
+        var intPGID = $("#hdnPGID_AE").val();
+        if (parseInt(intPGID) <= 0)
+        {
+            txtSalary.val("");
+            return;
+        }
+        var formData = new FormData();
+        formData.append("PGID", intPGID);
+        $.ajax({
+            type: 'POST',
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: "{'id':'" + intPGID + "'}",
+            url: "/Photographer/getPhotographerSalaryByID",
+            success: function (data) {
+                txtSalary.val(data.Salary);
+            }
+        });
+    }
+
+    function fnAddEmployee()
+    {
+        var hdnQID = $("#hdnQID_AE");
+        var Photographer = $("#cmbPhotographer_AE");
+        var cmbType_AE = $("#cmbType_AE");
+        var txtSalary_AE = $("#txtSalary_AE");
+        
+            if (parseInt(hdnQID.val()) <= 0) {
+            toastr.warning('Input Error', 'Quotation ID can not be blank.', { timeOut: 1000, fadeOut: 1000 });
+            return;
+        }
+
+        if (parseInt(Photographer.val()) <= 0)
+        {
+            toastr.warning('Input Error', 'Please select photographer.', { timeOut: 1000, fadeOut: 1000 });
+            Photographer.focus();
+            return;
+        }
+
+        if (parseInt(cmbType_AE.val()) <= 0) 
+        {
+            toastr.warning('Input Error', 'Please select type.', { timeOut: 1000, fadeOut: 1000 });
+            cmbType_AE.focus();
+            return;
+        }
+
+        if (__glb_fnIsNullOrEmpty(txtSalary_AE.val()))
+        {
+            toastr.warning('Input Error', 'Please enter salary.', { timeOut: 1000, fadeOut: 1000 });
+            txtSalary_AE.focus();
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append("QID", hdnQID.val());
+        formData.append("PGID", Photographer.val());
+        formData.append("TypeID", cmbType_AE.val());
+        formData.append("Salary", txtSalary_AE.val());
+        var response = __glb_fnIUDOperation(formData, '/Quotation/AddEmployee');
+        if (response.success == true) {
+            toastr.success(
+                response.message,
+                'Record is inserted',
+                {
+                    timeOut: 1000,
+                    fadeOut: 1000,
+                    onHidden: function () {
+                        window.location.href = '/Quotation/ManageQuotationDetails/'+@ViewBag.AAVECID;
+                    }
+                }
+            );
+        }
+        else if (response.IsSelected == true)
+        {
+            toastr.error('Photographer is already selected!', response.message, { timeOut: 3000, fadeOut: 3000 });
+            Photographer.focus();
+            return;
+        }
+        else {
+            toastr.error('Error occur!', response.message, { timeOut: 3000, fadeOut: 3000 });
+        }
+    }
+
+    </script>
 
 <script>
     function ConfirmationDialog(ID) {
@@ -163,6 +301,7 @@
     }
     </script>
 
+
 <div id="add-quotation" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -218,6 +357,31 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+<div id="add-Employee" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="H1">Add Employee</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-md-12 m-b-20">
+                        <input type="hidden" id="hdnQID_AE" />
+                        <input type="hidden" id="hdnPGID_AE" />
+                        Photographer: <select id="cmbPhotographer_AE" class="form-control"></select><br /><br />
+                        Photographer Type: <select id="cmbType_AE" class="form-control"></select><br /><br />
+                        Salary: <input type="number" id="txtSalary_AE" class="form-control" required placeholder="Enter Salary:" /><br /><br />
+                        <div class="modal-footer">
+                            <input type="submit" value="Insert" class="btn btn-success" onclick="fnAddEmployee()" />
+                            <input type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true" value="Cancel" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row page-titles">
     <div class="col-md-5 align-self-center">
         <h4 class="text-themecolor">Quotation List</h4>
@@ -258,7 +422,7 @@
                                 <th><font color="green">Created/</font><br /> <font color="red">Updated Date</font></th>
                                 @if(ViewBag.IsPass == true)
                                 {
-                                    <th>Assign Employees</th>
+                                    <th>Add Employees</th>
                                 }
                                 <th><font color="green">Delete</font></th>
                             </tr>
@@ -282,9 +446,9 @@
                                 @if (ViewBag.IsPass == true)
                                 {
                                     <td>
-                                        <button class="btn waves-effect waves-light btn-outline-success" data-toggle="modal" data-target="#add-quotation">
-                                            + Assign Employees
-                                        </button>
+                                        <a href="#" onclick="fnSetQuotationID(@item.QuotationID)" data-toggle="modal" data-target="#add-Employee" class="btn btn-success btn-circle" title="Click here to add photographers for events"><i class="fa fa-plus"></i></a>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <a href="@Url.Action("Index/"+item.QuotationID, "Orders")" class="btn btn-info btn-circle" title="Click here to see all the employee list of this event"><i class="fa fa-eye"></i></a>
                                     </td>
                                 }
                                 <td align="center">

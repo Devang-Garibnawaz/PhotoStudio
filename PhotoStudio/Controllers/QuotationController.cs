@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -23,7 +24,15 @@ namespace PhotoStudio.Controllers
             return View(tblAlbumAndVideo.ToList());
         }
 
+        public ActionResult AddEmployees()
+        {
+            return View();
+        }
 
+        public ActionResult AddQuotation()
+        {
+            return View();
+        }
         public ActionResult ManageQuotationDetails(int? id)
         {
             if (Session["UserID"] == null && Session["UserName"] == null)
@@ -46,27 +55,23 @@ namespace PhotoStudio.Controllers
             if (Session["UserID"] == null && Session["UserName"] == null)
                 return RedirectToAction("Login", "Login");
 
-            //int id = Convert.ToInt32(Request.Form["QID"]);
-            //return Json(db.tblQuotations.Where(Q => Q.QuotationID == id).Select(Q => new
-            //{
-            //    CustomerName = Q.tblCustomer.CustomerName,
-            //    EventDate = Q.EventDate,
-            //    NOCG = Q.NumberOfCinematographers,
-            //    NOPG = Q.NumberOfPhotographers,
-            //    NOD = Q.NumberOfDrones,
-            //    SOLEDS = Q.SizeOfLEDScreen,
-            //    NOLEDS = Q.NumberOfLedScreens,
-            //    TotalAmount = Q.TotalAmount,
-            //    IsDisscount = Q.IsDisccount,
-            //    DP = Q.DiscountPercentage,
-            //    AAD = Q.AmmountAfterDisscount,
-            //    POAP = Q.PercentageOfAdvancePayment,
-            //    POPAED = Q.PercentageOfPaymentAtEventDay,
-            //    POPAE = Q.PercentageOfPaymentAfterEvent,
-            //    IsPass = Q.IsPass
+            int id = Convert.ToInt32(Request.Form["CustomerID"]);
+            return Json(db.tblQuotations.Where(Q => Q.tblAlbumAndVideoEditingCharge.tblCustomer.CustomerID  == id).Select(Q => new
+            {
+                QuotationID = Q.QuotationID,
+                EventDate = Q.EventDate,
+                Function = Q.FunctionName,
+                CandidCinemato = Q.CandidCinematographers,
+                RegularCinemato  = Q.RegularCinematographers,
+                CandidPhoto = Q.CandidPhotographer,
+                RegularPhoto = Q.RegularPhotographer,
+                DSLR = Q.DSLR,
+                Drones = Q.NumberOfDrones,
+                LED = Q.NumberOfLedScreens,
+                Other = Q.Others,
+                TotalAmount = Q.TotalAmount
 
-            //}).ToList(), JsonRequestBehavior.AllowGet);
-            return View();
+            }).ToList(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -81,13 +86,10 @@ namespace PhotoStudio.Controllers
                 CustomerName = Q.tblCustomer.CustomerName,
                 ALBPG = Q.AlbumPage,
                 ALBSZ = Q.AlbumSize,
-                ALBType = Q.AlbumType,
                 ALBPR = Q.AlbumPrice,
                 ALBPDSZ = Q.AlbumPadSize,
                 ALBPDPR = Q.AlbumPadPrice,
-                ALBLBPR = Q.AlbumLeadherBagPrice,
                 PLEDPR = Q.PhotoLEDFramePrice,
-                FamilyBannerPR = Q.FamilyBannerPrice,
                 SPALB = Q.SpecialAlbum,
                 HDVDDUBBPD = Q.HDVideoDubbPendrivePrice,
                 OriginalAmount = Q.OriginalAmount,
@@ -149,7 +151,7 @@ namespace PhotoStudio.Controllers
         {
             if (Session["UserID"] == null && Session["UserName"] == null)
                 return RedirectToAction("Login", "Login");
-
+            long LastAAVECID = 0;
             try
             {
                 if (ModelState.IsValid)
@@ -161,20 +163,19 @@ namespace PhotoStudio.Controllers
 
                     AAVEC.AlbumPage = Convert.ToInt32(Request.Form["AlbumPage"]);
                     AAVEC.AlbumSize = Request.Form["AlbumSize"];
-                    AAVEC.AlbumType = Request.Form["AlbumType"];
                     AAVEC.AlbumPrice = Convert.ToDecimal(Request.Form["AlbumPrice"]);
                     AAVEC.AlbumPadSize = Request.Form["AlbumPadSize"];
                     AAVEC.AlbumPadPrice = Convert.ToDecimal(Request.Form["AlbumPadPrice"]);
-                    AAVEC.AlbumLeadherBagPrice = Convert.ToDecimal(Request.Form["AlbumLeadherBagPrice"]);
+                    
                     AAVEC.PhotoLEDFramePrice = Convert.ToDecimal(Request.Form["PhotoLEDFramePrice"]);
-                    AAVEC.FamilyBannerPrice = Convert.ToDecimal(Request.Form["FamilyBannerPrice"]);
+                    
                     AAVEC.SpecialAlbum = Convert.ToDecimal(Request.Form["SpecialAlbum"]);
                     AAVEC.HDVideoDubbPendrivePrice = Convert.ToDecimal(Request.Form["HDVideoDubbPendrivePrice"]);
                     AAVEC.Other = Request.Form["Other"];
                     AAVEC.IsDisscount = Request.Form["IsDisscount"] == "true" ? true : false;
                     AAVEC.OriginalAmount = string.IsNullOrEmpty(Request.Form["OriginalAmount"]) ? 0 : Convert.ToDecimal(Request.Form["OriginalAmount"]);
 
-                    if (!AAVEC.IsDisscount)
+                    if (AAVEC.IsDisscount != true)
                     {
                         AAVEC.DiscountPercentage = 0;
                         AAVEC.DiscountedAmount = 0;
@@ -191,7 +192,8 @@ namespace PhotoStudio.Controllers
 
                     db.tblAlbumAndVideoEditingCharges.Add(AAVEC);
                     db.SaveChanges();
-                    return Json(new { success = true, message = "Record inserted successfully" }, JsonRequestBehavior.AllowGet);
+                    LastAAVECID = db.tblAlbumAndVideoEditingCharges.Max(item => item.AlbumAndVideoEditingChargesID); ;
+                    return Json(new { success = true, message = "Record inserted successfully",lastAAVECID = LastAAVECID }, JsonRequestBehavior.AllowGet);
                 }
                 else
                     return Json(new { success = false, message = "Record is not inserted!" }, JsonRequestBehavior.AllowGet);
@@ -230,11 +232,11 @@ namespace PhotoStudio.Controllers
                     quotation.Others = string.IsNullOrEmpty(Request.Form["Other"]) ? string.Empty : Request.Form["Other"];
                     quotation.TotalAmount = Convert.ToDecimal(Request.Form["TotalAmount"]);
 
-                    if (AAVEC.IsDisscount)
+                    if (AAVEC.IsDisscount == true)
                     {
                         AAVEC.OriginalAmount  += Convert.ToDecimal(quotation.TotalAmount);
 
-                        decimal DiscountedAmount = (AAVEC.OriginalAmount * Convert.ToDecimal(AAVEC.DiscountPercentage)) / 100;
+                        decimal DiscountedAmount = (Convert.ToDecimal(AAVEC.OriginalAmount) * Convert.ToDecimal(AAVEC.DiscountPercentage)) / 100;
                         AAVEC.DiscountedAmount = DiscountedAmount;
                         AAVEC.FinalAmount = AAVEC.OriginalAmount - DiscountedAmount;
                     }
@@ -261,6 +263,68 @@ namespace PhotoStudio.Controllers
 
         }
         
+        [HttpPost]
+        public ActionResult AddEmployee()
+        {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    int QID = Convert.ToInt32(Request.Form["QID"]);
+                    int PGID = Convert.ToInt32(Request.Form["PGID"]);
+                    int TypeID = Convert.ToInt32(Request.Form["TypeID"]);
+                    if(IsEmployeeRecordExist(QID,PGID,TypeID))
+                        return Json(new { IsSelected = true, message = "Photographer is already selected for this type" }, JsonRequestBehavior.AllowGet);
+                    
+                    tblOrder order = new tblOrder();
+                    order.QuotationID = QID;
+                    order.PhotographerID= PGID;
+                    order.PhotographerTypeID = TypeID;
+                    order.TotalPay = Convert.ToDecimal(Request.Form["Salary"]);
+                    order.CreatedDate = DateTime.Now;
+                    db.tblOrders.Add(order);
+                    db.SaveChanges();
+                    tblPayment payment = new tblPayment();
+                    if (db.tblPayments.Where(P => P.PhotographerID == PGID).Count() > 0)
+                    {
+                        payment = db.tblPayments.SingleOrDefault(P => P.PhotographerID == PGID);
+                        payment.RemainingPay += Convert.ToDecimal(Request.Form["Salary"]);
+                        db.Entry(payment).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        payment.PhotographerID = PGID;
+                        payment.TotalPay = 0;
+                        payment.RemainingPay = Convert.ToDecimal(Request.Form["Salary"]);
+                        db.tblPayments.Add(payment);
+                        db.SaveChanges();
+                    }
+                    return Json(new { success = true, message = "Record inserted successfully" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return Json(new { success = false, message = "Record is not inserted!" }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error! " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public bool IsEmployeeRecordExist(int QID,int PGID,int TypeID)
+        {
+            int RecordCount = db.tblOrders.Where(O => O.QuotationID == QID)
+                                          .Where(O => O.PhotographerID == PGID)
+                                          .Where(O => O.PhotographerTypeID == TypeID).Count();
+            if (RecordCount > 0)
+                return true;
+            else
+                return false;
+        }
         public ActionResult UpdateAlbumAndVideoEditingCharge(int? id)
         {
             if (Session["UserID"] == null && Session["UserName"] == null)
@@ -290,18 +354,15 @@ namespace PhotoStudio.Controllers
                     tblAlbumAndVideoEditingCharge AAVEC = db.tblAlbumAndVideoEditingCharges.SingleOrDefault(AA => AA.AlbumAndVideoEditingChargesID == AAVECID);
                     AAVEC.AlbumPage = Convert.ToInt32(Request.Form["AlbumPage"]);
                     AAVEC.AlbumSize = Request.Form["AlbumSize"];
-                    AAVEC.AlbumType = Request.Form["AlbumType"];
                     AAVEC.AlbumPrice = Convert.ToDecimal(Request.Form["AlbumPrice"]);
                     AAVEC.AlbumPadSize = Request.Form["AlbumPadSize"];
                     AAVEC.AlbumPadPrice = Convert.ToDecimal(Request.Form["AlbumPadPrice"]);
-                    AAVEC.AlbumLeadherBagPrice = Convert.ToDecimal(Request.Form["AlbumLeadherBagPrice"]);
                     AAVEC.PhotoLEDFramePrice = Convert.ToDecimal(Request.Form["PhotoLEDFramePrice"]);
-                    AAVEC.FamilyBannerPrice = Convert.ToDecimal(Request.Form["FamilyBannerPrice"]);
                     AAVEC.SpecialAlbum = Convert.ToDecimal(Request.Form["SpecialAlbum"]);
                     AAVEC.HDVideoDubbPendrivePrice = Convert.ToDecimal(Request.Form["HDVideoDubbPendrivePrice"]);
                     AAVEC.Other = Request.Form["Other"];
                     AAVEC.IsDisscount = Request.Form["IsDisscount"] == "true" ? true : false;
-                    if(!AAVEC.IsDisscount)
+                    if(AAVEC.IsDisscount != true)
                     {
                         AAVEC.DiscountPercentage = 0;
                         AAVEC.DiscountedAmount = 0;
@@ -362,10 +423,10 @@ namespace PhotoStudio.Controllers
                 long AAVECID = Convert.ToInt64(quotation.AlbumAndVideoEditingChargesID);
                 tblAlbumAndVideoEditingCharge AAVEC = db.tblAlbumAndVideoEditingCharges.SingleOrDefault(A => A.AlbumAndVideoEditingChargesID == AAVECID);
                 
-                if(AAVEC.IsDisscount)
+                if(AAVEC.IsDisscount == true)
                 {
                     AAVEC.OriginalAmount -= Convert.ToDecimal(quotation.TotalAmount);
-                    decimal DiscountedAmount = (AAVEC.OriginalAmount * Convert.ToDecimal(AAVEC.DiscountPercentage)) / 100;
+                    decimal DiscountedAmount = (Convert.ToDecimal(AAVEC.OriginalAmount) * Convert.ToDecimal(AAVEC.DiscountPercentage)) / 100;
                     AAVEC.DiscountedAmount = DiscountedAmount;
                     AAVEC.FinalAmount = AAVEC.OriginalAmount - DiscountedAmount;
                 }

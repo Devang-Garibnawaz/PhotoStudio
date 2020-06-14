@@ -1,0 +1,333 @@
+﻿@model IEnumerable<PhotoStudio.Models.tblPortfolio>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+
+        var cmbCustomer = $("#cmbCustomer");
+        $.ajax({
+            type: "GET",
+            url: "/Customers/getAllActiveCustomers",
+            data: "{}",
+            success: function (data) {
+                var CustomerData = '<option value="0">Select Customer</option>';
+                for (var i = 0; i < data.length; i++) {
+                    CustomerData += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                }
+                cmbCustomer.html(CustomerData);
+
+            }
+        });
+
+    });
+</script>
+<script type="text/javascript">
+    function ConfirmationDialog(ID) {
+            if (confirm("Are you sure to delete?"))
+                fnDeleteRecord(ID);
+            else
+                return false;
+        }
+
+    function fnDeleteRecord(ID) {
+            $.ajax({
+                async: true,
+                type: 'POST',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: "{'id':'" + ID + "'}",
+                url: '/Portfolio/DeletePortfolio',
+                success: function (response) {
+                    if (response.success === true) {
+                        toastr.success(
+                            response.message,
+                            '',
+                            {
+                                timeOut: 1000,
+                                fadeOut: 1000,
+                                onHidden: function () {
+                                    window.location.reload();
+                                }
+                            }
+                        );
+                    }
+                    else {
+                        toastr.info(response.message, '', { timeOut: 3000 });
+                    }
+                },
+                error: function () {
+                    toastr.error('Error occur', 'Error occur while deleting record.', { timeOut: 3000 });
+                }
+
+            });
+    }
+
+    function fnInsertPortfolio()
+    {
+        var formData = new FormData();
+        var CustomerID = $("#cmbCustomer");
+        var Heading = $("#txtHeading");
+        var Description = $("#txtDescription");
+        var chkIsActive = $('#chkIsActive').is(':checked');
+
+        if (parseInt(CustomerID.val()) <= 0)
+        {
+            toastr.warning('Input Error', 'Please select customer.', { timeOut: 3000, fadeOut: 1000 });
+            CustomerID.focus();
+            return;
+        }
+
+        
+
+        formData.append("CustomerID", CustomerID.val());
+        formData.append("Heading", Heading.val());
+        formData.append("Description", Description.val());
+        formData.append("IsActive", chkIsActive);
+        var file = document.getElementById("inputProfile").files[0];
+        formData.append("imageFile", file);
+
+        if (document.getElementById("inputProfile").files.length <= 0) {
+            toastr.warning('Input Error', 'Please select Cover Photo', { timeOut: 3000, fadeOut: 1000 });
+            return;
+        }
+
+        var response = __glb_fnIUDOperation(formData, '/Portfolio/InsertPortfolio/');
+        if (response.success == true) {
+            toastr.success(
+                response.message,
+                'Record is inserted',
+                {
+                    timeOut: 1000,
+                    fadeOut: 1000,
+                    onHidden: function () {
+                        window.location.reload();
+                    }
+                }
+            );
+        }
+        else if (response.Formatwarning == true) {
+            toastr.warning(
+                response.message,
+                'Picture format error',
+                {
+                    timeOut: 3000,
+                    fadeOut: 1000,
+                    onHidden: function () {
+                        return;
+                    }
+                }
+            );
+        }
+        else {
+            toastr.error('Error occur!', response.message, { timeOut: 3000, fadeOut: 3000 });
+        }
+
+    }
+
+    function fnActivateDeactivateFolio(PortfolioID, ADAFlag) {
+        var formData = new FormData();
+        formData.append("id", PortfolioID);
+        formData.append("flag", ADAFlag);
+
+        var result = __glb_fnIUDOperation(formData, '/Portfolio/ActivateDeactivateFolio')
+
+        if (result.Act == true) {
+            toastr.success(
+                result.message,
+                'Portfolio is Activated!',
+                {
+                    timeOut: 1000,
+                    fadeOut: 1000,
+                    onHidden: function () {
+                        window.location.reload();
+                    }
+                }
+            );
+        }
+        else if (result.DeAct == true) {
+            toastr.success(
+                result.message,
+                'Portfolio is De-Activated!',
+                {
+                    timeOut: 1000,
+                    fadeOut: 1000,
+                    onHidden: function () {
+                        window.location.reload();
+                    }
+                }
+            );
+        }
+        else {
+            toastr.error(result.message, 'Error!', { timeOut: 3000, fadeOut: 1000 });
+        }
+    }
+</script>
+<div id="add-portfolio" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="H1">Add Portfolio</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-md-12 m-b-20">
+                        Customer: <select id="cmbCustomer" class="form-control" ></select><br /><br />
+                        Heading: <input type="text" id="txtHeading" class="form-control" placeholder="Enter Portfolio Heading:" /><br /><br />
+                        Description: <textarea id="txtDescription" class="form-control" placeholder="Enter Description:" ></textarea><br /><br />
+                        Is Active: &nbsp;&nbsp;&nbsp;<input type="checkbox" checked class="js-switch" data-size="small" id="chkIsActive" /><br /><br />
+                        Profile Pic: <input type="file" id="inputProfile" class="form-control" /><br /><br />
+                        <div class="modal-footer">
+                            <input type="submit" value="Insert" class="btn btn-success" onclick="fnInsertPortfolio()" />
+                            <input type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true" value="Cancel" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Portfolio List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li class="breadcrumb-item active">Portfolio List</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">Portfolio list:</h4>
+            </div>
+
+            <div class="card-body">
+
+                <div class="table-responsive m-t-40">
+                    <button class="btn waves-effect waves-light btn-outline-success" data-toggle="modal" data-target="#add-portfolio">
+                        + Add Portfolio
+                    </button>
+                    <a href="@Url.Action("PortfolioGalleryCategory", "PortfolioGallery")" class="btn waves-effect waves-light btn-outline-info">Manage Category</a>
+                    <table id="example23" class="display table table-hover table-striped table-bordered" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Cover Photo</th>
+                                <th>Customer Name</th>
+                                <th>Heading</th>
+                                <th>Description</th>
+                                <th>Is Active</th>
+                                <th>Created Date</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td align="center"> <a target="_blank" href="~/PortfolioCoverImage/@item.CoverPhoto"><img src="~/PortfolioCoverImage/@item.CoverPhoto" height="50px" width="50px" /></a></td>
+                                    <td align="left">@item.tblCustomer.CustomerName</td>
+                                    <td align="left">@item.PortfolioHeading</td>
+                                    <td align="left">@item.PortfolioDescription</td>
+                                    <td align="center">
+                                        @if (item.IsActive == true)
+                                        {
+
+                                            <button class="btn btn-success btn-rounded" title="Click here to Deactivate portfolio" onclick="javascript: fnActivateDeactivateFolio(@item.PortfolioID,0)">
+                                                <i class="fa fa-check"></i> Active
+                                            </button>
+                                            <a @Url.Action("Index/"+item.PortfolioID, "PortfolioGallery")></a>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-danger btn-rounded" title="Click to activate portfolio" onclick="javascript: fnActivateDeactivateFolio(@item.PortfolioID,1)">
+                                                <i class="fa fa-times"></i> Inactive
+                                            </button>
+                                        }
+                                    </td>
+                                    <td align='center'>@item.CreatedDate</td>
+                                    <td align="center">
+                                        <button type="submit" class="btn btn-danger waves-effect waves-light" onclick="return ConfirmationDialog(@item.PortfolioID)">
+                                            <span class="btn-label"><i class="fa fa-trash"></i></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+<script src="~/adminassets/node_modules/datatables/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+
+<script>
+    $(function () {
+        $('#example23').DataTable();
+        $(function () {
+            var table = $('#example23').DataTable({
+                "columnDefs": [{
+                    "visible": false,
+                    "targets": 2
+                }],
+                "order": [
+                    [2, 'asc']
+                ],
+                "displayLength": 25,
+                "drawCallback": function (settings) {
+                    var api = this.api();
+                    var rows = api.rows({
+                        page: 'current'
+                    }).nodes();
+                    var last = null;
+                    api.column(2, {
+                        page: 'current'
+                    }).data().each(function (group, i) {
+                        if (last !== group) {
+                            $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
+                            last = group;
+                        }
+                    });
+                }
+            });
+            // Order by the grouping
+            $('#example tbody').on('click', 'tr.group', function () {
+                var currentOrder = table.order()[0];
+                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
+                    table.order([2, 'desc']).draw();
+                } else {
+                    table.order([2, 'asc']).draw();
+                }
+            });
+        });
+    });
+    $('#example23').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'excel', 'pdf', 'print'
+        ]
+    });
+    $('.buttons-print, .buttons-pdf, .buttons-excel').addClass('btn btn-primary mr-1');
+</script>
+

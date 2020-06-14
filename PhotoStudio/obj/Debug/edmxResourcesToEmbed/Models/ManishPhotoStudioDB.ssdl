@@ -5,25 +5,22 @@
       <PropertyRef Name="AlbumAndVideoEditingChargesID" />
     </Key>
     <Property Name="AlbumAndVideoEditingChargesID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CustomerID" Type="bigint" />
+    <Property Name="CustomerID" Type="bigint" Nullable="false" />
     <Property Name="AlbumPage" Type="int" />
     <Property Name="AlbumSize" Type="nvarchar" MaxLength="50" />
-    <Property Name="AlbumType" Type="nvarchar" MaxLength="20" />
     <Property Name="AlbumPrice" Type="money" />
-    <Property Name="AlbumPadSize" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="AlbumPadPrice" Type="money" Nullable="false" />
-    <Property Name="AlbumLeadherBagPrice" Type="money" Nullable="false" />
-    <Property Name="PhotoLEDFramePrice" Type="money" Nullable="false" />
-    <Property Name="FamilyBannerPrice" Type="money" Nullable="false" />
-    <Property Name="SpecialAlbum" Type="money" Nullable="false" />
-    <Property Name="HDVideoDubbPendrivePrice" Type="money" Nullable="false" />
-    <Property Name="Other" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="AlbumPadSize" Type="nvarchar" MaxLength="50" />
+    <Property Name="AlbumPadPrice" Type="money" />
+    <Property Name="PhotoLEDFramePrice" Type="money" />
+    <Property Name="SpecialAlbum" Type="money" />
+    <Property Name="HDVideoDubbPendrivePrice" Type="money" />
+    <Property Name="Other" Type="nvarchar(max)" />
     <Property Name="IsPass" Type="bit" />
-    <Property Name="IsDisscount" Type="bit" Nullable="false" />
+    <Property Name="IsDisscount" Type="bit" />
     <Property Name="DiscountPercentage" Type="bigint" />
-    <Property Name="OriginalAmount" Type="money" Nullable="false" />
+    <Property Name="OriginalAmount" Type="money" />
     <Property Name="DiscountedAmount" Type="money" />
-    <Property Name="FinalAmount" Type="money" Nullable="false" />
+    <Property Name="FinalAmount" Type="money" />
     <Property Name="CreatedDate" Type="smalldatetime" />
     <Property Name="UpdatedDate" Type="smalldatetime" />
   </EntityType>
@@ -65,13 +62,33 @@
     <Key>
       <PropertyRef Name="OrderID" />
     </Key>
-    <Property Name="OrderID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="QuotationID" Type="bigint" Nullable="false" />
     <Property Name="PhotographerID" Type="int" Nullable="false" />
     <Property Name="PhotographerTypeID" Type="int" Nullable="false" />
     <Property Name="TotalPay" Type="money" />
     <Property Name="CreatedDate" Type="smalldatetime" />
     <Property Name="UpdatedDateTime" Type="smalldatetime" />
+  </EntityType>
+  <EntityType Name="tblPayment">
+    <Key>
+      <PropertyRef Name="PaymentID" />
+    </Key>
+    <Property Name="PaymentID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PhotographerID" Type="int" />
+    <Property Name="TotalPay" Type="money" />
+    <Property Name="RemainingPay" Type="money" />
+    <Property Name="PaymentDate" Type="smalldatetime" />
+  </EntityType>
+  <EntityType Name="tblPaymentHistory">
+    <Key>
+      <PropertyRef Name="PaymentHistoryID" />
+    </Key>
+    <Property Name="PaymentHistoryID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PhotographerID" Type="int" />
+    <Property Name="TotalPay" Type="money" />
+    <Property Name="RemainingPay" Type="money" />
+    <Property Name="PaymetnDate" Type="smalldatetime" />
   </EntityType>
   <EntityType Name="tblPhotographer">
     <Key>
@@ -105,6 +122,7 @@
     <Property Name="PortfolioHeading" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="PortfolioDescription" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CoverPhoto" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="IsActive" Type="bit" />
     <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
   </EntityType>
   <EntityType Name="tblPortfolioGallery">
@@ -141,7 +159,8 @@
     <Property Name="DSLR" Type="int" />
     <Property Name="NumberOfDrones" Type="int" />
     <Property Name="NumberOfLedScreens" Type="int" />
-    <Property Name="Others" Type="nvarchar" MaxLength="200" />
+    <Property Name="Pages" Type="int" />
+    <Property Name="Others" Type="nvarchar(max)" />
     <Property Name="TotalAmount" Type="money" />
     <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
     <Property Name="UpdatedDate" Type="smalldatetime" />
@@ -160,7 +179,9 @@
     <Property Name="UpdatedDate" Type="smalldatetime" />
   </EntityType>
   <Association Name="FK_tblAlbumAndVideoEditingCharges_tblCustomer">
-    <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="0..1" />
+    <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="tblAlbumAndVideoEditingCharges" Type="Self.tblAlbumAndVideoEditingCharges" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tblCustomer">
@@ -241,6 +262,34 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tblPayment_tblPhotographer">
+    <End Role="tblPhotographer" Type="Self.tblPhotographer" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblPayment" Type="Self.tblPayment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPhotographer">
+        <PropertyRef Name="PhotographerID" />
+      </Principal>
+      <Dependent Role="tblPayment">
+        <PropertyRef Name="PhotographerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblPaymentHistory_tblPhotographer">
+    <End Role="tblPhotographer" Type="Self.tblPhotographer" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblPaymentHistory" Type="Self.tblPaymentHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPhotographer">
+        <PropertyRef Name="PhotographerID" />
+      </Principal>
+      <Dependent Role="tblPaymentHistory">
+        <PropertyRef Name="PhotographerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tblPortfolio_tblCustomer">
     <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
@@ -303,6 +352,8 @@
     <EntitySet Name="tblCustomer" EntityType="Self.tblCustomer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblGallery" EntityType="Self.tblGallery" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblOrder" EntityType="Self.tblOrder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblPayment" EntityType="Self.tblPayment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblPaymentHistory" EntityType="Self.tblPaymentHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblPhotographer" EntityType="Self.tblPhotographer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblPhotographerType" EntityType="Self.tblPhotographerType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblPortfolio" EntityType="Self.tblPortfolio" Schema="dbo" store:Type="Tables" />
@@ -333,6 +384,14 @@
     <AssociationSet Name="FK_tblOrder_tblQuotation" Association="Self.FK_tblOrder_tblQuotation">
       <End Role="tblQuotation" EntitySet="tblQuotation" />
       <End Role="tblOrder" EntitySet="tblOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblPayment_tblPhotographer" Association="Self.FK_tblPayment_tblPhotographer">
+      <End Role="tblPhotographer" EntitySet="tblPhotographer" />
+      <End Role="tblPayment" EntitySet="tblPayment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblPaymentHistory_tblPhotographer" Association="Self.FK_tblPaymentHistory_tblPhotographer">
+      <End Role="tblPhotographer" EntitySet="tblPhotographer" />
+      <End Role="tblPaymentHistory" EntitySet="tblPaymentHistory" />
     </AssociationSet>
     <AssociationSet Name="FK_tblPortfolio_tblCustomer" Association="Self.FK_tblPortfolio_tblCustomer">
       <End Role="tblCustomer" EntitySet="tblCustomer" />

@@ -133,7 +133,11 @@
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\PhotographerController.cs" />
+    <Compile Include="Controllers\PortfolioController.cs" />
+    <Compile Include="Controllers\PortfolioGalleryController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\SystemUsersController.cs" />
     <Compile Include="Controllers\UserHomeController.cs" />
@@ -171,6 +175,12 @@
       <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblOrder.cs">
+      <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPayment.cs">
+      <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPaymentHistory.cs">
       <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblPhotographer.cs">
@@ -961,6 +971,15 @@
     <Content Include="Views\Photographer\Details.cshtml" />
     <Content Include="Views\Photographer\Edit.cshtml" />
     <Content Include="Views\Photographer\Index.cshtml" />
+    <Content Include="Views\Quotation\AddEmployees.cshtml" />
+    <Content Include="Views\Portfolio\Index.cshtml" />
+    <Content Include="Views\PortfolioGallery\PortfolioGalleryCategory.cshtml" />
+    <Content Include="Views\PortfolioGallery\Index.cshtml" />
+    <Content Include="Views\Quotation\AddQuotation.cshtml" />
+    <Content Include="Views\Orders\Index.cshtml" />
+    <Content Include="Views\Orders\PhotographerWiseOrder.cshtml" />
+    <Content Include="Views\Payments\Index.cshtml" />
+    <Content Include="Views\Payments\PaymentHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -968,6 +987,9 @@
     <Folder Include="CustomerProfile\" />
     <Folder Include="GalleryImages\" />
     <Folder Include="PhotographerProfilePic\" />
+    <Folder Include="PortfolioCategory\" />
+    <Folder Include="PortfolioCoverImage\" />
+    <Folder Include="PortfolioGalleryImages\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

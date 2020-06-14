@@ -21,25 +21,22 @@ namespace PhotoStudio.Models
         }
     
         public long AlbumAndVideoEditingChargesID { get; set; }
-        public Nullable<long> CustomerID { get; set; }
+        public long CustomerID { get; set; }
         public Nullable<int> AlbumPage { get; set; }
         public string AlbumSize { get; set; }
-        public string AlbumType { get; set; }
         public Nullable<decimal> AlbumPrice { get; set; }
         public string AlbumPadSize { get; set; }
-        public decimal AlbumPadPrice { get; set; }
-        public decimal AlbumLeadherBagPrice { get; set; }
-        public decimal PhotoLEDFramePrice { get; set; }
-        public decimal FamilyBannerPrice { get; set; }
-        public decimal SpecialAlbum { get; set; }
-        public decimal HDVideoDubbPendrivePrice { get; set; }
+        public Nullable<decimal> AlbumPadPrice { get; set; }
+        public Nullable<decimal> PhotoLEDFramePrice { get; set; }
+        public Nullable<decimal> SpecialAlbum { get; set; }
+        public Nullable<decimal> HDVideoDubbPendrivePrice { get; set; }
         public string Other { get; set; }
         public Nullable<bool> IsPass { get; set; }
-        public bool IsDisscount { get; set; }
+        public Nullable<bool> IsDisscount { get; set; }
         public Nullable<long> DiscountPercentage { get; set; }
-        public decimal OriginalAmount { get; set; }
+        public Nullable<decimal> OriginalAmount { get; set; }
         public Nullable<decimal> DiscountedAmount { get; set; }
-        public decimal FinalAmount { get; set; }
+        public Nullable<decimal> FinalAmount { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
     

@@ -18,6 +18,8 @@ namespace PhotoStudio.Models
         public tblPhotographer()
         {
             this.tblOrders = new HashSet<tblOrder>();
+            this.tblPayments = new HashSet<tblPayment>();
+            this.tblPaymentHistories = new HashSet<tblPaymentHistory>();
         }
     
         public int PhotographerID { get; set; }
@@ -34,5 +36,9 @@ namespace PhotoStudio.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblOrder> tblOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblPayment> tblPayments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblPaymentHistory> tblPaymentHistories { get; set; }
     }
 }

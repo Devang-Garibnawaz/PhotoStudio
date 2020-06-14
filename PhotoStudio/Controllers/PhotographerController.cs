@@ -24,6 +24,40 @@ namespace PhotoStudio.Controllers
             return View(db.tblPhotographers.ToList());
         }
 
+
+        public ActionResult getAllActivePhotographer()
+        {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
+            return Json(db.tblPhotographers.Where(c => c.IsActive == true).Select(c => new
+            {
+                id = c.PhotographerID,
+                name = c.PhotographerName
+            }).ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult getAllPhotographerType()
+        {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
+            return Json(db.tblPhotographerTypes.Select(c => new
+            {
+                id = c.PhotographerTypeID,
+                name = c.PhotographerTypeName
+            }).ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult getPhotographerSalaryByID(int id)
+        {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
+            decimal Salary = db.tblPhotographers.SingleOrDefault(c => c.PhotographerID == id).Salary;
+            return Json(new { Salary = Salary}, JsonRequestBehavior.AllowGet);
+        }
         // GET: Photographer/Create
         public ActionResult Create()
         {

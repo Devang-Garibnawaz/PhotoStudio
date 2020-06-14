@@ -14,7 +14,7 @@ namespace PhotoStudio.Models
     
     public partial class tblOrder
     {
-        public long OrderID { get; set; }
+        public int OrderID { get; set; }
         public long QuotationID { get; set; }
         public int PhotographerID { get; set; }
         public int PhotographerTypeID { get; set; }

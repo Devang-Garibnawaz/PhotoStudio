@@ -166,7 +166,7 @@
     <script src="~/userassets/vendor/lightgallery/js/lightgallery-plugins.js"></script>
     <script src="~/userassets/js/theme.js"></script>
 
-    
+
 
     <script>
         (function (i, s, o, g, r, a, m) {
@@ -178,6 +178,11 @@
 
         ga('create', 'UA-89383509-1', 'auto');
         ga('send', 'pageview');
+    </script>
+    <script>
+        $(document).ready(function () {
+            document.addEventListener('contextmenu', event => event.preventDefault());
+        });
     </script>
 </body>
 </html>

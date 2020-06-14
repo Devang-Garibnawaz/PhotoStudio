@@ -105,13 +105,13 @@
         document.getElementById("lblCustomerName").innerHTML = __glb_fnIsNullOrEmpty(data.CustomerName) ? "-" : data.CustomerName;
         document.getElementById("lblALBPG").innerHTML = __glb_fnIsNullOrEmpty(data.ALBPG) ? "-" : data.ALBPG + " Pages";
         document.getElementById("lblALBSZ").innerHTML = __glb_fnIsNullOrEmpty(data.ALBSZ) ? "-" : data.ALBSZ;
-        document.getElementById("lblALBTP").innerHTML = __glb_fnIsNullOrEmpty(data.ALBType) ? "-" : data.ALBType;
+        
         document.getElementById("lblALBPR").innerHTML = __glb_fnIsNullOrEmpty(data.ALBPR) ? "-" : data.ALBPR;
-        document.getElementById("lblALBPADSZ").innerHTML = __glb_fnIsNullOrEmpty(data.ALBPDSZ) ? "-" : data.ALBPDSZ;
+        
         document.getElementById("lblALBPADPR").innerHTML = __glb_fnIsNullOrEmpty(data.ALBPDPR) ? "-" : data.ALBPDPR;
-        document.getElementById("lblALBLBPR").innerHTML = __glb_fnIsNullOrEmpty(data.ALBLBPR) ? "-" : data.ALBLBPR;
+
         document.getElementById("lblLEDFrame").innerHTML = __glb_fnIsNullOrEmpty(data.PLEDPR) ? "-" : data.PLEDPR;
-        document.getElementById("lblFamilyBanner").innerHTML = __glb_fnIsNullOrEmpty(data.FamilyBannerPR) ? "-" : data.FamilyBannerPR;
+
         document.getElementById("lblSPCALB").innerHTML = __glb_fnIsNullOrEmpty(data.SPALB) ? "-" : data.SPALB;
         document.getElementById("lblVDDUBBPD").innerHTML = __glb_fnIsNullOrEmpty(data.HDVDDUBBPD) ? "-" : data.HDVDDUBBPD;
 
@@ -131,13 +131,10 @@
                 <label class="col-4 col-form-label">HD Video Editing + Dubbing + Pendrive:</label><i class="fas fa-rupee-sign"></i><label class="col-5 col-form-label" id="lblVDDUBBPD"></label><hr />
                 <label class="col-4 col-form-label">Album Pages:</label><label class="col-5 col-form-label" style="color:brown;" id="lblALBPG"></label><hr />
                 <label class="col-4 col-form-label">Album Size:</label><label class="col-5 col-form-label" style="color:brown;" id="lblALBSZ"></label><hr />
-                <label class="col-4 col-form-label">Album Type:</label><label class="col-5 col-form-label" style="color:brown;" id="lblALBTP"></label><hr />
                 <label class="col-4 col-form-label">Album Price:</label><i class="fas fa-rupee-sign"></i><label class="col-5 col-form-label" id="lblALBPR"></label><hr />
                 <label class="col-4 col-form-label">Album Pad Size:</label><label class="col-5 col-form-label" style="color:brown;" id="lblALBPADSZ"></label><hr />
                 <label class="col-4 col-form-label">Album Pad Price:</label><i class="fas fa-rupee-sign"></i><label class="col-5 col-form-label" id="lblALBPADPR"></label><hr />
-                <label class="col-4 col-form-label">Album Lather Bag Price:</label><i class="fas fa-rupee-sign"></i><label class="col-5 col-form-label" id="lblALBLBPR"></label><hr />
                 <label class="col-4 col-form-label">LED Frame At Reception:</label><i class="fas fa-rupee-sign"></i><label class="col-5 col-form-label" id="lblLEDFrame"></label><hr />
-                <label class="col-4 col-form-label">Family Banner:</label><i class="fas fa-rupee-sign"></i><label class="col-5 col-form-label" id="lblFamilyBanner"></label><hr />
                 <label class="col-4 col-form-label">Bride Ghroom Special Album:</label><i class="fas fa-rupee-sign"></i><label class="col-5 col-form-label" id="lblSPCALB"></label><hr />
             </div>
             <div class="modal-footer">
@@ -171,17 +168,17 @@
             <div class="card-body">
                 <div class="table-responsive m-t-40">
                     <a href="@Url.Action("CreateAAVEC", "Quotation")" class="btn waves-effect waves-light btn-outline-success">+ Add Album And Vieo Editing Charges</a>
-                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" width="100%">
+                    <table id="example23" class="display table table-hover table-striped table-bordered" width="100%">
                         <thead>
                             <tr>
                                 <th>Customer</th>
-                                <th>Disscount Applied</th>
-                                <th><font color="green">Discount Percentage/</font><br/><font color="red">Discounted Amount</font></th>
-                                <th><font color="green">Original Amount /</font><br/><font color="red">Total Amount</font></th>
-                                <th>Approved</th>
+                                <th><font color="green">+ Add Function Details</font></th>
+                                <th><font color="green">Discount Details</font></th>
+                                <th><font color="green">Quotation Amount</font></th>
+                                <th width="auto">Approved</th>
                                 <th>More Info</th>
                                 <th><font color="green">Created/</font><br /> <font color="red">Updated Date</font></th>
-                                <th><font color="green">Update /</font><br/><font color="red">+ Add Quotation Details</font></th>
+                                <th><font color="green">Update</font></th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
@@ -191,7 +188,11 @@
                             {
                             <tr>
                                 <td align="left">@item.tblCustomer.CustomerName</td>
-                                <td align="center">@(item.IsDisscount == true ? "Yes" : "No")</td>
+                                <td align="center">
+                                    <a href="@Url.Action("ManageQuotationDetails/"+item.AlbumAndVideoEditingChargesID, "Quotation")" class="btn btn-success btn-circle" title="Click here to add another quotation details"><i class="fa fa-plus"></i></a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a href="@Url.Action("PrintQuotation/"+item.AlbumAndVideoEditingChargesID, "Quotation")" target="_blank" class="btn btn-info btn-circle" title="Click here to print quotation"><i class="fas fa-print"></i></a>
+                                </td>
 
                                 <td align="left">
                                     <font color="green">@item.DiscountPercentage% </font><br />
@@ -219,14 +220,11 @@
                                 <td align="center">
                                     <a data-toggle="modal" data-target=".bs-example-modal-lg" href="" onclick="javascript:fnShowMoreInfo(@item.AlbumAndVideoEditingChargesID)"> <img src="~/adminassets/images/searchPNG.png" height="40px" width="40px"/></a>
                                 </td>
-                                <td align='center'><font color="green">@item.CreatedDate</font> <br /> <font color="red">@item.UpdatedDate</font></td>
-                                <td align="left">
+                                <td align='left'><font color="green">@item.CreatedDate</font> <br /> <font color="red">@item.UpdatedDate</font></td>
+                                <td align="center">
                                     <a href="@Url.Action("UpdateAlbumAndVideoEditingCharge/"+item.AlbumAndVideoEditingChargesID, "Quotation")" class="btn btn-success btn-circle" title="Click here to update details"><i class="fa fa-pencil-alt"></i></a>
                                     &nbsp;&nbsp;&nbsp;
-                                    <a href="@Url.Action("ManageQuotationDetails/"+item.AlbumAndVideoEditingChargesID, "Quotation")" class="btn btn-danger btn-circle" title="Click here to add another quotation details"><i class="fa fa-plus"></i></a>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <a href="@Url.Action("PrintQuotation/"+item.AlbumAndVideoEditingChargesID, "Quotation")" class="btn btn-danger btn-circle" title="Click here to print quotation"><i class="fas fa-print"></i></a>
-
+                                   
                                 </td>
                                 <td align="center">
                                     <button type="submit" class="btn btn-danger waves-effect waves-light" onclick="return ConfirmationDialog(@item.AlbumAndVideoEditingChargesID)">

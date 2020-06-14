@@ -1,0 +1,453 @@
+﻿@{
+    ViewBag.Title = "AddQuotation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <script>
+
+        $(document).ready(function () {
+
+            var txtPhNo = $("#txtPhoneNumber");
+            $(txtPhNo).blur(function () {
+                var formData = new FormData();
+                formData.append("PhoneNumber", txtPhNo.val());
+                var response = __glb_fnIsRecordExist(formData, '/Customers/IsPhoneNumberExist');
+                if (response.success == true) {
+                    toastr.warning('Record Exist!', response.message, { timeOut: 1000, fadeOut: 1000 });
+                    txtPhNo.val("");
+                    txtPhNo.focus();
+                    return;
+                }
+
+            })
+        });
+    </script>
+    <script>
+        var _CustomerID = 0;
+        var _AAVECID = 0;
+    function fnInsertCustomer() {
+            var formData = new FormData();
+            var CustomerName = $("#txtCustomerName");
+            var Email = $("#txtEmail");
+            var Password = $("#txtPassword");
+            var PhoneNumber = $("#txtPhoneNumber");
+            var chkIsActive = $('#chkIsActive').is(':checked');
+
+            if (__glb_fnIsNullOrEmpty(CustomerName.val())) {
+                toastr.warning('Input Error', 'Please enter customer name', { timeOut: 3000, fadeOut: 1000 });
+                CustomerName.focus();
+                return;
+            }
+
+            if (__glb_fnIsNullOrEmpty(Email.val())) {
+                toastr.warning('Input Error', 'Please enter email', { timeOut: 3000, fadeOut: 1000 });
+                Email.focus();
+                return;
+            }
+
+            if (!__glb_validateEmail(Email.val())) {
+                toastr.warning('Input Error', 'Please enter valid email', { timeOut: 3000, fadeOut: 1000 });
+                Email.focus();
+                return;
+            }
+
+            if (__glb_fnIsNullOrEmpty(Password.val())) {
+                toastr.warning('Input Error', 'Please enter passord', { timeOut: 3000, fadeOut: 1000 });
+                Password.focus();
+                return;
+            }
+
+            if (__glb_fnIsNullOrEmpty(PhoneNumber.val())) {
+                toastr.warning('Input Error', 'Please enter phone number', { timeOut: 3000, fadeOut: 1000 });
+                PhoneNumber.focus();
+                return;
+            }
+
+            if (!__glb_validatePhoneNumber(PhoneNumber.val())) {
+                toastr.warning('Input Error', 'Please enter valid phone number', { timeOut: 3000, fadeOut: 1000 });
+                PhoneNumber.focus();
+                return;
+            }
+
+            formData.append("CustomerName", CustomerName.val());
+            formData.append("Password", Password.val());
+            formData.append("Email", Email.val());
+            formData.append("PhoneNumber", PhoneNumber.val());
+            formData.append("IsActive", chkIsActive);
+            var file = document.getElementById("inputProfile").files[0];
+            formData.append("imageFile", file);
+
+            if (document.getElementById("inputProfile").files.length <= 0) {
+                toastr.warning('Input Error', 'Please select profile pic', { timeOut: 3000, fadeOut: 1000 });
+                return;
+            }
+
+            var response = __glb_fnIUDOperation(formData, '/Customers/InsertCustomers/');
+            if (response.success == true) {
+                _CustomerID = response.lastcustomerid;
+                fnInsertAAVEC();
+                $("#divCustomerInfo").hide();
+                toastr.success('Inserted!', response.message, { timeOut: 1000, fadeOut: 1000 });
+            }
+            else if (response.Formatwarning == true) {
+                toastr.warning(
+                    response.message,
+                    'Picture format error',
+                    {
+                        timeOut: 3000,
+                        fadeOut: 1000,
+                        onHidden: function () {
+                            return;
+                        }
+                    }
+                );
+            }
+            else {
+                toastr.error('Error occur!', response.message, { timeOut: 1000, fadeOut: 1000 });
+            }
+
+        }
+
+    function fnInsertAAVEC()
+    {
+        var formData = new FormData();
+        formData.append("CustomeriD", _CustomerID);
+        var response = __glb_fnIUDOperation(formData, '/Quotation/InsertAlbumAndVideoEditingCharge/');
+
+        if (response.success == true) {
+            _AAVECID = response.lastAAVECID;
+            toastr.success('Inserted!', response.message, { timeOut: 1000, fadeOut: 1000 });
+        }
+        else if (response.Formatwarning == true) {
+            toastr.warning(
+                response.message,
+                'Picture format error',
+                {
+                    timeOut: 3000,
+                    fadeOut: 1000,
+                    onHidden: function () {
+                        return;
+                    }
+                }
+            );
+        }
+        else {
+            toastr.error('Error occur!', response.message, { timeOut: 1000, fadeOut: 1000 });
+        }
+    }
+
+        function fnPopulateQuotationTable()
+    {
+        var tableData = "";
+        var formData = new FormData();
+        formData.append("CustomerID", _CustomerID);
+        var data = __glb_fnIUDOperation(formData,'/Quotation/getQuotationDetail/');
+        $.each(data, function (index, item) {
+            tableData += "<tr><td> " + item.EventDate + "</td >" +
+                "<td> " + item.Function + "</td >" +
+                "<td> Candid(" + item.CandidCinemato + ") / Regular(" + item.RegularCinemato+")</td >" +
+                "<td> Candid(" + item.CandidPhoto + ") / Regular(" + item.RegularPhoto +")</td >" +
+                "<td> " + item.DSLR + "</td >" +
+                "<td> " + item.Drones + "</td >" +
+                "<td> " + item.LED + "</td >" +
+                "<td> " + item.Other + "</td >" +
+                "<td> " + item.TotalAmount + "</td >" +
+                "<td> <button type='submit' class='btn btn-danger waves-effect waves-light' onclick='fnDeleteQuotation(" + item.QuotationID+")'><span class='btn-label'><i class='fa fa-trash'></i></span></button></td ></tr>";
+        });
+            $("#tblItemsQuotationDetails").append(tableData);
+        }
+
+    function fnDeleteQuotation(ID)
+        {
+            $.ajax({
+                async: true,
+                type: 'POST',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: "{'id':'" + ID + "'}",
+                url: '/Quotation/DeleteQuotation',
+                success: function (response) {
+                    if (response.success === true) {
+                        toastr.success('Inserted', response.message, { timeOut: 1000 });
+                        fnPopulateQuotationTable();
+                    }
+                    else {
+                        toastr.info(response.message, '', { timeOut: 3000 });
+                    }
+                },
+                error: function () {
+                    toastr.error('Error occur', 'Error occur while deleting record.', { timeOut: 3000 });
+                }
+
+            });
+        }
+
+    function fnInsertQuotation() {
+
+        var AAVECID = _AAVECID;
+        var txtEventDate = $("#txtEventDate");
+        var txtFunctionName = $("#txtFunctionName");
+        var txtCandidCinemato = $("#txtCandidCinemato");
+        var txtRegularCinemato = $("#txtRegularCinemato");
+        var txtCandidPhoto = $("#txtCandidPhoto");
+        var txtRegularPhoto = $("#txtRegularPhoto");
+        var txtDSLR = $("#txtDSLR");
+        var txtDrones = $("#txtDrones");
+        var txtLEDScreen = $("#txtLEDScreen");
+        var txtTotalAmount = $("#txtTotalAmount");
+        var txtOther = $("#txtOther");
+
+        if (parseInt(AAVECID) <= 0) {
+            toastr.warning('Input Error', 'Album And Vieo Editing ID can not be blank.', { timeOut: 1000, fadeOut: 1000 });
+            return;
+        }
+
+        if (__glb_fnIsNullOrEmpty(txtEventDate.val())) {
+            toastr.warning('Input Error', 'Please Enter Event Date.', { timeOut: 1000, fadeOut: 1000 });
+            txtEventDate.focus();
+            return;
+        }
+
+        if (__glb_fnIsNullOrEmpty(txtFunctionName.val())) {
+            toastr.warning('Input Error', 'Please Enter Function Name.', { timeOut: 1000, fadeOut: 1000 });
+            txtFunctionName.focus();
+            return;
+        }
+
+        if (__glb_fnIsNullOrEmpty(txtTotalAmount.val())) {
+            toastr.warning('Input Error', 'Please enter total amount.', { timeOut: 1000, fadeOut: 1000 });
+            txtTotalAmount.focus();
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append("AAVECID", AAVECID);
+        formData.append("EventDate", txtEventDate.val());
+        formData.append("FunctionName", txtFunctionName.val());
+        formData.append("CandidCinemato", txtCandidCinemato.val());
+        formData.append("RegularCinemato", txtRegularCinemato.val());
+        formData.append("CandidPhoto", txtCandidPhoto.val());
+        formData.append("RegularPhoto", txtRegularPhoto.val());
+        formData.append("DSLR", txtDSLR.val());
+        formData.append("Drones", txtDrones.val());
+        formData.append("LEDScreen", txtLEDScreen.val());
+        formData.append("TotalAmount", txtTotalAmount.val());
+        formData.append("Other", txtOther.val());
+
+        var response = __glb_fnIUDOperation(formData, '/Quotation/InsertQuotation');
+        if (response.success == true) {
+            toastr.success('Inserted!', response.message, { timeOut: 1000, fadeOut: 1000 });
+            fnPopulateQuotationTable();
+        }
+        else {
+            toastr.error('Error occur!', response.message, { timeOut: 3000, fadeOut: 3000 });
+        }
+    }
+    </script>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body" id="divCustomerInfo">
+                <div class="form-body">
+                    <hr class="m-t-0 m-b-40" />
+                    <h3 class="box-title">Customer Details</h3>
+                    <hr class="m-t-0 m-b-40">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Customer Name:</label>
+                                <div class="col-md-4">
+                                    <input type="text" id="txtCustomerName" placeholder="Enter Customer Name" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Email:</label>
+                                <div class="col-md-4">
+                                    <input type="email" id="txtEmail" placeholder="Enter Customer Email" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Phone Number:</label>
+                                <div class="col-md-4">
+                                    <input type="number" id="txtPhoneNumber" placeholder="Enter Phone Number" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Password:</label>
+                                <div class="col-md-4">
+                                    <input type="password" id="txtPassword" placeholder="Enter Password" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Is Active:</label>
+                                <div class="col-md-4">
+                                    <input type="checkbox" checked class="js-switch" data-size="small" id="chkIsActive" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Profile Pic:</label>
+                                <div class="col-md-4">
+                                    <input type="file" id="inputProfile" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-offset-9 col-md-9">
+                                    <input type="submit" value="Submit" class="btn btn-success" onclick="javascript:fnInsertCustomer()" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" id="divQuotationInfo">
+                <div class="form-body">
+                    <hr class="m-t-0 m-b-40" />
+                    <h3 class="box-title">Quotation Details</h3>
+                    <hr class="m-t-0 m-b-40">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Event Date:</label>
+                                <div class="col-md-4">
+                                    <input type="date" id="txtEventDate" class="form-control" required placeholder="Enter Event Date:" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Function:</label>
+                                <div class="col-md-4">
+                                    <input type="text" id="txtFunctionName" class="form-control" required placeholder="Enter Function Name:" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Candid Cinematographer:</label>
+                                <div class="col-md-4">
+                                    <input type="number" id="txtCandidCinemato" class="form-control" required placeholder="Enter Number Of Candid Cinematographers:" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Regular Cinematographer:</label>
+                                <div class="col-md-4">
+                                    <input type="number" id="txtRegularCinemato" class="form-control" required placeholder="Enter Number Of Regular Cinematographers:" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Candid Photographer:</label>
+                                <div class="col-md-4">
+                                    <input type="number" id="txtCandidPhoto" class="form-control" required placeholder="Enter Number Of Candid Photographers:" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Regular Photographer:</label>
+                                <div class="col-md-4">
+                                    <input type="number" id="txtRegularPhoto" class="form-control" required placeholder="Enter Number Of Regular Photographers:" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">DSLR:</label>
+                                <div class="col-md-4">
+                                    <input type="number" id="txtDSLR" class="form-control" required placeholder="Enter Number Of DSLR:" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Drones:</label>
+                                <div class="col-md-4">
+                                    <input type="number" id="txtDrones" class="form-control" required placeholder="Enter Number Of Drones:" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">LED Screen:</label>
+                                <div class="col-md-4">
+                                    <input type="number" id="txtLEDScreen" class="form-control" required placeholder="Enter Number Of LED Screen:" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Other Note:</label>
+                                <div class="col-md-4">
+                                    <textarea class="form-control" id="txtOther" placeholder="Other Note"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-right col-md-3">Total Amount:</label>
+                                <div class="col-md-4">
+                                    <input type="number" id="txtTotalAmount" class="form-control" required placeholder="Enter Total Amount:" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-offset-9 col-md-9">
+                                    <input type="submit" value="Insert Quotation" class="btn btn-success" onclick="javascript:fnInsertQuotation()" />
+                                    <a href="@Url.Action("Index", "Quotation")" class="btn btn-primary">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Quotation Details</h4>
+                <div class="table-responsive">
+                    <table class="table color-table info-table">
+                        <thead>
+                            <tr>
+                                <th>Event Date</th>
+                                <th>Function</th>
+                                <th>Cinemato Graphers</th>
+                                <th>Photographers</th>
+                                <th>DSLR</th>
+                                <th>Drones</th>
+                                <th>LED Screen</th>
+                                <th>Other Note</th>
+                                <th>Amount</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblItemsQuotationDetails">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

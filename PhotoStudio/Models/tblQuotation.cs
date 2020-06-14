@@ -31,6 +31,7 @@ namespace PhotoStudio.Models
         public Nullable<int> DSLR { get; set; }
         public Nullable<int> NumberOfDrones { get; set; }
         public Nullable<int> NumberOfLedScreens { get; set; }
+        public Nullable<int> Pages { get; set; }
         public string Others { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }
         public System.DateTime CreatedDate { get; set; }

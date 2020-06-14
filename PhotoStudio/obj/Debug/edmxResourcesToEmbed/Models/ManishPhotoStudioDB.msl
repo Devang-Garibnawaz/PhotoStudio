@@ -8,13 +8,10 @@
           <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
           <ScalarProperty Name="AlbumPage" ColumnName="AlbumPage" />
           <ScalarProperty Name="AlbumSize" ColumnName="AlbumSize" />
-          <ScalarProperty Name="AlbumType" ColumnName="AlbumType" />
           <ScalarProperty Name="AlbumPrice" ColumnName="AlbumPrice" />
           <ScalarProperty Name="AlbumPadSize" ColumnName="AlbumPadSize" />
           <ScalarProperty Name="AlbumPadPrice" ColumnName="AlbumPadPrice" />
-          <ScalarProperty Name="AlbumLeadherBagPrice" ColumnName="AlbumLeadherBagPrice" />
           <ScalarProperty Name="PhotoLEDFramePrice" ColumnName="PhotoLEDFramePrice" />
-          <ScalarProperty Name="FamilyBannerPrice" ColumnName="FamilyBannerPrice" />
           <ScalarProperty Name="SpecialAlbum" ColumnName="SpecialAlbum" />
           <ScalarProperty Name="HDVideoDubbPendrivePrice" ColumnName="HDVideoDubbPendrivePrice" />
           <ScalarProperty Name="Other" ColumnName="Other" />
@@ -79,6 +76,28 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="tblPayments">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPayment">
+        <MappingFragment StoreEntitySet="tblPayment">
+          <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+          <ScalarProperty Name="PhotographerID" ColumnName="PhotographerID" />
+          <ScalarProperty Name="TotalPay" ColumnName="TotalPay" />
+          <ScalarProperty Name="RemainingPay" ColumnName="RemainingPay" />
+          <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblPaymentHistories">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPaymentHistory">
+        <MappingFragment StoreEntitySet="tblPaymentHistory">
+          <ScalarProperty Name="PaymentHistoryID" ColumnName="PaymentHistoryID" />
+          <ScalarProperty Name="PhotographerID" ColumnName="PhotographerID" />
+          <ScalarProperty Name="TotalPay" ColumnName="TotalPay" />
+          <ScalarProperty Name="RemainingPay" ColumnName="RemainingPay" />
+          <ScalarProperty Name="PaymetnDate" ColumnName="PaymetnDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="tblPhotographers">
       <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPhotographer">
         <MappingFragment StoreEntitySet="tblPhotographer">
@@ -112,6 +131,7 @@
           <ScalarProperty Name="PortfolioHeading" ColumnName="PortfolioHeading" />
           <ScalarProperty Name="PortfolioDescription" ColumnName="PortfolioDescription" />
           <ScalarProperty Name="CoverPhoto" ColumnName="CoverPhoto" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -151,6 +171,7 @@
           <ScalarProperty Name="DSLR" ColumnName="DSLR" />
           <ScalarProperty Name="NumberOfDrones" ColumnName="NumberOfDrones" />
           <ScalarProperty Name="NumberOfLedScreens" ColumnName="NumberOfLedScreens" />
+          <ScalarProperty Name="Pages" ColumnName="Pages" />
           <ScalarProperty Name="Others" ColumnName="Others" />
           <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />

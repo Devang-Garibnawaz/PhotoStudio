@@ -41,7 +41,7 @@ namespace PhotoStudio.Controllers
         {
             if (Session["UserID"] == null && Session["UserName"] == null)
                 return RedirectToAction("Login", "Login");
-
+            long LastCustomerID = 0;
             try
             {
                 if (ModelState.IsValid)
@@ -92,8 +92,9 @@ namespace PhotoStudio.Controllers
                     }
                     db.tblCustomers.Add(newCust);
                     db.SaveChanges();
+                    LastCustomerID = db.tblCustomers.Max(item => item.CustomerID);
                 }
-                return Json(new { success = true, message = "Record inserted" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, message = "Record inserted", lastcustomerid = LastCustomerID }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

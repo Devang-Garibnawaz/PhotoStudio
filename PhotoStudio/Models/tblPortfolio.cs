@@ -25,6 +25,7 @@ namespace PhotoStudio.Models
         public string PortfolioHeading { get; set; }
         public string PortfolioDescription { get; set; }
         public string CoverPhoto { get; set; }
+        public Nullable<bool> IsActive { get; set; }
         public System.DateTime CreatedDate { get; set; }
     
         public virtual tblCustomer tblCustomer { get; set; }
