@@ -980,6 +980,8 @@
     <Content Include="Views\Orders\PhotographerWiseOrder.cshtml" />
     <Content Include="Views\Payments\Index.cshtml" />
     <Content Include="Views\Payments\PaymentHistory.cshtml" />
+    <Content Include="Views\Payments\PaymentHistoryDetails.cshtml" />
+    <Content Include="Views\PortfolioGallery\PortfolioGalleryList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

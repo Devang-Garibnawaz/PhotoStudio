@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Antlr.Runtime.Tree;
 using PhotoStudio.Models;
 
 namespace PhotoStudio.Controllers
@@ -17,25 +18,59 @@ namespace PhotoStudio.Controllers
         // GET: Payments
         public ActionResult Index()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             var tblPayments = db.tblPayments.Include(t => t.tblPhotographer);
             return View(tblPayments.ToList());
         }
 
-        public ActionResult PaymentHistory(int id=0)
+        public ActionResult PaymentHistory(int? id)
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
+            if (id == null)
+            {
+                var tblPayments = db.tblPayments.Include(t => t.tblPhotographer);
+                return View("Index", tblPayments.ToList());
+            }
+            else
+            {
+                var tblPaymentHistory = db.tblPaymentHistories.Where(P => P.tblPhotographer.PhotographerID == id).Include(t => t.tblPhotographer);
+                ViewBag.PGID = id;
+                ViewBag.PhotographerName = db.tblPhotographers.SingleOrDefault(P => P.PhotographerID == id).PhotographerName;
+                return View(tblPaymentHistory.ToList());
+            }
+        }
+
+        [HttpPost]
+        public ActionResult PaymentHistory(int id,DateTime FromDate, DateTime ToDate)
+        {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             if (id <= 0)
             {
                 var tblPayments = db.tblPayments.Include(t => t.tblPhotographer);
-                return View(tblPayments.ToList());
+                return View("Index", tblPayments.ToList());
             }
-            var tblPaymentHistory = db.tblPaymentHistories.Where(P => P.tblPhotographer.PhotographerID == id).Include(t => t.tblPhotographer);
-            ViewBag.PhotographerName = db.tblPhotographers.SingleOrDefault(P => P.PhotographerID == id).PhotographerName;
-            return View(tblPaymentHistory.ToList());
+            else
+            {
+                var tblPaymentHistory = db.tblPaymentHistories.Where(P => P.tblPhotographer.PhotographerID == id).Where(P => P.PaymetnDate >= FromDate).Where(P => P.PaymetnDate <= ToDate).Include(t => t.tblPhotographer);
+                ViewBag.PGID = id;
+                ViewBag.PhotographerName = db.tblPhotographers.SingleOrDefault(P => P.PhotographerID == id).PhotographerName;
+                return View(tblPaymentHistory.ToList());
+            }
         }
+
 
         [HttpPost]
         public ActionResult MakePayment()
         {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 int PGID = Convert.ToInt32(Request.Form["PGID"]);

@@ -24,14 +24,14 @@ namespace PhotoStudio.Controllers
 
             if (id == null)
             {
-                ViewBag.PortfolioID = id;
-                var tblPortfolioGalleries = db.tblPortfolioGalleries.Include(t => t.tblPortfolio).Include(t => t.tblPortfolioGalleryCategory).Where(PF => PF.tblPortfolio.IsActive == true);
-                return View(tblPortfolioGalleries.ToList());
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             else
             {
-                var tblPortfolioGalleries = db.tblPortfolioGalleries.Include(t => t.tblPortfolio).Include(t => t.tblPortfolioGalleryCategory).Where(PF => PF.tblPortfolio.IsActive == true).Where(PF => PF.PortfolioID == id);
+                ViewBag.PortfolioID = id;
+                var tblPortfolioGalleries = db.tblPortfolioGalleries.Include(t => t.tblPortfolio).Include(t => t.tblPortfolioGalleryCategory).Where(PF => PF.tblPortfolio.IsActive == true);
                 return View(tblPortfolioGalleries.ToList());
+                
             }
         }
 
@@ -128,6 +128,9 @@ namespace PhotoStudio.Controllers
                     
                     if(IsGalleryCapacityOverflow(CategoryID,PortfolioID))
                         return Json(new { success = false, message = "Selected Category is already having 25 images!" }, JsonRequestBehavior.AllowGet);
+                    
+                    if (Request.Files.Count > 25)
+                        return Json(new { success = false, message = "You can not insert more than 25 Images in single category" }, JsonRequestBehavior.AllowGet);
 
                     if (Request.Files.Count > 0)
                     {
@@ -136,13 +139,10 @@ namespace PhotoStudio.Controllers
                         string mimeType = string.Empty;
                         System.IO.Stream fileContent;
 
-                        if(Request.Files.Count > 25)
-                            return Json(new { success = false, message = "You can not insert more than 25 Images in single category" }, JsonRequestBehavior.AllowGet);
-
+                        
                         for (int i = 0; i < Request.Files.Count; i++)
                         {
                             tblPortfolioGallery portfolioGallery = new tblPortfolioGallery();
-                            bool ApplyWatermark = Request.Form["chkApplyWaterMark"] == "true" ? true : false;
 
                             portfolioGallery.PortfolioID = PortfolioID;
                             portfolioGallery.PortfolioGalleryCategoryID = CategoryID;
@@ -157,13 +157,18 @@ namespace PhotoStudio.Controllers
 
                             if (mimeType.ToLower() != "image/jpeg" && mimeType.ToLower() != "image/jpg" && mimeType.ToLower() != "image/png")
                             {
-                                return Json(new { Formatwarning = true, message = "Profile pic format must be JPEG or JPG or PNG." }, JsonRequestBehavior.AllowGet);
+                                return Json(new { Formatwarning = true, message = "Image format must be JPEG or JPG or PNG." }, JsonRequestBehavior.AllowGet);
                             }
+                            
                             //WebImage img = new WebImage(file.InputStream);
 
                             #region Save And compress file
                             //To save file, use SaveAs method
                             file.SaveAs(Server.MapPath("~/PortfolioGalleryImages/") + fileName);
+                            if (!ImageProcessing.InsertPortfolioImages(Server.MapPath("~/PortfolioGalleryImages/") + fileName))
+                            {
+                                return Json(new { success = false, message = "Error occur while uploading image." }, JsonRequestBehavior.AllowGet);
+                            }
                             #endregion
                             portfolioGallery.PortfolioGalleryImage = fileName;
                             portfolioGallery.CreatedDate = DateTime.Now;
@@ -212,7 +217,60 @@ namespace PhotoStudio.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult DeleteImage(int id)
+        {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
 
+            try
+            {
+                tblPortfolioGallery tblPortfolioGallery = db.tblPortfolioGalleries.Find(id);
+                db.tblPortfolioGalleries.Remove(tblPortfolioGallery);
+                string path = Server.MapPath("~/PortfolioGalleryImages/" + tblPortfolioGallery.PortfolioGalleryImage);
+                FileInfo delfile = new FileInfo(path);
+                delfile.Delete();
+                db.SaveChanges();
+                return Json(new { success = true, message = "Image is deleted." }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Image is not deleted." }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteSelectedImages(List<int> CheckedID)
+        {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
+            try
+            {
+                // iterate through input list and pass to process method
+                for (int i = 0; i < CheckedID.Count; i++)
+                {
+                    if (CheckedID[i] > 0)
+                        DeleteImageByID(CheckedID[i]);
+                }
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public void DeleteImageByID(int id)
+        {
+            tblPortfolioGallery tblPortfolioGallery = db.tblPortfolioGalleries.Find(id);
+            db.tblPortfolioGalleries.Remove(tblPortfolioGallery);
+            string path = Server.MapPath("~/PortfolioGalleryImages/" + tblPortfolioGallery.PortfolioGalleryImage);
+            FileInfo delfile = new FileInfo(path);
+            delfile.Delete();
+            db.SaveChanges();
+        }
 
 
 

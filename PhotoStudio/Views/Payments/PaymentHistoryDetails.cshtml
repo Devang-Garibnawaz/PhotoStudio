@@ -1,49 +1,10 @@
 ﻿@model IEnumerable<PhotoStudio.Models.tblPaymentHistory>
 
 @{
-    ViewBag.Title = "PaymentHistory";
+    ViewBag.Title = "PaymentHistoryDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <script>
 
-    function fnSearchPaymentHistory()
-    {
-        var txtFromDate = $("#txtFromDate");
-        var txtToDate = $("#txtToDate");
-
-        if (__glb_fnIsNullOrEmpty(txtFromDate.val()))
-        {
-            toastr.warning('Input Error!', "Please enter from date!", { timeOut: 1000, fadeOut: 1000 });
-            txtFromDate.focus();
-            return;
-        }
-        if (__glb_fnIsNullOrEmpty(txtToDate.val()))
-        {
-            toastr.warning('Input Error!', "Please enter to date!", { timeOut: 1000, fadeOut: 1000 });
-            txtToDate.focus();
-            return;
-        }
-
-        $.ajax({
-            async: true,
-            type: 'POST',
-            dataType: 'JSON',
-            contentType: 'application/json; charset=utf-8',
-            data: "{'id':'" + @ViewBag.PGID + "','dtFromDate':'" + txtFromDate.val() + "','dtToDate':'" + txtToDate.val() + "'}",
-            url: '/Payments/PaymentHistoryDetails',
-            success: function (response) {
-                //window.location.reload();
-            },
-            error: function () {
-                toastr.error('Error occur', 'Error occur while fatching payment history.', { timeOut: 3000 });
-            }
-
-        });
-
-    }
-
-
-    </script>
 <div class="row page-titles">
     <div class="col-md-5 align-self-center">
         <h4 class="text-themecolor">Payment List Of @ViewBag.PhotographerName</h4>
@@ -66,13 +27,6 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive m-t-40">
-                    @using (Html.BeginForm("PaymentHistory","Payments",FormMethod.Post))
-                    {
-                        <input type="hidden" name="id" value="@ViewBag.PGID"/>
-                        <label>From Date:</label> <input type="date" id="txtFromDate" name="FromDate" class="form-control" style="width:200px" placeholder="From Date" />
-                        <label>To Date:</label> <input type="date" id="txtToDate" name="ToDate" class="form-control" style="width:200px" placeholder="To Date" />
-                        <input type="submit" value="Search" class="btn btn-success"/>
-                    }
                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered" width="100%">
                         <thead>
                             <tr>

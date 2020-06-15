@@ -164,7 +164,6 @@ C:\Users\jeelgauri\source\repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.cs
 C:\Users\jeelgauri\source\repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.csproj.CopyComplete
 C:\Users\jeelgauri\source\repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.dll
 C:\Users\jeelgauri\source\repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.pdb
-C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.csprojAssemblyReference.cache
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.csproj.CoreCompileInputs.cache
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\bin\PhotoStudio.dll.config
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\bin\PhotoStudio.dll
@@ -247,3 +246,4 @@ C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\bin\Microsoft.CodeDom.Provi
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.csproj.CopyComplete
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.dll
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.pdb
+C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.csprojAssemblyReference.cache

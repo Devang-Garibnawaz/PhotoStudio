@@ -29,6 +29,22 @@ namespace PhotoStudio.Models
             }
         }
 
+        public static bool InsertPortfolioImages(string path)
+        {
+            try
+            {
+                WebClient wc = new WebClient();
+                byte[] bytes = wc.DownloadData(path);
+                Image img = Image.FromStream(new MemoryStream(bytes));
+                img = FixedSize(img, 1260, 840);
+                img.Save(path);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
         public static bool InsertImages(string path, bool ApplyWatermark)
         {
             bool result = false;

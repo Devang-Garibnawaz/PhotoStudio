@@ -12,7 +12,8 @@
             return false;
     }
 
-    function ConfirmDeleteAllImages() {
+    function ConfirmDeleteAllImages()
+    {
         if (confirm("Are you sure to delete all selected images?"))
             fnDeleteSelectedImages();
         else
@@ -26,7 +27,7 @@
             dataType: 'JSON',
             contentType: 'application/json; charset=utf-8',
             data: "{'id':'" + GalleryID + "'}",
-            url: '/PortfolioGallery/DeleteImage',
+            url: '/Gallery/DeleteImage',
             success: function (response) {
                 if (response.success === true) {
                     toastr.success(
@@ -62,9 +63,10 @@
 
         $('#divspinner').modal('hide');
         var cmbCategory = $("#cmbCategory");
+        var ddlCategory_Json = $("#ddlCategory_Json");
         $.ajax({
             type: "GET",
-            url: "/PortfolioGallery/getAllCategory",
+            url: "/PortfolioIDCategory/getAllCategory",
             data: "{}",
             success: function (data) {
                 var CategoryData = '<option value="0">Select Category</option>';
@@ -72,6 +74,7 @@
                     CategoryData += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
                 }
                 cmbCategory.html(CategoryData);
+                ddlCategory_Json.html(CategoryData);
             }
         });
     });
@@ -82,7 +85,7 @@
 
         var cmbCategory = $("#cmbCategory");
 
-        
+        var chkApplyWaterMark = $('#chkApplyWaterMark').is(':checked');
         var _PortfolioID = @ViewBag.PortfolioID;
         var formData = new FormData();
 
@@ -97,7 +100,8 @@
         }
         formData.append("PortfolioID", _PortfolioID);
         formData.append("CategoryID", cmbCategory.val());
-        
+        formData.append("chkApplyWaterMark", chkApplyWaterMark);
+
         $('#add-images').modal('hide');
         $('#divspinner').modal('show');
         var result = __glb_fnIUDOperation(formData, '/PortfolioGallery/InsertImage');
@@ -125,15 +129,15 @@
                     timeOut: 3000,
                     fadeOut: 1000,
                     onHidden: function () {
-                        window.location.reload();
+                        return;
                     }
                 }
             );
         }
         else {
             $('#divspinner').modal('hide');
-            toastr.error('Error occur', result.message, { timeOut: 3000 });
-            window.location.reload();
+            toastr.error('Error occur', 'Error occur while inserting record.', { timeOut: 3000 });
+            return;
         }
     }
 
@@ -201,6 +205,7 @@
                     <div class="col-md-12 m-b-20">
                         Category: <select class="form-control" id="cmbCategory"></select><br /><br />
                         Images: <input type="file" multiple id="inputProfile" class="form-control" /><br /><br />
+                        Apply Water Mark?: <input type="checkbox" id="chkApplyWaterMark" class="js-switch" />
                         <div class="modal-footer">
                             <input type="submit" value="Insert" class="btn btn-success" onclick="fnInsertImages()" />
                             <input type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true" value="Cancel" />
@@ -257,7 +262,7 @@
                                     <th align="center"><input type="checkbox" id="@item.PortfolioGalleryID" value="@item.PortfolioGalleryID"></th>
                                     <td align="center"> <a target="_blank" href="~/PortfolioGalleryImages/@item.PortfolioGalleryImage"><img src="~/PortfolioGalleryImages/@item.PortfolioGalleryImage" height="50px" width="50px" /></a></td>
                                     <td align="left">@item.tblPortfolioGalleryCategory.PortfolioGalleryCategoryName</td>
-
+                                    
                                     <td align='center'>@item.CreatedDate</td>
                                     <td align="center">
                                         <button type="submit" class="btn btn-danger waves-effect waves-light" onclick="return ConfirmationDialog(@item.PortfolioGalleryID)">

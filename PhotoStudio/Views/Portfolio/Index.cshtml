@@ -8,6 +8,12 @@
 <script>
     $(document).ready(function () {
 
+        fnPopulatecmbCustomer();
+        fnPopulatecmbCategory();
+    });
+
+    function fnPopulatecmbCustomer()
+    {
         var cmbCustomer = $("#cmbCustomer");
         $.ajax({
             type: "GET",
@@ -22,16 +28,34 @@
 
             }
         });
+    }
 
-    });
+    function fnPopulatecmbCategory()
+    {
+        var cmbCategory = $("#cmbCategory");
+        $.ajax({
+            type: "GET",
+            url: "/PortfolioGallery/getAllCategory",
+            data: "{}",
+            success: function (data) {
+                var CategoryData = '<option value="0">Select Category</option>';
+                for (var i = 0; i < data.length; i++) {
+                    CategoryData += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                }
+                cmbCategory.html(CategoryData);
+
+            }
+        });
+    }
 </script>
 <script type="text/javascript">
-    function ConfirmationDialog(ID) {
-            if (confirm("Are you sure to delete?"))
-                fnDeleteRecord(ID);
-            else
-                return false;
-        }
+    function ConfirmationDialog(ID) 
+    {
+        if (confirm("Are you sure to delete?"))
+            fnDeleteRecord(ID);
+        else
+            return false;
+    }
 
     function fnDeleteRecord(ID) {
             $.ajax({
@@ -128,7 +152,8 @@
 
     }
 
-    function fnActivateDeactivateFolio(PortfolioID, ADAFlag) {
+    function fnActivateDeactivateFolio(PortfolioID, ADAFlag) 
+    {
         var formData = new FormData();
         formData.append("id", PortfolioID);
         formData.append("flag", ADAFlag);
@@ -165,7 +190,10 @@
             toastr.error(result.message, 'Error!', { timeOut: 3000, fadeOut: 1000 });
         }
     }
+
+
 </script>
+
 <div id="add-portfolio" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -227,6 +255,7 @@
                                 <th>Description</th>
                                 <th>Is Active</th>
                                 <th>Created Date</th>
+                                <th>Add Images</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
@@ -246,7 +275,6 @@
                                             <button class="btn btn-success btn-rounded" title="Click here to Deactivate portfolio" onclick="javascript: fnActivateDeactivateFolio(@item.PortfolioID,0)">
                                                 <i class="fa fa-check"></i> Active
                                             </button>
-                                            <a @Url.Action("Index/"+item.PortfolioID, "PortfolioGallery")></a>
                                         }
                                         else
                                         {
@@ -256,6 +284,9 @@
                                         }
                                     </td>
                                     <td align='center'>@item.CreatedDate</td>
+                                    <td align="center">
+                                        <a href="@Url.Action("Index/" + item.PortfolioID, "PortfolioGallery")" class="btn waves-effect waves-light btn-outline-info"> + Add Images</a>
+                                    </td>
                                     <td align="center">
                                         <button type="submit" class="btn btn-danger waves-effect waves-light" onclick="return ConfirmationDialog(@item.PortfolioID)">
                                             <span class="btn-label"><i class="fa fa-trash"></i></span>
