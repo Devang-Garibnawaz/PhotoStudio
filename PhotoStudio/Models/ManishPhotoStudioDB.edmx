@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ManishPhotoStudioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ManishPhotoStudioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tblAlbumAndVideoEditingCharges">
           <Key>
             <PropertyRef Name="AlbumAndVideoEditingChargesID" />
@@ -148,6 +148,17 @@
           <Property Name="PortfolioGalleryCategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PortfolioGalleryCategoryImage" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblPortfolioVisitor">
+          <Key>
+            <PropertyRef Name="PortfolioVisitorID" />
+          </Key>
+          <Property Name="PortfolioVisitorID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PortfolioID" Type="int" />
+          <Property Name="PortfolioVisitorName" Type="varchar" MaxLength="50" />
+          <Property Name="PortfolioVisitorEmail" Type="varchar" MaxLength="10" />
+          <Property Name="PortfolioVisitorPhoneNumber" Type="varchar" MaxLength="15" />
+          <Property Name="VisitDate" Type="smalldatetime" />
         </EntityType>
         <EntityType Name="tblQuotation">
           <Key>
@@ -337,6 +348,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblPortfolioVisitor_tblPortfolio">
+          <End Role="tblPortfolio" Type="Self.tblPortfolio" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblPortfolioVisitor" Type="Self.tblPortfolioVisitor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPortfolio">
+              <PropertyRef Name="PortfolioID" />
+            </Principal>
+            <Dependent Role="tblPortfolioVisitor">
+              <PropertyRef Name="PortfolioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblQuotation_tblAlbumAndVideoEditingCharges">
           <End Role="tblAlbumAndVideoEditingCharges" Type="Self.tblAlbumAndVideoEditingCharges" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -364,6 +389,7 @@
           <EntitySet Name="tblPortfolio" EntityType="Self.tblPortfolio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPortfolioGallery" EntityType="Self.tblPortfolioGallery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPortfolioGalleryCategory" EntityType="Self.tblPortfolioGalleryCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPortfolioVisitor" EntityType="Self.tblPortfolioVisitor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblQuotation" EntityType="Self.tblQuotation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSystemUser" EntityType="Self.tblSystemUser" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_tblAlbumAndVideoEditingCharges_tblCustomer" Association="Self.FK_tblAlbumAndVideoEditingCharges_tblCustomer">
@@ -410,13 +436,16 @@
             <End Role="tblPortfolioGalleryCategory" EntitySet="tblPortfolioGalleryCategory" />
             <End Role="tblPortfolioGallery" EntitySet="tblPortfolioGallery" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblPortfolioVisitor_tblPortfolio" Association="Self.FK_tblPortfolioVisitor_tblPortfolio">
+            <End Role="tblPortfolio" EntitySet="tblPortfolio" />
+            <End Role="tblPortfolioVisitor" EntitySet="tblPortfolioVisitor" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblQuotation_tblAlbumAndVideoEditingCharges" Association="Self.FK_tblQuotation_tblAlbumAndVideoEditingCharges">
             <End Role="tblAlbumAndVideoEditingCharges" EntitySet="tblAlbumAndVideoEditingCharges" />
             <End Role="tblQuotation" EntitySet="tblQuotation" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ManishPhotoStudioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -563,6 +592,7 @@
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="tblCustomer" Relationship="Self.FK_tblPortfolio_tblCustomer" FromRole="tblPortfolio" ToRole="tblCustomer" />
           <NavigationProperty Name="tblPortfolioGalleries" Relationship="Self.FK_tblPortfolioGallery_tblPortfolio" FromRole="tblPortfolio" ToRole="tblPortfolioGallery" />
+          <NavigationProperty Name="tblPortfolioVisitors" Relationship="ManishPhotoStudioModel.FK_tblPortfolioVisitor_tblPortfolio" FromRole="tblPortfolio" ToRole="tblPortfolioVisitor" />
         </EntityType>
         <EntityType Name="tblPortfolioGallery">
           <Key>
@@ -853,7 +883,38 @@
             <End Role="tblPortfolioGalleryCategory" EntitySet="tblPortfolioGalleryCategories" />
             <End Role="tblPortfolioGallery" EntitySet="tblPortfolioGalleries" />
           </AssociationSet>
+          <EntitySet Name="tblPortfolioVisitors" EntityType="ManishPhotoStudioModel.tblPortfolioVisitor" />
+          <AssociationSet Name="FK_tblPortfolioVisitor_tblPortfolio" Association="ManishPhotoStudioModel.FK_tblPortfolioVisitor_tblPortfolio">
+            <End Role="tblPortfolio" EntitySet="tblPortfolios" />
+            <End Role="tblPortfolioVisitor" EntitySet="tblPortfolioVisitors" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="tblPortfolioVisitor">
+          <Key>
+            <PropertyRef Name="PortfolioVisitorID" />
+          </Key>
+          <Property Name="PortfolioVisitorID" Type="Int64" Nullable="false" />
+          <Property Name="PortfolioID" Type="Int32" />
+          <Property Name="PortfolioVisitorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PortfolioVisitorEmail" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PortfolioVisitorPhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="VisitDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="tblPortfolio" Relationship="ManishPhotoStudioModel.FK_tblPortfolioVisitor_tblPortfolio" FromRole="tblPortfolioVisitor" ToRole="tblPortfolio" />
+        </EntityType>
+        <Association Name="FK_tblPortfolioVisitor_tblPortfolio">
+          <End Type="ManishPhotoStudioModel.tblPortfolio" Role="tblPortfolio" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ManishPhotoStudioModel.tblPortfolioVisitor" Role="tblPortfolioVisitor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPortfolio">
+              <PropertyRef Name="PortfolioID" />
+            </Principal>
+            <Dependent Role="tblPortfolioVisitor">
+              <PropertyRef Name="PortfolioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1049,6 +1110,18 @@
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPortfolioVisitors">
+            <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPortfolioVisitor">
+              <MappingFragment StoreEntitySet="tblPortfolioVisitor">
+                <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+                <ScalarProperty Name="PortfolioVisitorPhoneNumber" ColumnName="PortfolioVisitorPhoneNumber" />
+                <ScalarProperty Name="PortfolioVisitorEmail" ColumnName="PortfolioVisitorEmail" />
+                <ScalarProperty Name="PortfolioVisitorName" ColumnName="PortfolioVisitorName" />
+                <ScalarProperty Name="PortfolioID" ColumnName="PortfolioID" />
+                <ScalarProperty Name="PortfolioVisitorID" ColumnName="PortfolioVisitorID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

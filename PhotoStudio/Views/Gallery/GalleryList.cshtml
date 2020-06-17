@@ -85,8 +85,10 @@
 <script>
     function fnInsertImages() {
 
-        var cmbCategory = $("#cmbCategory");
+        $('#divspinner').modal('show');
+        $('#add-images').modal('hide');
 
+        var cmbCategory = $("#cmbCategory");
         var chkApplyWaterMark = $('#chkApplyWaterMark').is(':checked');
         var _customerID = @ViewBag.CustomerID;
         var formData = new FormData();
@@ -104,8 +106,6 @@
         formData.append("CategoryID", cmbCategory.val());
         formData.append("chkApplyWaterMark", chkApplyWaterMark);
 
-        $('#add-images').modal('hide');
-        $('#divspinner').modal('show');
         var result = __glb_fnIUDOperation(formData, '/Gallery/InsertImage');
 
         if (result.success == true) {
@@ -373,7 +373,7 @@
                 "order": [
                     [2, 'asc']
                 ],
-                "displayLength": 25,
+                "displayLength": 50,
                 "drawCallback": function (settings) {
                     var api = this.api();
                     var rows = api.rows({

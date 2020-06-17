@@ -25,9 +25,8 @@ namespace InstaAlbum.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    EncryptionDecryption ED = new EncryptionDecryption();
                     string strPhno = Request.Form["PhoneNo"];
-                    string strPassword =  ED.EncryptString(Request.Form["Password"]);
+                    string strPassword = EncryptionDecryption.EncryptString(Request.Form["Password"]);
 
                     var data1 = db.tblCustomers.Where(c => c.PhoneNumber == strPhno.Trim())
                                .Where(c => c.Password == strPassword.Trim()).Where(c => c.IsActive == true).ToList();
@@ -62,7 +61,7 @@ namespace InstaAlbum.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { UserExist = false, message = "" }, JsonRequestBehavior.AllowGet);
+                return Json(new { UserExist = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { UserExist = true, message = "" }, JsonRequestBehavior.AllowGet);
         }

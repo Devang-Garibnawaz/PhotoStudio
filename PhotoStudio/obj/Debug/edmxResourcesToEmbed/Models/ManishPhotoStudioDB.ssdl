@@ -144,6 +144,17 @@
     <Property Name="PortfolioGalleryCategoryImage" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
   </EntityType>
+  <EntityType Name="tblPortfolioVisitor">
+    <Key>
+      <PropertyRef Name="PortfolioVisitorID" />
+    </Key>
+    <Property Name="PortfolioVisitorID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PortfolioID" Type="int" />
+    <Property Name="PortfolioVisitorName" Type="varchar" MaxLength="50" />
+    <Property Name="PortfolioVisitorEmail" Type="varchar" MaxLength="10" />
+    <Property Name="PortfolioVisitorPhoneNumber" Type="varchar" MaxLength="15" />
+    <Property Name="VisitDate" Type="smalldatetime" />
+  </EntityType>
   <EntityType Name="tblQuotation">
     <Key>
       <PropertyRef Name="QuotationID" />
@@ -332,6 +343,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tblPortfolioVisitor_tblPortfolio">
+    <End Role="tblPortfolio" Type="Self.tblPortfolio" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblPortfolioVisitor" Type="Self.tblPortfolioVisitor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPortfolio">
+        <PropertyRef Name="PortfolioID" />
+      </Principal>
+      <Dependent Role="tblPortfolioVisitor">
+        <PropertyRef Name="PortfolioID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tblQuotation_tblAlbumAndVideoEditingCharges">
     <End Role="tblAlbumAndVideoEditingCharges" Type="Self.tblAlbumAndVideoEditingCharges" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -359,6 +384,7 @@
     <EntitySet Name="tblPortfolio" EntityType="Self.tblPortfolio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblPortfolioGallery" EntityType="Self.tblPortfolioGallery" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblPortfolioGalleryCategory" EntityType="Self.tblPortfolioGalleryCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblPortfolioVisitor" EntityType="Self.tblPortfolioVisitor" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblQuotation" EntityType="Self.tblQuotation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblSystemUser" EntityType="Self.tblSystemUser" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_tblAlbumAndVideoEditingCharges_tblCustomer" Association="Self.FK_tblAlbumAndVideoEditingCharges_tblCustomer">
@@ -404,6 +430,10 @@
     <AssociationSet Name="FK_tblPortfolioGallery_tblPortfolioGalleryCategory" Association="Self.FK_tblPortfolioGallery_tblPortfolioGalleryCategory">
       <End Role="tblPortfolioGalleryCategory" EntitySet="tblPortfolioGalleryCategory" />
       <End Role="tblPortfolioGallery" EntitySet="tblPortfolioGallery" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblPortfolioVisitor_tblPortfolio" Association="Self.FK_tblPortfolioVisitor_tblPortfolio">
+      <End Role="tblPortfolio" EntitySet="tblPortfolio" />
+      <End Role="tblPortfolioVisitor" EntitySet="tblPortfolioVisitor" />
     </AssociationSet>
     <AssociationSet Name="FK_tblQuotation_tblAlbumAndVideoEditingCharges" Association="Self.FK_tblQuotation_tblAlbumAndVideoEditingCharges">
       <End Role="tblAlbumAndVideoEditingCharges" EntitySet="tblAlbumAndVideoEditingCharges" />

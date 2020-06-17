@@ -193,5 +193,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="tblPortfolioVisitors">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPortfolioVisitor">
+        <MappingFragment StoreEntitySet="tblPortfolioVisitor">
+          <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+          <ScalarProperty Name="PortfolioVisitorPhoneNumber" ColumnName="PortfolioVisitorPhoneNumber" />
+          <ScalarProperty Name="PortfolioVisitorEmail" ColumnName="PortfolioVisitorEmail" />
+          <ScalarProperty Name="PortfolioVisitorName" ColumnName="PortfolioVisitorName" />
+          <ScalarProperty Name="PortfolioID" ColumnName="PortfolioID" />
+          <ScalarProperty Name="PortfolioVisitorID" ColumnName="PortfolioVisitorID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

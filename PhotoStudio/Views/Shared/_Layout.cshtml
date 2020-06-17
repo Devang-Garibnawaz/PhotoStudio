@@ -42,7 +42,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="~/adminassets/images/favicon.png">
-    <title>Elite Admin Template - The Ultimate Multipurpose admin template</title>
+    <title>Manish Photo Studio - Feel The Vision of Creativity</title>
     <link href="~/adminassets/node_modules/morrisjs/morris.css" rel="stylesheet">
     <link href="~/adminassets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
     <link href="~/adminassets/dist/css/style.min.css" rel="stylesheet">
@@ -104,7 +104,7 @@
                     <ul class="navbar-nav my-lg-0">
 
                         <li class="nav-item dropdown u-pro">
-                            <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="~/adminassets/images/users/1.jpg" alt="user" class=""> <span class="hidden-md-down">@Session["UserName"] &nbsp;<i class="fa fa-angle-down"></i></span> </a>
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="hidden-md-down">@Session["UserName"] &nbsp;<i class="fa fa-angle-down"></i></span> </a>
                             <div class="dropdown-menu dropdown-menu-right animated flipInY">
                                 <a href="javascript:fnLogout()" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
                                 <!-- text-->
@@ -124,7 +124,7 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <li class="user-pro">
-                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><img src="~/adminassets/images/users/1.jpg" alt="user-img" class="img-circle"><span class="hide-menu">Mark Jeckson</span></a>
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">Mark Jeckson</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="javascript:void(0)"><i class="ti-user"></i> My Profile</a></li>
                                 <li><a href="javascript:void(0)"><i class="ti-wallet"></i> My Balance</a></li>
@@ -138,13 +138,16 @@
                             <a class="waves-effect waves-dark" href="@Url.Action("Index", "Home")" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Dashboard <span class="badge badge-pill badge-cyan ml-auto">4</span></span></a>
                         </li>
                         <li>
-                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-user"></i><span class="hide-menu">User Management</span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="@Url.Action("Index", "SystemUsers")">User List</a></li>
-                            </ul>
+                            <a class="waves-effect waves-dark" href="@Url.Action("Index", "SystemUsers")" aria-expanded="false"><i class="ti-user"></i><span class="hide-menu">User Management</span></a>
                         </li>
                         <li>
                             <a class="waves-effect waves-dark" href="@Url.Action("Index", "Category")" aria-expanded="false"><i class="mdi mdi-source-merge"></i><span class="hide-menu">Category Management</span></a>
+                        </li>
+                        <li>
+                            <a class="waves-effect waves-dark" href="@Url.Action("Index", "Quotation")" aria-expanded="false"><i class="fas fa-align-justify"></i><span class="hide-menu">Quotation Management</span></a>
+                        </li>
+                        <li>
+                            <a class="waves-effect waves-dark" href="@Url.Action("Index", "Portfolio")" aria-expanded="false"><i class=" fas fa-user-circle"></i><span class="hide-menu">Portfolio Management</span></a>
                         </li>
                     </ul>
                 </nav>
@@ -152,13 +155,13 @@
             </div>
             <!-- End Sidebar scroll-->
         </aside>
-        <div class="page-wrapper">
+        <div class="page-wrapper" >
             <div class="container-fluid">
                 @RenderBody()
             </div>
         </div>
         <footer class="footer">
-            © 2018 Eliteadmin by themedesigner.in
+            © 2020 Admin by Devang Garibnawaz
         </footer>
     </div>
 

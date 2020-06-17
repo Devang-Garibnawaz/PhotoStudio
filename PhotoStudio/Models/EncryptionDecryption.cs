@@ -7,9 +7,10 @@ using System.Web;
 
 namespace PhotoStudio.Models
 {
-    public class EncryptionDecryption
+    public static class EncryptionDecryption
     {
-        public string EncryptString(string OriginalText)
+
+        public static string EncryptString(string OriginalText)
         {
             string hash = @"foxle@rn";
             byte[] data = UTF8Encoding.UTF8.GetBytes(OriginalText);
@@ -25,9 +26,15 @@ namespace PhotoStudio.Models
             }
         }
 
-        public string DecryptString(string EncryptedText)
+        public static string DecryptString(string EncryptedText)
         {
             string hash = @"foxle@rn";
+            EncryptedText = EncryptedText.Replace(" ", "+");
+            int mod4 = EncryptedText.Length % 4;
+            if (mod4 > 0)
+            {
+                EncryptedText += new string('=', 4 - mod4);
+            }
             byte[] data = Convert.FromBase64String(EncryptedText);
             using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
             {

@@ -46,12 +46,11 @@ namespace PhotoStudio.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    EncryptionDecryption ED = new EncryptionDecryption();
                     tblCustomer newCust = new tblCustomer();
                     newCust.CustomerName = Request.Form["CustomerName"];
                     newCust.Email = Request.Form["Email"];
                     newCust.PhoneNumber = Request.Form["PhoneNumber"];
-                    string password = ED.EncryptString(Request.Form["Password"]);
+                    string password = EncryptionDecryption.EncryptString(Request.Form["Password"]);
 
                     newCust.Password = password;
                     newCust.IsActive = Request.Form["IsActive"] == "true" ? true : false;

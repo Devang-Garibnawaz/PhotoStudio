@@ -33,11 +33,10 @@ namespace PhotoStudio.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    EncryptionDecryption ED = new EncryptionDecryption(); 
                     tblSystemUser SU = new tblSystemUser();
                     SU.UserName = Request.Form["UserName"];
 
-                    string password = ED.EncryptString(Request.Form["Password"]);
+                    string password = EncryptionDecryption.EncryptString(Request.Form["Password"]);
 
                     SU.Password = password;
                     SU.Email = Request.Form["Email"];

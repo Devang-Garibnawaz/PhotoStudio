@@ -143,6 +143,7 @@
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
     <NavigationProperty Name="tblCustomer" Relationship="Self.FK_tblPortfolio_tblCustomer" FromRole="tblPortfolio" ToRole="tblCustomer" />
     <NavigationProperty Name="tblPortfolioGalleries" Relationship="Self.FK_tblPortfolioGallery_tblPortfolio" FromRole="tblPortfolio" ToRole="tblPortfolioGallery" />
+    <NavigationProperty Name="tblPortfolioVisitors" Relationship="ManishPhotoStudioModel.FK_tblPortfolioVisitor_tblPortfolio" FromRole="tblPortfolio" ToRole="tblPortfolioVisitor" />
   </EntityType>
   <EntityType Name="tblPortfolioGallery">
     <Key>
@@ -433,5 +434,36 @@
       <End Role="tblPortfolioGalleryCategory" EntitySet="tblPortfolioGalleryCategories" />
       <End Role="tblPortfolioGallery" EntitySet="tblPortfolioGalleries" />
     </AssociationSet>
+    <EntitySet Name="tblPortfolioVisitors" EntityType="ManishPhotoStudioModel.tblPortfolioVisitor" />
+    <AssociationSet Name="FK_tblPortfolioVisitor_tblPortfolio" Association="ManishPhotoStudioModel.FK_tblPortfolioVisitor_tblPortfolio">
+      <End Role="tblPortfolio" EntitySet="tblPortfolios" />
+      <End Role="tblPortfolioVisitor" EntitySet="tblPortfolioVisitors" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="tblPortfolioVisitor">
+    <Key>
+      <PropertyRef Name="PortfolioVisitorID" />
+    </Key>
+    <Property Name="PortfolioVisitorID" Type="Int64" Nullable="false" />
+    <Property Name="PortfolioID" Type="Int32" />
+    <Property Name="PortfolioVisitorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PortfolioVisitorEmail" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="PortfolioVisitorPhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VisitDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="tblPortfolio" Relationship="ManishPhotoStudioModel.FK_tblPortfolioVisitor_tblPortfolio" FromRole="tblPortfolioVisitor" ToRole="tblPortfolio" />
+  </EntityType>
+  <Association Name="FK_tblPortfolioVisitor_tblPortfolio">
+    <End Type="ManishPhotoStudioModel.tblPortfolio" Role="tblPortfolio" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ManishPhotoStudioModel.tblPortfolioVisitor" Role="tblPortfolioVisitor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPortfolio">
+        <PropertyRef Name="PortfolioID" />
+      </Principal>
+      <Dependent Role="tblPortfolioVisitor">
+        <PropertyRef Name="PortfolioID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

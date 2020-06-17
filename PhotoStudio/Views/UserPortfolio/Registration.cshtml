@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "Registration";
+    Layout = "~/Views/Shared/_UserPortfolioLayout.cshtml";
+}
+<script>
+    function InsertVisitor()
+    {
+
+        var txtClientName = document.getElementById("txtClientName");
+        var txtEmail = document.getElementById("txtCustomerEmail");
+        var txtPhoneNumber = document.getElementById("txtPhoneNumber");
+
+        if (__glb_fnIsNullOrEmpty(txtClientName.value))
+        {
+            toastr.warning('Input Error', 'Please enter your name', { timeOut: 1000, fadeOut: 1000 });
+            return;
+        }
+        if (__glb_fnIsNullOrEmpty(txtEmail.value) || !__glb_validateEmail(txtEmail.value)) 
+        {
+            toastr.warning('Input Error', 'Please enter valid Email ID', { timeOut: 1000, fadeOut: 1000 });
+            return;
+        }
+        if (__glb_fnIsNullOrEmpty(txtPhoneNumber.value) || !__glb_validatePhoneNumber(txtPhoneNumber.value))
+        {
+            toastr.warning('Input Error', 'Please enter valid phone number', { timeOut: 1000, fadeOut: 1000 });
+            return;
+        }
+        
+        var formData = new FormData();
+        formData.append("CustomerName", txtClientName.value);
+        formData.append("CustomerEmail", txtEmail.value);
+        formData.append("PhoneNo", txtPhoneNumber.value);
+
+        var response = __glb_fnIUDOperation(formData,'/UserPortfolio/InsertVisitor/');
+        if (response.success == true)
+        {
+            window.location.href = '/UserPortfolio/';
+        }
+        else
+        {
+            toastr.error('Error occur', response.message, { timeOut: 3000 });
+            return;
+        }
+    }
+
+</script>
+    <section id="contact-section" class="contact-simple" style="background-image: url(../userassets/img/misc/misc-4.jpg); background-position: 50% 50%;">
+        <div class="cover"></div>
+        <form id="contact-form">
+            <div class="contact-info-wrap">
+                <div class="contact-info text-center">
+                    <h1 class="contact-form-title font-alter-1">Registration</h1>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <input type="text" id="txtClientName" placeholder="Enter Your Name" class="form-control" required />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <input type="email" id="txtCustomerEmail" placeholder="Enter Your Email" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <input type="text" id="txtPhoneNumber" placeholder="Enter Your Phone Number" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="small text-gray"><em>* All fields are required!</em></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <button type="submit" onclick="InsertVisitor()" class="btn btn-primary btn-lg btn-block margin-top-40">SignUp</button>
+                    </div>
+                    <div class="col-lg-6">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block margin-top-40">Cancle</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>

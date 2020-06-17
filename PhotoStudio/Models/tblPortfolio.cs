@@ -18,6 +18,7 @@ namespace PhotoStudio.Models
         public tblPortfolio()
         {
             this.tblPortfolioGalleries = new HashSet<tblPortfolioGallery>();
+            this.tblPortfolioVisitors = new HashSet<tblPortfolioVisitor>();
         }
     
         public int PortfolioID { get; set; }
@@ -31,5 +32,7 @@ namespace PhotoStudio.Models
         public virtual tblCustomer tblCustomer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblPortfolioGallery> tblPortfolioGalleries { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblPortfolioVisitor> tblPortfolioVisitors { get; set; }
     }
 }

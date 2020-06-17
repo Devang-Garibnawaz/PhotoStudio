@@ -249,10 +249,10 @@
                     <table id="example23" class="display table table-hover table-striped table-bordered" width="100%">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>Cover Photo</th>
                                 <th>Customer Name</th>
-                                <th>Heading</th>
-                                <th>Description</th>
+                                <th>Heading And Description</th>
                                 <th>Is Active</th>
                                 <th>Created Date</th>
                                 <th>Add Images</th>
@@ -264,10 +264,23 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td align="center">
+                                        <a target="_blank" href="https://api.whatsapp.com/send?phone=@item.tblCustomer.PhoneNumber&text=/UserPortfolio/Registration?id=@PhotoStudio.Models.EncryptionDecryption.EncryptString(item.PortfolioID.ToString())  &data=&app_absent=">
+                                            <img src="~/adminassets/images/whatsapplogo.png" height="25px" width="25px" />
+                                        </a>
+                                    </td>
                                     <td align="center"> <a target="_blank" href="~/PortfolioCoverImage/@item.CoverPhoto"><img src="~/PortfolioCoverImage/@item.CoverPhoto" height="50px" width="50px" /></a></td>
                                     <td align="left">@item.tblCustomer.CustomerName</td>
-                                    <td align="left">@item.PortfolioHeading</td>
-                                    <td align="left">@item.PortfolioDescription</td>
+                                    <td align="center">
+                                        <span class="mytooltip tooltip-effect-1">
+                                            <span class="tooltip-item2">@item.PortfolioHeading</span>
+                                            <span class="tooltip-content4 clearfix">
+                                                <span class="tooltip-text2">
+                                                    @item.PortfolioDescription     
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </td>
                                     <td align="center">
                                         @if (item.IsActive == true)
                                         {

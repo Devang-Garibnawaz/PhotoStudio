@@ -141,6 +141,7 @@
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\SystemUsersController.cs" />
     <Compile Include="Controllers\UserHomeController.cs" />
+    <Compile Include="Controllers\UserPortfolioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -196,6 +197,9 @@
       <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblPortfolioGalleryCategory.cs">
+      <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPortfolioVisitor.cs">
       <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblQuotation.cs">
@@ -310,6 +314,7 @@
     <Content Include="adminassets\images\users\6.jpg" />
     <Content Include="adminassets\images\users\7.jpg" />
     <Content Include="adminassets\images\users\8.jpg" />
+    <Content Include="adminassets\images\whatsapplogo.png" />
     <Content Include="adminassets\node_modules\bootstrap-datepicker\bootstrap-datepicker.min.css" />
     <Content Include="adminassets\node_modules\bootstrap-datepicker\bootstrap-datepicker.min.js" />
     <Content Include="adminassets\node_modules\bootstrap-daterangepicker\daterangepicker.css" />
@@ -982,6 +987,10 @@
     <Content Include="Views\Payments\PaymentHistory.cshtml" />
     <Content Include="Views\Payments\PaymentHistoryDetails.cshtml" />
     <Content Include="Views\PortfolioGallery\PortfolioGalleryList.cshtml" />
+    <Content Include="Views\Shared\_UserPortfolioLayout.cshtml" />
+    <Content Include="Views\UserPortfolio\Index.cshtml" />
+    <Content Include="Views\UserPortfolio\CategoryWiseImages.cshtml" />
+    <Content Include="Views\UserPortfolio\Registration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

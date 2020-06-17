@@ -1,0 +1,44 @@
+﻿@model IEnumerable<PhotoStudio.Models.tblPortfolioGallery>
+@{
+    ViewBag.Title = "CategoryWiseImages";
+    Layout = "~/Views/Shared/_UserPortfolioLayout.cshtml";
+}
+
+
+<section id="page-header">
+    <div class="page-header-image parallax-3 bg-image" style="background-image: url(../../userassets/img/blog/single/big/img-3.jpg); background-position: 50% 50%;">
+        <div class="cover bg-transparent-6-dark"></div>
+    </div>
+
+    <div class="page-header-caption fade-out-scroll-3 parallax-4">
+        <h1 class="page-header-title font-alter-1"></h1>
+    </div>
+</section>
+<section id="gallery-single-section">
+    <div class="container-fluid no-padding">
+        <div class="isotope-wrap">
+            <div class="isotope col-4 gutter-2">
+                <div id="gallery" class="isotope-items-wrap lightgallery cover-color">
+                    <div class="grid-sizer"></div>
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="isotope-item iso-height-1 ">
+                            <a href="~/PortfolioGalleryImages/@item.PortfolioGalleryImage" class="gallery-single-item lg-trigger" data-exthumbnail="../../PortfolioGalleryImages/@item.PortfolioGalleryImage">
+                                <div class="gs-item-image bg-image" style="background-image: url(/PortfolioGalleryImages/@item.PortfolioGalleryImage);
+        background-position: 50% 50%"></div>
+
+                                <div class="gs-item-cover">
+                                    <div class="gs-item-info">
+                                        <span class="s-icon"><i class="fa fa-search"></i></span>
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

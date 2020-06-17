@@ -31,6 +31,8 @@
         <AssociationConnector Association="ManishPhotoStudioModel.FK_tblPaymentHistory_tblPhotographer" ManuallyRouted="false" />
         <AssociationConnector Association="ManishPhotoStudioModel.FK_tblPortfolioGallery_tblPortfolio" ManuallyRouted="false" />
         <AssociationConnector Association="ManishPhotoStudioModel.FK_tblPortfolioGallery_tblPortfolioGalleryCategory" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ManishPhotoStudioModel.tblPortfolioVisitor" Width="1.5" PointX="5.625" PointY="24.5" />
+        <AssociationConnector Association="ManishPhotoStudioModel.FK_tblPortfolioVisitor_tblPortfolio" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
