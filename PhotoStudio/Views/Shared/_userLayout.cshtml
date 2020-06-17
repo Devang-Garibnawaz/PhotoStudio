@@ -6,12 +6,12 @@
 
 <html lang="en">
 <head>
-    <title>Insta Album</title>
+    <title>Manish Photostudio</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="Responsive Photography HTML5 Website Template" />
-    <meta name="keywords" content="HTML5, CSS3, Bootsrtrap, Responsive, Photography, Portfolio, Template, Theme, Website, Themetorium" />
-    <meta name="author" content="themetorium.net" />
+    <meta name="description" content="Best Phototographer In Surat" />
+    <meta name="keywords" content="Best Studio, Surat,Best Photo Studio, Marriege, Photography, Portfolio" />
+    <meta name="author" content="manishphotostudiosurat.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="icon" type="image/x-icon" href="~/adminassets/img/logo3.png" />
@@ -93,25 +93,10 @@
                         <li class="has-children">
                             <a href="@Url.Action("Index","UserHome")">Home</a>
                         </li>
-                        <li class="has-children">
-                            <a href="@Url.Action("About","UserHome")">About Us</a>
-                        </li>
-                        <li class="has-children">
-                            <a href="@Url.Action("Gallery","UserHome")">Gallery</a>
-                        </li>
-                        <li class="has-children">
-                            <a href="@Url.Action("Protfolio","UserHome")">Protfolio</a>
-                        </li>
-                        <li class="has-children">
-                            <a href="@Url.Action("Contact","UserHome")">Contact</a>
-                        </li>
                         @if (Session["CustomerID"] == null && Session["CustomerName"] == null && Session["CustomerPhoneNumber"] == null)
                         {
                             <li class="has-children">
                                 <a href="@Url.Action("Login","Login")">LogIn</a>
-                            </li>
-                            <li class="has-children">
-                                <a href="@Url.Action("Registration","Login")">Registration</a>
                             </li>
                         }
                         else
@@ -122,7 +107,6 @@
                             <li class="has-children">
                                 <a href="#" onclick="javascript:fnLogout()">Logout</a>
                             </li>
-
                         }
                     </ul>
                 </div>

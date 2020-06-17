@@ -439,6 +439,7 @@
       <End Role="tblPortfolio" EntitySet="tblPortfolios" />
       <End Role="tblPortfolioVisitor" EntitySet="tblPortfolioVisitors" />
     </AssociationSet>
+    <EntitySet Name="tblbanners" EntityType="ManishPhotoStudioModel.tblbanner" />
   </EntityContainer>
   <EntityType Name="tblPortfolioVisitor">
     <Key>
@@ -466,4 +467,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="tblbanner">
+    <Key>
+      <PropertyRef Name="BannerID" />
+    </Key>
+    <Property Name="BannerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BannerImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="BannerHeading" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BannerDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+  </EntityType>
 </Schema>

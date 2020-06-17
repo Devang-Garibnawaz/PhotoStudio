@@ -205,5 +205,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="tblbanners">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblbanner">
+        <MappingFragment StoreEntitySet="tblbanner">
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="BannerDescription" ColumnName="BannerDescription" />
+          <ScalarProperty Name="BannerHeading" ColumnName="BannerHeading" />
+          <ScalarProperty Name="BannerImage" ColumnName="BannerImage" />
+          <ScalarProperty Name="BannerID" ColumnName="BannerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

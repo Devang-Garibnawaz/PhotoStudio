@@ -24,6 +24,16 @@
     <Property Name="CreatedDate" Type="smalldatetime" />
     <Property Name="UpdatedDate" Type="smalldatetime" />
   </EntityType>
+  <EntityType Name="tblbanner">
+    <Key>
+      <PropertyRef Name="BannerID" />
+    </Key>
+    <Property Name="BannerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BannerImage" Type="nvarchar" MaxLength="200" />
+    <Property Name="BannerHeading" Type="nvarchar" MaxLength="50" />
+    <Property Name="BannerDescription" Type="nvarchar(max)" />
+    <Property Name="CreatedDate" Type="smalldatetime" />
+  </EntityType>
   <EntityType Name="tblCategory">
     <Key>
       <PropertyRef Name="CategoryID" />
@@ -373,6 +383,7 @@
   </Association>
   <EntityContainer Name="ManishPhotoStudioModelStoreContainer">
     <EntitySet Name="tblAlbumAndVideoEditingCharges" EntityType="Self.tblAlbumAndVideoEditingCharges" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblbanner" EntityType="Self.tblbanner" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblCategory" EntityType="Self.tblCategory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblCustomer" EntityType="Self.tblCustomer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblGallery" EntityType="Self.tblGallery" Schema="dbo" store:Type="Tables" />

@@ -1,6 +1,7 @@
 ﻿using PhotoStudio.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,7 +14,25 @@ namespace InstaAlbum.Controllers
         // GET: Login
         public ActionResult Login()
         {
+            ViewBag.BannerImage = getRandomBanner();
             return View();
+        }
+
+        public string getRandomBanner()
+        {
+            string file = null;
+            var extensions = new string[] { ".jpeg", ".jpg" };
+            try
+            {
+                var di = new DirectoryInfo(Server.MapPath("~/BannerImages/"));
+                var rgFiles = di.GetFiles("*.*").Where(f => extensions.Contains(f.Extension.ToLower()));
+                Random R = new Random();
+                file = rgFiles.ElementAt(R.Next(0, rgFiles.Count())).Name;
+            }
+            // probably should only catch specific exceptions
+            // throwable by the above methods.
+            catch (Exception ex) { }
+            return file;
         }
         public ActionResult Registration()
         {

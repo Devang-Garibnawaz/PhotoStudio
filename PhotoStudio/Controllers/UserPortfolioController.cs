@@ -2,6 +2,7 @@
 using PhotoStudio.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -20,7 +21,7 @@ namespace PhotoStudio.Controllers
         public ActionResult Registration()
         {
             int id = Convert.ToInt32(EncryptionDecryption.DecryptString(Request.QueryString["id"]));
-            if(id == null)
+            if(id <= 0)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             else
             {
@@ -40,6 +41,9 @@ namespace PhotoStudio.Controllers
 
         public ActionResult CategoryWiseImages(int id=0)
         {
+            if(id <= 0)
+                return View("Registration");
+
             if (CheckSessionAndCookies())
             {
                 int CategoryID = id; //Convert.ToInt32(Request.Form["PGC"]);
@@ -146,6 +150,23 @@ namespace PhotoStudio.Controllers
             }
             else
                 return false;
+        }
+
+        public string getRandomBanner()
+        {
+            string file = null;
+            var extensions = new string[] { ".jpeg", ".jpg" };
+            try
+            {
+                var di = new DirectoryInfo(Server.MapPath("~/BannerImages/"));
+                var rgFiles = di.GetFiles("*.*").Where(f => extensions.Contains(f.Extension.ToLower()));
+                Random R = new Random();
+                file = rgFiles.ElementAt(R.Next(0, rgFiles.Count())).Name;
+            }
+            // probably should only catch specific exceptions
+            // throwable by the above methods.
+            catch (Exception ex) { }
+            return file;
         }
     }
 }

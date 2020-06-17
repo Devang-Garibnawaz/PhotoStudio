@@ -16,10 +16,9 @@ namespace InstaAlbum.Controllers
         private ManishPhotoStudioEntities db = new ManishPhotoStudioEntities();
         public ActionResult Index()
         {
-            if (Session["CustomerID"] == null && Session["CustomerName"] == null && Session["CustomerPhoneNumber"] == null)
+            if(Session["CustomerName"] == null)
                 return RedirectToAction("Login", "Login");
-            
-            return View();
+            return View(db.tblbanners.ToList());
         }
        
         public ActionResult Protfolio()
@@ -34,6 +33,7 @@ namespace InstaAlbum.Controllers
             }
             else
             {
+                ViewBag.BannerImage = getRandomBanner();
                 return View(db.tblCategories.ToList());
             }
         }
@@ -44,6 +44,7 @@ namespace InstaAlbum.Controllers
             
             if (id <= 0 )
             {
+                ViewBag.BannerImage = getRandomBanner();
                 return RedirectToAction("GalleryCategories", "UserHome");
             }
 
@@ -92,6 +93,23 @@ namespace InstaAlbum.Controllers
             {
                 return Json(new { success = false}, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public string getRandomBanner()
+        {
+            string file = null;
+            var extensions = new string[] { ".jpeg", ".jpg" };
+            try
+            {
+                var di = new DirectoryInfo(Server.MapPath("~/BannerImages/"));
+                var rgFiles = di.GetFiles("*.*").Where(f => extensions.Contains(f.Extension.ToLower()));
+                Random R = new Random();
+                file = rgFiles.ElementAt(R.Next(0, rgFiles.Count())).Name;
+            }
+            // probably should only catch specific exceptions
+            // throwable by the above methods.
+            catch (Exception ex) { }
+            return file;
         }
 
     }

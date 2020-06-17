@@ -1,7 +1,26 @@
-﻿
+﻿@model IEnumerable<PhotoStudio.Models.tblbanner>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_UserPortfolioLayout.cshtml";
 }
 
-    
+<section id="gallery-list-section" class="gallery-list-slideshow">
+    <div class="container-fluid no-padding bg-dark">
+        <div class="owl-carousel cc-height-full cursor-grab nav-bottom-right" data-items="1" data-loop="true" data-autoplay="true" data-autoplay-timeout="5000" data-dots="false" data-nav="true" data-animate-in="fadeIn" data-animate-out="fadeOut">
+            @foreach (var item in Model)
+            {
+                <div class="cc-item bg-image" style="  background-image: url(~/BannerImages/@item.BannerImage); background-position: 50% 30%;">
+                    <span class="cover bg-transparent-2-dark"></span>
+                    <div class="cc-caption cc-caption-xlg center caption-animate max-width-600">
+                        <h2 class="cc-title font-alter-1">@item.BannerHeading</h2>
+                        <p class="cc-description">
+                            @item.BannerDescription
+                        </p>
+                        <div class="margin-top-30">
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

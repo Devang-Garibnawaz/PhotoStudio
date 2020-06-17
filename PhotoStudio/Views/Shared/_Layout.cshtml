@@ -70,7 +70,7 @@
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="@Url.Action("Index", "Home")">
                         <!-- Logo icon --><b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
@@ -137,9 +137,7 @@
                         <li>
                             <a class="waves-effect waves-dark" href="@Url.Action("Index", "Home")" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Dashboard <span class="badge badge-pill badge-cyan ml-auto">4</span></span></a>
                         </li>
-                        <li>
-                            <a class="waves-effect waves-dark" href="@Url.Action("Index", "SystemUsers")" aria-expanded="false"><i class="ti-user"></i><span class="hide-menu">User Management</span></a>
-                        </li>
+                       
                         <li>
                             <a class="waves-effect waves-dark" href="@Url.Action("Index", "Category")" aria-expanded="false"><i class="mdi mdi-source-merge"></i><span class="hide-menu">Category Management</span></a>
                         </li>
@@ -148,6 +146,12 @@
                         </li>
                         <li>
                             <a class="waves-effect waves-dark" href="@Url.Action("Index", "Portfolio")" aria-expanded="false"><i class=" fas fa-user-circle"></i><span class="hide-menu">Portfolio Management</span></a>
+                        </li>
+                        <li>
+                            <a class="waves-effect waves-dark" href="@Url.Action("GalleryCustomerList", "Gallery")" aria-expanded="false"><i class="fas fa-image"></i><span class="hide-menu">Gallery Management</span></a>
+                        </li>
+                        <li>
+                            <a class="waves-effect waves-dark" href="@Url.Action("Index", "Banner")" aria-expanded="false"><i class="fas fa-images"></i><span class="hide-menu">Banner Settings</span></a>
                         </li>
                     </ul>
                 </nav>

@@ -128,6 +128,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BannerController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
@@ -164,6 +165,9 @@
       <DependentUpon>ManishPhotoStudioDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\tblAlbumAndVideoEditingCharge.cs">
+      <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblbanner.cs">
       <DependentUpon>ManishPhotoStudioDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblCategory.cs">
@@ -935,9 +939,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\SystemUsers\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Customers\Create.cshtml" />
-    <Content Include="Views\Customers\Delete.cshtml" />
-    <Content Include="Views\Customers\Details.cshtml" />
     <Content Include="Views\Customers\Edit.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
@@ -971,9 +972,6 @@
     <Content Include="Views\Login\Registration.cshtml" />
     <Content Include="Views\Quotation\PrintQuotation.cshtml" />
     <Content Include="Views\Quotation\ManageQuotationDetails.cshtml" />
-    <Content Include="Views\Photographer\Create.cshtml" />
-    <Content Include="Views\Photographer\Delete.cshtml" />
-    <Content Include="Views\Photographer\Details.cshtml" />
     <Content Include="Views\Photographer\Edit.cshtml" />
     <Content Include="Views\Photographer\Index.cshtml" />
     <Content Include="Views\Quotation\AddEmployees.cshtml" />
@@ -991,9 +989,11 @@
     <Content Include="Views\UserPortfolio\Index.cshtml" />
     <Content Include="Views\UserPortfolio\CategoryWiseImages.cshtml" />
     <Content Include="Views\UserPortfolio\Registration.cshtml" />
+    <Content Include="Views\Banner\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="BannerImages\" />
     <Folder Include="CategoryImages\" />
     <Folder Include="CustomerProfile\" />
     <Folder Include="GalleryImages\" />
@@ -1036,7 +1036,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51870</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:51870/</IISUrl>
+          <IISUrl>http://localhost:51880/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

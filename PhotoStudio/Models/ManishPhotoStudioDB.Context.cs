@@ -40,5 +40,6 @@ namespace PhotoStudio.Models
         public virtual DbSet<tblQuotation> tblQuotations { get; set; }
         public virtual DbSet<tblSystemUser> tblSystemUsers { get; set; }
         public virtual DbSet<tblPortfolioVisitor> tblPortfolioVisitors { get; set; }
+        public virtual DbSet<tblbanner> tblbanners { get; set; }
     }
 }
