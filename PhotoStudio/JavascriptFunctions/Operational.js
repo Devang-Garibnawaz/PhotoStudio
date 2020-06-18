@@ -29,24 +29,21 @@ function __glb_validatePhoneNumber(phonenumber)
 function __glb_fnIUDOperation(formData, ControlURL)
 {
     $('#divspinner').modal('show');
-    var result ;
+    var result;
     $.ajax({
         type: "POST",
         url: ControlURL,
-        async:false,
+        async: false,
         data: formData,
         dataType: 'json',
         contentType: false,
         processData: false,
-        success: function (response)
-        {
+        success: function (response) {
             result = response;
         },
-        error: function ()
-        {
-            result = { "success" : false, "message" : "Error!" };
+        error: function () {
+            result = { "success": false, "message": "Error!" };
         }
-
     });
     $('#divspinner').modal('hide');
     return result;
