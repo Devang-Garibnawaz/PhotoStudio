@@ -129,7 +129,7 @@ namespace PhotoStudio.Models
                     //SolidBrush brush = new SolidBrush(Color.Red);
                     SolidBrush brush = new SolidBrush(Color.FromArgb(opacity, Color.White));
                     Font font = new Font("Arial", 18);
-                    g.DrawString("InstaAlbum", font, brush, new PointF(0, 0));
+                    g.DrawString("Manish Photo Studio", font, brush, new PointF(250,210));
                     ImagePhoto.Save(path);
                     return true;
                 }

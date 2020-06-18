@@ -25,6 +25,7 @@ namespace PhotoStudio.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             else
             {
+                ViewBag.BannerImage = getRandomBanner();
                 _PortfolioID = id;
                 return View("Registration");
             }
@@ -47,6 +48,7 @@ namespace PhotoStudio.Controllers
 
             if (CheckSessionAndCookies())
             {
+                ViewBag.BannerImage = getRandomBanner();
                 int CategoryID = id; //Convert.ToInt32(Request.Form["PGC"]);
                 //int PortfolioID = Convert.ToInt32(Session["PortfolioID"]);
                 var Images = db.tblPortfolioGalleries.Where(PG => PG.tblPortfolio.PortfolioID == _PortfolioID).Where(PG => PG.tblPortfolioGalleryCategory.PortfolioGalleryCategoryID == CategoryID);
