@@ -28,6 +28,7 @@ function __glb_validatePhoneNumber(phonenumber)
 
 function __glb_fnIUDOperation(formData, ControlURL)
 {
+    $('#divspinner').modal('show');
     var result ;
     $.ajax({
         type: "POST",
@@ -47,7 +48,7 @@ function __glb_fnIUDOperation(formData, ControlURL)
         }
 
     });
-
+    $('#divspinner').modal('hide');
     return result;
 }
 

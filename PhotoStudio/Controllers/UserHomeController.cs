@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Ajax.Utilities;
 using PhotoStudio.Models;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,6 @@ namespace InstaAlbum.Controllers
         private ManishPhotoStudioEntities db = new ManishPhotoStudioEntities();
         public ActionResult Index()
         {
-            if(Session["CustomerName"] == null)
-                return RedirectToAction("Login", "Login");
             return View(db.tblbanners.ToList());
         }
        
@@ -34,7 +33,15 @@ namespace InstaAlbum.Controllers
             else
             {
                 ViewBag.BannerImage = getRandomBanner();
-                return View(db.tblCategories.ToList());
+                List<tblCategory> categories = new List<tblCategory>();
+                int CustomerID = Convert.ToInt32(Session["CustomerID"]);
+                var gallarylist = db.tblGalleries.Where(G => G.tblCustomer.CustomerID == CustomerID).DistinctBy(G => G.tblCategory.CategoryID).ToList();
+                foreach(tblGallery gal in gallarylist)
+                {
+                    var category = db.tblCategories.SingleOrDefault(C => C.CategoryID == gal.CategoryID);
+                    categories.Add(category); 
+                }
+                return View(categories.ToList());
             }
         }
         public ActionResult CategoryWiseImage(int id)
@@ -47,7 +54,7 @@ namespace InstaAlbum.Controllers
                 ViewBag.BannerImage = getRandomBanner();
                 return RedirectToAction("GalleryCategories", "UserHome");
             }
-
+            ViewBag.BannerImage = getRandomBanner();
             int CustomerID = Convert.ToInt32(Session["CustomerID"]);
             var data = db.tblGalleries.Where(g => g.CategoryID == id).Where(g => g.CustomerID == CustomerID);
             return View(data.ToList());

@@ -210,7 +210,7 @@
                         Is Active: &nbsp;&nbsp;&nbsp;<input type="checkbox" checked class="js-switch" data-size="small" id="chkIsActive" /><br /><br />
                         Profile Pic: <input type="file" id="inputProfile" class="form-control" /><br /><br />
                         <div class="modal-footer">
-                            <input type="submit" value="Insert" class="btn btn-success" onclick="fnInsertPortfolio()" />
+                            <input type="submit" value="Add" class="btn btn-success" onclick="fnInsertPortfolio()" />
                             <input type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true" value="Cancel" />
                         </div>
                     </div>
@@ -265,7 +265,7 @@
                             {
                                 <tr>
                                     <td align="center">
-                                        <a target="_blank" href="https://api.whatsapp.com/send?phone=@item.tblCustomer.PhoneNumber&text=/UserPortfolio/Registration?id=@PhotoStudio.Models.EncryptionDecryption.EncryptString(item.PortfolioID.ToString())  &data=&app_absent=">
+                                        <a target="_blank" href="https://api.whatsapp.com/send?phone=@item.tblCustomer.PhoneNumber&text=http:/manishphotostudio.somee.com/UserPortfolio/Registration?id=@PhotoStudio.Models.EncryptionDecryption.EncryptString(item.PortfolioID.ToString())  &data=&app_absent=">
                                             <img src="~/adminassets/images/whatsapplogo.png" height="25px" width="25px" />
                                         </a>
                                     </td>

@@ -49,7 +49,8 @@ namespace PhotoStudio.Controllers
                     tblCustomer newCust = new tblCustomer();
                     newCust.CustomerName = Request.Form["CustomerName"];
                     newCust.Email = Request.Form["Email"];
-                    newCust.PhoneNumber = Request.Form["PhoneNumber"];
+                    string PhoneNumber = "91" + Request.Form["PhoneNumber"];
+                    newCust.PhoneNumber = PhoneNumber.Trim();
                     string password = EncryptionDecryption.EncryptString(Request.Form["Password"]);
 
                     newCust.Password = password;

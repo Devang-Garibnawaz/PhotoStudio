@@ -273,6 +273,7 @@
     <Content Include="adminassets\icons\simple-line-icons\css\simple-line-icons.css" />
     <Content Include="adminassets\icons\themify-icons\themify-icons.css" />
     <Content Include="adminassets\icons\weather-icons\css\weather-icons.min.css" />
+    <Content Include="adminassets\images\loader.gif" />
     <Content Include="adminassets\images\alert\alert.png" />
     <Content Include="adminassets\images\alert\alert2.png" />
     <Content Include="adminassets\images\alert\alert3.png" />

@@ -60,7 +60,6 @@
 
         });
 
-        $('#divspinner').modal('hide');
         var cmbCategory = $("#cmbCategory");
         $.ajax({
             type: "GET",
@@ -99,11 +98,9 @@
         formData.append("CategoryID", cmbCategory.val());
         
         $('#add-images').modal('hide');
-        $('#divspinner').modal('show');
         var result = __glb_fnIUDOperation(formData, '/PortfolioGallery/InsertImage');
 
         if (result.success == true) {
-            $('#divspinner').modal('hide');
             toastr.success(
                 result.message,
                 'Record is inserted',
@@ -117,7 +114,6 @@
             );
         }
         else if (result.Formatwarning == true) {
-            $('#divspinner').modal('hide');
             toastr.warning(
                 result.message,
                 'Picture format error',
@@ -131,7 +127,6 @@
             );
         }
         else {
-            $('#divspinner').modal('hide');
             toastr.error('Error occur', result.message, { timeOut: 3000 });
             window.location.reload();
         }
@@ -178,17 +173,7 @@
         });
     }
 </script>
-<div class="modal fade" id="divspinner" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                Uploading...
-            </div>
 
-        </div>
-    </div>
-</div>
 <div id="add-images" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -202,7 +187,7 @@
                         Category: <select class="form-control" id="cmbCategory"></select><br /><br />
                         Images: <input type="file" multiple id="inputProfile" class="form-control" /><br /><br />
                         <div class="modal-footer">
-                            <input type="submit" value="Insert" class="btn btn-success" onclick="fnInsertImages()" />
+                            <input type="submit" value="Add" class="btn btn-success" onclick="fnInsertImages()" />
                             <input type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true" value="Cancel" />
                         </div>
                     </div>

@@ -33,14 +33,15 @@ namespace PhotoStudio.Controllers
         public ActionResult Index()
         {
             if (CheckSessionAndCookies())
-                return View("Index");
+                return View("Index",db.tblbanners.ToList());
             else
                 return View("Registration");
         }
 
 
-        public ActionResult CategoryWiseImages(int id=0)
+        public ActionResult CategoryWiseImages(string strid)
         {
+            int id = Convert.ToInt32(EncryptionDecryption.DecryptString(strid));
             if(id <= 0)
                 return View("Registration");
 
@@ -89,7 +90,7 @@ namespace PhotoStudio.Controllers
             //int PortfolioID = Convert.ToInt32(Session["PortfolioID"]);
             return Json(db.tblPortfolioGalleries.Where(C => C.tblPortfolio.PortfolioID == _PortfolioID).DistinctBy(C => C.tblPortfolioGalleryCategory.PortfolioGalleryCategoryID).Select(Q => new
             {
-                CategoryID = Q.tblPortfolioGalleryCategory.PortfolioGalleryCategoryID,
+                CategoryID = EncryptionDecryption.EncryptString(Q.tblPortfolioGalleryCategory.PortfolioGalleryCategoryID.ToString()),
                 CategoryName = Q.tblPortfolioGalleryCategory.PortfolioGalleryCategoryName
 
             }).ToList(), JsonRequestBehavior.AllowGet);
@@ -111,19 +112,17 @@ namespace PhotoStudio.Controllers
                     visitors.PortfolioVisitorName = Request.Form["CustomerName"];
                     visitors.PortfolioVisitorEmail = Request.Form["CustomerEmail"];
                     visitors.PortfolioVisitorPhoneNumber = Request.Form["PhoneNo"];
-                    visitors.PortfolioID = Convert.ToInt32(Session["PortfolioID"]);
+                    visitors.PortfolioID = _PortfolioID;
                     visitors.VisitDate = DateTime.Now;
                     db.tblPortfolioVisitors.Add(visitors);
                     db.SaveChanges();
                     Session["PUEmail"] = visitors.PortfolioVisitorEmail;
                     Session["PUPhoneNumber"] = visitors.PortfolioVisitorPhoneNumber;
                     Session["PUName"] = visitors.PortfolioVisitorName;
-                    Session["PortfolioID"] = visitors.PortfolioID;
 
                     Response.Cookies["PUEmail"].Value = visitors.PortfolioVisitorEmail;
                     Response.Cookies["PUPhoneNumber"].Value = visitors.PortfolioVisitorPhoneNumber;
                     Response.Cookies["PUName"].Value = visitors.PortfolioVisitorName;
-                    Response.Cookies["PortfolioID"].Value = visitors.PortfolioID.ToString();
 
                     return Json(new { success = true}, JsonRequestBehavior.AllowGet);
                 }
@@ -145,7 +144,7 @@ namespace PhotoStudio.Controllers
                 Session["PUEmail"] = visitor.PortfolioVisitorEmail;
                 Session["PUPhoneNumber"] = visitor.PortfolioVisitorPhoneNumber;
                 Session["PUName"] = visitor.PortfolioVisitorName;
-                Session["PortfolioID"] = visitor.PortfolioID;
+                _PortfolioID = Convert.ToInt32(visitor.PortfolioID);
                 return true;
             }
             else

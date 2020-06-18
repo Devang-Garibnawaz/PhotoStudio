@@ -39,7 +39,6 @@
     <link rel="stylesheet" href="~/userassets/css/demo-dark-style.css">
     <script src="~/JavascriptFunctions/Operational.js"></script>
     <script>
-
         $(document).ready(function () {
         var formData = new FormData();
         var response = __glb_fnIUDOperation(formData, '/UserPortfolio/CheckSessionAndCookiesJson/');
@@ -52,12 +51,12 @@
             var liData = "";
             var formData = new FormData();
             var data = __glb_fnIUDOperation(formData, '/UserPortfolio/getCategoryList/');
-            liData += "<li class='has-children'><a href='/UserPortfolio/')'>Home</a></li>";
-        $.each(data, function (index, item) {
-            liData += "<li class='has-children'><a href='/UserPortfolio/CategoryWiseImages?id=" + item.CategoryID + "'>" + item.CategoryName + "</a></li>";
-        });
-            $("#liCategoryList").append(liData);
 
+            liData += "<li class='has-children'><a href='/UserPortfolio/')'>Home</a></li>";
+            $.each(data, function (index, item) {
+                liData += "<li class='has-children'><a href='/UserPortfolio/CategoryWiseImages?strid=" + item.CategoryID + "'>" + item.CategoryName + "</a></li>";
+            });
+            $("#liCategoryList").append(liData);
         }
   
 
@@ -104,7 +103,7 @@
                         @*<li><a href="#" title="Follow me on Facebook" target="_blank"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="#" title="Follow me on Twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
                             <li><a href="#" title="Follow me on Instagram" target="_blank"><i class="fa fa-instagram"></i></a></li>*@
-                        <li><a href="mailto:info@your-email.com" title="Email Me" target="_blank"><i class="fa fa-envelope"></i></a></li>
+                        
                     </ul>
                 </div>
             </div>

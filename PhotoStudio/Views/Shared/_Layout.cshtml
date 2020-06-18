@@ -1,6 +1,9 @@
 ﻿
 
 <script>
+    $(document).ready(function () {
+        $('#divspinner').modal('hide');
+    });
     function fnLogout() {
 
         $.ajax({
@@ -57,10 +60,23 @@
     <link href="~/adminassets/dist/css/pages/stylish-tooltip.css" rel="stylesheet">
 </head>
 <body class="horizontal-nav boxed skin-megna fixed-layout">
+
+    <div class="modal fade" id="divspinner" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Uploading... <img src="~/adminassets/images/loader.gif"/>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <div class="preloader">
         <div class="loader">
             <div class="loader__figure"></div>
-            <p class="loader__label">Elite admin</p>
+            <p class="loader__label">Manish Photo Studio</p>
         </div>
     </div>
     <div id="main-wrapper">
@@ -137,7 +153,7 @@
                         <li>
                             <a class="waves-effect waves-dark" href="@Url.Action("Index", "Home")" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Dashboard <span class="badge badge-pill badge-cyan ml-auto">4</span></span></a>
                         </li>
-                       
+
                         <li>
                             <a class="waves-effect waves-dark" href="@Url.Action("Index", "Category")" aria-expanded="false"><i class="mdi mdi-source-merge"></i><span class="hide-menu">Category Management</span></a>
                         </li>
@@ -159,7 +175,7 @@
             </div>
             <!-- End Sidebar scroll-->
         </aside>
-        <div class="page-wrapper" >
+        <div class="page-wrapper">
             <div class="container-fluid">
                 @RenderBody()
             </div>
