@@ -30,8 +30,7 @@ namespace PhotoStudio.Controllers
             if (Session["UserID"] == null && Session["UserName"] == null)
                 return RedirectToAction("Login", "Login");
 
-            var tblPortfolioVisitor = db.tblPortfolioVisitors.Include(t => t.tblPortfolio);
-            return View(tblPortfolioVisitor.ToList());
+            return View(db.tblPortfolioVisitors.ToList());
         }
         
         [HttpPost]

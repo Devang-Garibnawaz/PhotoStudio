@@ -15,12 +15,10 @@ namespace PhotoStudio.Models
     public partial class tblPortfolioVisitor
     {
         public long PortfolioVisitorID { get; set; }
-        public Nullable<int> PortfolioID { get; set; }
+        public string CustomerName { get; set; }
         public string PortfolioVisitorName { get; set; }
         public string PortfolioVisitorEmail { get; set; }
         public string PortfolioVisitorPhoneNumber { get; set; }
         public Nullable<System.DateTime> VisitDate { get; set; }
-    
-        public virtual tblPortfolio tblPortfolio { get; set; }
     }
 }

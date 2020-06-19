@@ -26,6 +26,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="tblbanners">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblbanner">
+        <MappingFragment StoreEntitySet="tblbanner">
+          <ScalarProperty Name="BannerID" ColumnName="BannerID" />
+          <ScalarProperty Name="BannerImage" ColumnName="BannerImage" />
+          <ScalarProperty Name="BannerHeading" ColumnName="BannerHeading" />
+          <ScalarProperty Name="BannerDescription" ColumnName="BannerDescription" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="tblCategories">
       <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblCategory">
         <MappingFragment StoreEntitySet="tblCategory">
@@ -157,6 +168,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="tblPortfolioVisitors">
+      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPortfolioVisitor">
+        <MappingFragment StoreEntitySet="tblPortfolioVisitor">
+          <ScalarProperty Name="PortfolioVisitorID" ColumnName="PortfolioVisitorID" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="PortfolioVisitorName" ColumnName="PortfolioVisitorName" />
+          <ScalarProperty Name="PortfolioVisitorEmail" ColumnName="PortfolioVisitorEmail" />
+          <ScalarProperty Name="PortfolioVisitorPhoneNumber" ColumnName="PortfolioVisitorPhoneNumber" />
+          <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="tblQuotations">
       <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblQuotation">
         <MappingFragment StoreEntitySet="tblQuotation">
@@ -190,29 +213,6 @@
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="tblPortfolioVisitors">
-      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblPortfolioVisitor">
-        <MappingFragment StoreEntitySet="tblPortfolioVisitor">
-          <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
-          <ScalarProperty Name="PortfolioVisitorPhoneNumber" ColumnName="PortfolioVisitorPhoneNumber" />
-          <ScalarProperty Name="PortfolioVisitorEmail" ColumnName="PortfolioVisitorEmail" />
-          <ScalarProperty Name="PortfolioVisitorName" ColumnName="PortfolioVisitorName" />
-          <ScalarProperty Name="PortfolioID" ColumnName="PortfolioID" />
-          <ScalarProperty Name="PortfolioVisitorID" ColumnName="PortfolioVisitorID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="tblbanners">
-      <EntityTypeMapping TypeName="ManishPhotoStudioModel.tblbanner">
-        <MappingFragment StoreEntitySet="tblbanner">
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="BannerDescription" ColumnName="BannerDescription" />
-          <ScalarProperty Name="BannerHeading" ColumnName="BannerHeading" />
-          <ScalarProperty Name="BannerImage" ColumnName="BannerImage" />
-          <ScalarProperty Name="BannerID" ColumnName="BannerID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

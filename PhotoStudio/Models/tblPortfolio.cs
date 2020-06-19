@@ -18,21 +18,18 @@ namespace PhotoStudio.Models
         public tblPortfolio()
         {
             this.tblPortfolioGalleries = new HashSet<tblPortfolioGallery>();
-            this.tblPortfolioVisitors = new HashSet<tblPortfolioVisitor>();
         }
     
-        public int PortfolioID { get; set; }
+        public long PortfolioID { get; set; }
         public Nullable<long> CustomerID { get; set; }
         public string PortfolioHeading { get; set; }
         public string PortfolioDescription { get; set; }
         public string CoverPhoto { get; set; }
         public Nullable<bool> IsActive { get; set; }
-        public System.DateTime CreatedDate { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
     
         public virtual tblCustomer tblCustomer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblPortfolioGallery> tblPortfolioGalleries { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblPortfolioVisitor> tblPortfolioVisitors { get; set; }
     }
 }

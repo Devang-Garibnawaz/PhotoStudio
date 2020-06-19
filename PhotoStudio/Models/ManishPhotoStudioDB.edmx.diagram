@@ -4,8 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="52a807534abe415e9a461313045c1af7" Name="Diagram1">
+      <Diagram DiagramId="59a6f17577d245a486f9da1c6d92f731" Name="Diagram1">
         <EntityTypeShape EntityType="ManishPhotoStudioModel.tblAlbumAndVideoEditingCharge" Width="1.5" PointX="1.5" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManishPhotoStudioModel.tblbanner" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ManishPhotoStudioModel.tblCategory" Width="1.5" PointX="1.5" PointY="27.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ManishPhotoStudioModel.tblCustomer" Width="1.5" PointX="1.5" PointY="23.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ManishPhotoStudioModel.tblGallery" Width="1.5" PointX="3.75" PointY="22.625" IsExpanded="true" />
@@ -17,8 +18,9 @@
         <EntityTypeShape EntityType="ManishPhotoStudioModel.tblPortfolio" Width="1.5" PointX="3.75" PointY="26.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ManishPhotoStudioModel.tblPortfolioGallery" Width="1.5" PointX="6" PointY="27" IsExpanded="true" />
         <EntityTypeShape EntityType="ManishPhotoStudioModel.tblPortfolioGalleryCategory" Width="1.5" PointX="3.75" PointY="31.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManishPhotoStudioModel.tblPortfolioVisitor" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ManishPhotoStudioModel.tblQuotation" Width="1.5" PointX="0.75" PointY="11.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ManishPhotoStudioModel.tblSystemUser" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManishPhotoStudioModel.tblSystemUser" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
         <AssociationConnector Association="ManishPhotoStudioModel.FK_tblAlbumAndVideoEditingCharges_tblCustomer" ManuallyRouted="false" />
         <AssociationConnector Association="ManishPhotoStudioModel.FK_tblQuotation_tblAlbumAndVideoEditingCharges" ManuallyRouted="false" />
         <AssociationConnector Association="ManishPhotoStudioModel.FK_tblGallery_tblCategory" ManuallyRouted="false" />
@@ -31,9 +33,6 @@
         <AssociationConnector Association="ManishPhotoStudioModel.FK_tblPaymentHistory_tblPhotographer" ManuallyRouted="false" />
         <AssociationConnector Association="ManishPhotoStudioModel.FK_tblPortfolioGallery_tblPortfolio" ManuallyRouted="false" />
         <AssociationConnector Association="ManishPhotoStudioModel.FK_tblPortfolioGallery_tblPortfolioGalleryCategory" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="ManishPhotoStudioModel.tblPortfolioVisitor" Width="1.5" PointX="5.625" PointY="24.5" />
-        <AssociationConnector Association="ManishPhotoStudioModel.FK_tblPortfolioVisitor_tblPortfolio" />
-        <EntityTypeShape EntityType="ManishPhotoStudioModel.tblbanner" Width="1.5" PointX="5.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

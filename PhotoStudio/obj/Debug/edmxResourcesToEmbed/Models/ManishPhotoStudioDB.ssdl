@@ -127,20 +127,20 @@
     <Key>
       <PropertyRef Name="PortfolioID" />
     </Key>
-    <Property Name="PortfolioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PortfolioID" Type="bigint" Nullable="false" />
     <Property Name="CustomerID" Type="bigint" />
     <Property Name="PortfolioHeading" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="PortfolioDescription" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CoverPhoto" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="IsActive" Type="bit" />
-    <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
+    <Property Name="CreatedDate" Type="smalldatetime" />
   </EntityType>
   <EntityType Name="tblPortfolioGallery">
     <Key>
       <PropertyRef Name="PortfolioGalleryID" />
     </Key>
     <Property Name="PortfolioGalleryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="PortfolioID" Type="int" Nullable="false" />
+    <Property Name="PortfolioID" Type="bigint" Nullable="false" />
     <Property Name="PortfolioGalleryCategoryID" Type="int" Nullable="false" />
     <Property Name="PortfolioGalleryImage" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
@@ -159,7 +159,7 @@
       <PropertyRef Name="PortfolioVisitorID" />
     </Key>
     <Property Name="PortfolioVisitorID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="PortfolioID" Type="int" />
+    <Property Name="CustomerName" Type="nvarchar" MaxLength="100" />
     <Property Name="PortfolioVisitorName" Type="varchar" MaxLength="50" />
     <Property Name="PortfolioVisitorEmail" Type="varchar" MaxLength="100" />
     <Property Name="PortfolioVisitorPhoneNumber" Type="varchar" MaxLength="15" />
@@ -353,20 +353,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tblPortfolioVisitor_tblPortfolio">
-    <End Role="tblPortfolio" Type="Self.tblPortfolio" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="tblPortfolioVisitor" Type="Self.tblPortfolioVisitor" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tblPortfolio">
-        <PropertyRef Name="PortfolioID" />
-      </Principal>
-      <Dependent Role="tblPortfolioVisitor">
-        <PropertyRef Name="PortfolioID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tblQuotation_tblAlbumAndVideoEditingCharges">
     <End Role="tblAlbumAndVideoEditingCharges" Type="Self.tblAlbumAndVideoEditingCharges" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -441,10 +427,6 @@
     <AssociationSet Name="FK_tblPortfolioGallery_tblPortfolioGalleryCategory" Association="Self.FK_tblPortfolioGallery_tblPortfolioGalleryCategory">
       <End Role="tblPortfolioGalleryCategory" EntitySet="tblPortfolioGalleryCategory" />
       <End Role="tblPortfolioGallery" EntitySet="tblPortfolioGallery" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tblPortfolioVisitor_tblPortfolio" Association="Self.FK_tblPortfolioVisitor_tblPortfolio">
-      <End Role="tblPortfolio" EntitySet="tblPortfolio" />
-      <End Role="tblPortfolioVisitor" EntitySet="tblPortfolioVisitor" />
     </AssociationSet>
     <AssociationSet Name="FK_tblQuotation_tblAlbumAndVideoEditingCharges" Association="Self.FK_tblQuotation_tblAlbumAndVideoEditingCharges">
       <End Role="tblAlbumAndVideoEditingCharges" EntitySet="tblAlbumAndVideoEditingCharges" />

@@ -26,6 +26,16 @@
     <NavigationProperty Name="tblCustomer" Relationship="Self.FK_tblAlbumAndVideoEditingCharges_tblCustomer" FromRole="tblAlbumAndVideoEditingCharges" ToRole="tblCustomer" />
     <NavigationProperty Name="tblQuotations" Relationship="Self.FK_tblQuotation_tblAlbumAndVideoEditingCharges" FromRole="tblAlbumAndVideoEditingCharges" ToRole="tblQuotation" />
   </EntityType>
+  <EntityType Name="tblbanner">
+    <Key>
+      <PropertyRef Name="BannerID" />
+    </Key>
+    <Property Name="BannerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BannerImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="BannerHeading" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BannerDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+  </EntityType>
   <EntityType Name="tblCategory">
     <Key>
       <PropertyRef Name="CategoryID" />
@@ -134,23 +144,22 @@
     <Key>
       <PropertyRef Name="PortfolioID" />
     </Key>
-    <Property Name="PortfolioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PortfolioID" Type="Int64" Nullable="false" />
     <Property Name="CustomerID" Type="Int64" />
     <Property Name="PortfolioHeading" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="PortfolioDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="CoverPhoto" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="IsActive" Type="Boolean" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
     <NavigationProperty Name="tblCustomer" Relationship="Self.FK_tblPortfolio_tblCustomer" FromRole="tblPortfolio" ToRole="tblCustomer" />
     <NavigationProperty Name="tblPortfolioGalleries" Relationship="Self.FK_tblPortfolioGallery_tblPortfolio" FromRole="tblPortfolio" ToRole="tblPortfolioGallery" />
-    <NavigationProperty Name="tblPortfolioVisitors" Relationship="ManishPhotoStudioModel.FK_tblPortfolioVisitor_tblPortfolio" FromRole="tblPortfolio" ToRole="tblPortfolioVisitor" />
   </EntityType>
   <EntityType Name="tblPortfolioGallery">
     <Key>
       <PropertyRef Name="PortfolioGalleryID" />
     </Key>
     <Property Name="PortfolioGalleryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="PortfolioID" Type="Int32" Nullable="false" />
+    <Property Name="PortfolioID" Type="Int64" Nullable="false" />
     <Property Name="PortfolioGalleryCategoryID" Type="Int32" Nullable="false" />
     <Property Name="PortfolioGalleryImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
@@ -166,6 +175,17 @@
     <Property Name="PortfolioGalleryCategoryImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
     <NavigationProperty Name="tblPortfolioGalleries" Relationship="Self.FK_tblPortfolioGallery_tblPortfolioGalleryCategory" FromRole="tblPortfolioGalleryCategory" ToRole="tblPortfolioGallery" />
+  </EntityType>
+  <EntityType Name="tblPortfolioVisitor">
+    <Key>
+      <PropertyRef Name="PortfolioVisitorID" />
+    </Key>
+    <Property Name="PortfolioVisitorID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PortfolioVisitorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PortfolioVisitorEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PortfolioVisitorPhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VisitDate" Type="DateTime" Precision="0" />
   </EntityType>
   <EntityType Name="tblQuotation">
     <Key>
@@ -373,6 +393,7 @@
   </Association>
   <EntityContainer Name="ManishPhotoStudioEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="tblAlbumAndVideoEditingCharges" EntityType="Self.tblAlbumAndVideoEditingCharge" />
+    <EntitySet Name="tblbanners" EntityType="Self.tblbanner" />
     <EntitySet Name="tblCategories" EntityType="Self.tblCategory" />
     <EntitySet Name="tblCustomers" EntityType="Self.tblCustomer" />
     <EntitySet Name="tblGalleries" EntityType="Self.tblGallery" />
@@ -384,6 +405,7 @@
     <EntitySet Name="tblPortfolios" EntityType="Self.tblPortfolio" />
     <EntitySet Name="tblPortfolioGalleries" EntityType="Self.tblPortfolioGallery" />
     <EntitySet Name="tblPortfolioGalleryCategories" EntityType="Self.tblPortfolioGalleryCategory" />
+    <EntitySet Name="tblPortfolioVisitors" EntityType="Self.tblPortfolioVisitor" />
     <EntitySet Name="tblQuotations" EntityType="Self.tblQuotation" />
     <EntitySet Name="tblSystemUsers" EntityType="Self.tblSystemUser" />
     <AssociationSet Name="FK_tblAlbumAndVideoEditingCharges_tblCustomer" Association="Self.FK_tblAlbumAndVideoEditingCharges_tblCustomer">
@@ -434,47 +456,5 @@
       <End Role="tblPortfolioGalleryCategory" EntitySet="tblPortfolioGalleryCategories" />
       <End Role="tblPortfolioGallery" EntitySet="tblPortfolioGalleries" />
     </AssociationSet>
-    <EntitySet Name="tblPortfolioVisitors" EntityType="ManishPhotoStudioModel.tblPortfolioVisitor" />
-    <AssociationSet Name="FK_tblPortfolioVisitor_tblPortfolio" Association="ManishPhotoStudioModel.FK_tblPortfolioVisitor_tblPortfolio">
-      <End Role="tblPortfolio" EntitySet="tblPortfolios" />
-      <End Role="tblPortfolioVisitor" EntitySet="tblPortfolioVisitors" />
-    </AssociationSet>
-    <EntitySet Name="tblbanners" EntityType="ManishPhotoStudioModel.tblbanner" />
   </EntityContainer>
-  <EntityType Name="tblPortfolioVisitor">
-    <Key>
-      <PropertyRef Name="PortfolioVisitorID" />
-    </Key>
-    <Property Name="PortfolioVisitorID" Type="Int64" Nullable="false" />
-    <Property Name="PortfolioID" Type="Int32" />
-    <Property Name="PortfolioVisitorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="PortfolioVisitorEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="PortfolioVisitorPhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-    <Property Name="VisitDate" Type="DateTime" Precision="0" />
-    <NavigationProperty Name="tblPortfolio" Relationship="ManishPhotoStudioModel.FK_tblPortfolioVisitor_tblPortfolio" FromRole="tblPortfolioVisitor" ToRole="tblPortfolio" />
-  </EntityType>
-  <Association Name="FK_tblPortfolioVisitor_tblPortfolio">
-    <End Type="ManishPhotoStudioModel.tblPortfolio" Role="tblPortfolio" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Type="ManishPhotoStudioModel.tblPortfolioVisitor" Role="tblPortfolioVisitor" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tblPortfolio">
-        <PropertyRef Name="PortfolioID" />
-      </Principal>
-      <Dependent Role="tblPortfolioVisitor">
-        <PropertyRef Name="PortfolioID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <EntityType Name="tblbanner">
-    <Key>
-      <PropertyRef Name="BannerID" />
-    </Key>
-    <Property Name="BannerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="BannerImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="BannerHeading" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="BannerDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
-  </EntityType>
 </Schema>

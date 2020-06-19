@@ -15,7 +15,7 @@ namespace PhotoStudio.Models
     public partial class tblPortfolioGallery
     {
         public int PortfolioGalleryID { get; set; }
-        public int PortfolioID { get; set; }
+        public long PortfolioID { get; set; }
         public int PortfolioGalleryCategoryID { get; set; }
         public string PortfolioGalleryImage { get; set; }
         public System.DateTime CreatedDate { get; set; }

@@ -127,7 +127,7 @@ namespace PhotoStudio.Controllers
                     visitors.PortfolioVisitorName = Request.Form["CustomerName"];
                     visitors.PortfolioVisitorEmail = Request.Form["CustomerEmail"];
                     visitors.PortfolioVisitorPhoneNumber = Request.Form["PhoneNo"];
-                    visitors.PortfolioID = _PortfolioID;
+                    visitors.CustomerName = db.tblPortfolios.SingleOrDefault(P => P.PortfolioID == _PortfolioID).tblCustomer.CustomerName;
                     visitors.VisitDate = DateTime.Now;
                     db.tblPortfolioVisitors.Add(visitors);
                     db.SaveChanges();
@@ -159,7 +159,6 @@ namespace PhotoStudio.Controllers
                 Session["PUEmail"] = visitor.PortfolioVisitorEmail;
                 Session["PUPhoneNumber"] = visitor.PortfolioVisitorPhoneNumber;
                 Session["PUName"] = visitor.PortfolioVisitorName;
-                _PortfolioID = Convert.ToInt32(visitor.PortfolioID);
                 return true;
             }
             else
