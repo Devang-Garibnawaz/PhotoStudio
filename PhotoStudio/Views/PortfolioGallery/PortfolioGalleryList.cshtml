@@ -99,7 +99,6 @@
         }
         formData.append("PortfolioID", _PortfolioID);
         formData.append("CategoryID", cmbCategory.val());
-        formData.append("chkApplyWaterMark", chkApplyWaterMark);
 
         $('#add-images').modal('hide');
         var result = __glb_fnIUDOperation(formData, '/PortfolioGallery/InsertImage');
@@ -131,7 +130,7 @@
             );
         }
         else {
-            toastr.error('Error occur', 'Error occur while inserting record.', { timeOut: 3000 });
+            toastr.error('Error occur', result.message, { timeOut: 3000 });
             return;
         }
     }
@@ -156,7 +155,7 @@
             data: JSON.stringify({ CheckedID: checkedimageID}), // used to convert array into proper JSON format
             dataType: "json",
             success: function (response) {
-                if (response.success === true) {
+                if (response.success == true) {
                     toastr.success(
                         response.message,
                         'Images deleted successfully.',
@@ -177,40 +176,8 @@
         });
     }
 </script>
-<div class="modal fade" id="divspinner" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                Uploading...
-            </div>
 
-        </div>
-    </div>
-</div>
-<div id="add-images" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="H1">Add Images</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <div class="col-md-12 m-b-20">
-                        Category: <select class="form-control" id="cmbCategory"></select><br /><br />
-                        Images: <input type="file" multiple id="inputProfile" class="form-control" /><br /><br />
-                        Apply Water Mark?: <input type="checkbox" id="chkApplyWaterMark" class="js-switch" />
-                        <div class="modal-footer">
-                            <input type="submit" value="Add" class="btn btn-success" onclick="fnInsertImages()" />
-                            <input type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true" value="Cancel" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div class="row page-titles">
     <div class="col-md-5 align-self-center">
         <h4 class="text-themecolor">Gallery List Of @ViewBag.CustomerName</h4>
@@ -273,7 +240,28 @@
         </div>
     </div>
 </div>
-
+<div id="add-images" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="H1">Add Images</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-md-12 m-b-20">
+                        Category: <select class="form-control" id="cmbCategory"></select><br /><br />
+                        Images: <input type="file" multiple id="inputProfile" class="form-control" /><br /><br />
+                        <div class="modal-footer">
+                            <input type="submit" value="Add" class="btn btn-success" onclick="fnInsertImages()" />
+                            <input type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true" value="Cancel" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
 <script src="~/adminassets/node_modules/datatables/datatables.min.js"></script>

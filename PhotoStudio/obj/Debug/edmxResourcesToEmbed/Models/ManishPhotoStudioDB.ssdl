@@ -161,7 +161,7 @@
     <Property Name="PortfolioVisitorID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PortfolioID" Type="int" />
     <Property Name="PortfolioVisitorName" Type="varchar" MaxLength="50" />
-    <Property Name="PortfolioVisitorEmail" Type="varchar" MaxLength="10" />
+    <Property Name="PortfolioVisitorEmail" Type="varchar" MaxLength="100" />
     <Property Name="PortfolioVisitorPhoneNumber" Type="varchar" MaxLength="15" />
     <Property Name="VisitDate" Type="smalldatetime" />
   </EntityType>

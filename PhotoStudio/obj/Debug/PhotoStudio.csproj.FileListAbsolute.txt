@@ -246,4 +246,3 @@ C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\bin\Microsoft.CodeDom.Provi
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.csproj.CopyComplete
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.dll
 C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.pdb
-C:\Users\Devang\Source\Repos\PhotoStudio\PhotoStudio\obj\Debug\PhotoStudio.csprojAssemblyReference.cache

@@ -35,7 +35,7 @@ namespace PhotoStudio.Controllers
                     tblbanner newBanner = new tblbanner();
                     newBanner.BannerHeading = Request.Form["BannerHeading"];
                     newBanner.BannerDescription = Request.Form["BannerDescription"];
-
+                    newBanner.CreatedDate = DateTime.Now;
                     if (ModelState.IsValid)
                     {
                         int fileSize = 0;

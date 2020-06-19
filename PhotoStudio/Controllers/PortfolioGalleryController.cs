@@ -29,7 +29,8 @@ namespace PhotoStudio.Controllers
             else
             {
                 ViewBag.PortfolioID = id;
-                var tblPortfolioGalleries = db.tblPortfolioGalleries.Include(t => t.tblPortfolio).Include(t => t.tblPortfolioGalleryCategory).Where(PF => PF.tblPortfolio.IsActive == true);
+                ViewBag.CustomerName = db.tblPortfolios.SingleOrDefault(P => P.PortfolioID == id).tblCustomer.CustomerName;
+                var tblPortfolioGalleries = db.tblPortfolioGalleries.Include(t => t.tblPortfolio).Include(t => t.tblPortfolioGalleryCategory).Where(P => P.PortfolioID == id);
                 return View(tblPortfolioGalleries.ToList());
                 
             }
@@ -126,8 +127,8 @@ namespace PhotoStudio.Controllers
                     int PortfolioID = Convert.ToInt32(Request.Form["PortfolioID"]);
                     int CategoryID = Convert.ToInt32(Request.Form["CategoryID"]);
                     
-                    if(IsGalleryCapacityOverflow(CategoryID,PortfolioID))
-                        return Json(new { success = false, message = "Selected Category is already having 25 images!" }, JsonRequestBehavior.AllowGet);
+                    if(IsGalleryCapacityOverflow(CategoryID,PortfolioID,Request.Files.Count))
+                        return Json(new { success = false, message = "Selected category is going to be overflow! Insert 25 images only for single category" }, JsonRequestBehavior.AllowGet);
                     
                     if (Request.Files.Count > 25)
                         return Json(new { success = false, message = "You can not insert more than 25 Images in single category" }, JsonRequestBehavior.AllowGet);
@@ -188,9 +189,12 @@ namespace PhotoStudio.Controllers
             }
         }
 
-        public bool IsGalleryCapacityOverflow(int CategoryID,int PortfolioID)
+        public bool IsGalleryCapacityOverflow(int CategoryID,int PortfolioID,int fileCount)
         {
             int intRecords = db.tblPortfolioGalleries.Where(PG => PG.PortfolioID == PortfolioID).Where(PG => PG.PortfolioGalleryCategoryID == CategoryID).Count();
+            if ((fileCount + intRecords) > 25)
+                return true;
+
             if (intRecords > 25)
                 return true;
             else

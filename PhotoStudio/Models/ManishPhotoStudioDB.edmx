@@ -166,7 +166,7 @@
           <Property Name="PortfolioVisitorID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PortfolioID" Type="int" />
           <Property Name="PortfolioVisitorName" Type="varchar" MaxLength="50" />
-          <Property Name="PortfolioVisitorEmail" Type="varchar" MaxLength="10" />
+          <Property Name="PortfolioVisitorEmail" Type="varchar" MaxLength="100" />
           <Property Name="PortfolioVisitorPhoneNumber" Type="varchar" MaxLength="15" />
           <Property Name="VisitDate" Type="smalldatetime" />
         </EntityType>
@@ -908,7 +908,7 @@
           <Property Name="PortfolioVisitorID" Type="Int64" Nullable="false" />
           <Property Name="PortfolioID" Type="Int32" />
           <Property Name="PortfolioVisitorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PortfolioVisitorEmail" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PortfolioVisitorEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="PortfolioVisitorPhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="VisitDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="tblPortfolio" Relationship="ManishPhotoStudioModel.FK_tblPortfolioVisitor_tblPortfolio" FromRole="tblPortfolioVisitor" ToRole="tblPortfolio" />

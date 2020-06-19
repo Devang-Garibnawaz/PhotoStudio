@@ -123,6 +123,7 @@
                 toastr.warning('Input Error', 'Please select profile pic', { timeOut: 3000, fadeOut: 1000 });
                 return;
             }
+            $("#add-customer").hide();
 
             var response = __glb_fnIUDOperation(formData, '/Customers/InsertCustomers/');
             if (response.success == true) {
