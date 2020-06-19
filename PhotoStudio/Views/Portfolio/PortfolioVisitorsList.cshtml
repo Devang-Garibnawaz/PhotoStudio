@@ -1,0 +1,108 @@
+﻿@model IEnumerable<PhotoStudio.Models.tblPortfolioVisitor>
+@{
+    ViewBag.Title = "PortfolioVisitorsList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function ConfirmationDialog(ID) {
+        if (confirm("Are you sure to delete?"))
+            fnDeleteRecord(ID);
+        else
+            return false;
+    }
+
+    function fnDeleteRecord(ID) {
+        $.ajax({
+            async: true,
+            type: 'POST',
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: "{'id':'" + ID + "'}",
+            url: '/Portfolio/DeletePortfolioVisitor',
+            success: function (response) {
+                if (response.success === true) {
+                    toastr.success(
+                        response.message,
+                        '',
+                        {
+                            timeOut: 1000,
+                            fadeOut: 1000,
+                            onHidden: function () {
+                                window.location.reload();
+                            }
+                        }
+                    );
+                }
+                else {
+                    toastr.info(response.message, '', { timeOut: 3000 });
+                }
+            },
+            error: function () {
+                toastr.error('Error occur', 'Error occur while deleting record.', { timeOut: 3000 });
+            }
+
+        });
+    }
+
+</script>
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">Portfolio Visitors List</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li class="breadcrumb-item active">Portfolio Visitors List</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">Portfolio Visitors list:</h4>
+            </div>
+
+            <div class="card-body">
+
+                <div class="table-responsive m-t-40">
+                    <table id="example23" class="display table table-hover table-striped table-bordered" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Visitor Name</th>
+                                <th>Customer</th>
+                                <th>Visitor Contact</th>
+                                <th>Created Date</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td align="left">@item.PortfolioVisitorName</td>
+                                    <td align="center">@item.tblPortfolio.tblCustomer.CustomerName</td>
+                                    <td align="center">
+                                        @item.PortfolioVisitorEmail <br/>
+                                        @item.PortfolioVisitorPhoneNumber
+                                    </td>
+                                    <td align='center'>@item.VisitDate</td>
+                                    <td align="center">
+                                        <button type="submit" class="btn btn-danger waves-effect waves-light" onclick="return ConfirmationDialog(@item.PortfolioVisitorID)">
+                                            <span class="btn-label"><i class="fa fa-trash"></i></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

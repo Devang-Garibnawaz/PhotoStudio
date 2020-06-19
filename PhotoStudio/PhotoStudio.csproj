@@ -992,6 +992,7 @@
     <Content Include="Views\UserPortfolio\CategoryWiseImages.cshtml" />
     <Content Include="Views\UserPortfolio\Registration.cshtml" />
     <Content Include="Views\Banner\Index.cshtml" />
+    <Content Include="Views\Portfolio\PortfolioVisitorsList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

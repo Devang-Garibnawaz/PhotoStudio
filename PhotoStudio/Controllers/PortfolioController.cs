@@ -25,7 +25,15 @@ namespace PhotoStudio.Controllers
             var tblPortfolios = db.tblPortfolios.Include(t => t.tblCustomer);
             return View(tblPortfolios.ToList());
         }
+        public ActionResult PortfolioVisitorsList()
+        {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
 
+            var tblPortfolioVisitor = db.tblPortfolioVisitors.Include(t => t.tblPortfolio);
+            return View(tblPortfolioVisitor.ToList());
+        }
+        
         [HttpPost]
         public ActionResult InsertPortfolio()
         {
@@ -105,6 +113,27 @@ namespace PhotoStudio.Controllers
                 FileInfo delfile = new FileInfo(path);
                 delfile.Delete();
                 db.tblPortfolios.Remove(portfolio);
+                db.SaveChanges();
+                return Json(new { success = true, message = "Record deleted successfully" }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error!" + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult DeletePortfolioVisitor(int id)
+        {
+            if (Session["UserID"] == null && Session["UserName"] == null)
+                return RedirectToAction("Login", "Login");
+
+            try
+            {
+                tblPortfolioVisitor portfoliovisitor = db.tblPortfolioVisitors.Find(id);
+                db.tblPortfolioVisitors.Remove(portfoliovisitor);
                 db.SaveChanges();
                 return Json(new { success = true, message = "Record deleted successfully" }, JsonRequestBehavior.AllowGet);
 
